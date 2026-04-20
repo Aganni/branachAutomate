@@ -1,0 +1,1556 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.automation:branchBot >----------------------
+[INFO] Building branchBot 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ branchBot ---
+[INFO] Deleting /Users/adarshgani/Documents/GitHub/branachAutomate/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/adarshgani/Documents/GitHub/branachAutomate/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ branchBot ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ branchBot ---
+[INFO] Recompiling the module because of changed source code.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 46 source files with javac [debug target 25] to target/test-classes
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/dynamicData/DynamicDataClass.java:[18,14] cannot find symbol
+  symbol:   method getData()
+  location: class dynamicData.TestSessionData
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/dynamicData/DynamicDataClass.java:[23,21] cannot find symbol
+  symbol:   method getData()
+  location: class dynamicData.TestSessionData
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/backend/Utils/ApiUtils.java:[18,14] cannot find symbol
+  symbol:   method setApiPayload(java.lang.String)
+  location: class dynamicData.TestSessionData
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/backend/Utils/ApiUtils.java:[22,133] cannot find symbol
+  symbol:   method getApiPayload()
+  location: class dynamicData.TestSessionData
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/backend/stepDefinitions/QueueStepDefinitions.java:[16,37] cannot find symbol
+  symbol:   method getPartnerLoanId()
+  location: class dynamicData.TestSessionData
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/Utils/Utils.java:[30,14] cannot find symbol
+  symbol:   method setPartnerLoanId(java.lang.String)
+  location: class dynamicData.TestSessionData
+[INFO] 6 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.140 s
+[INFO] Finished at: 2026-04-20T21:55:40+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:testCompile (default-testCompile) on project branchBot: Compilation failure: Compilation failure: 
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/dynamicData/DynamicDataClass.java:[18,14] cannot find symbol
+[ERROR]   symbol:   method getData()
+[ERROR]   location: class dynamicData.TestSessionData
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/dynamicData/DynamicDataClass.java:[23,21] cannot find symbol
+[ERROR]   symbol:   method getData()
+[ERROR]   location: class dynamicData.TestSessionData
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/backend/Utils/ApiUtils.java:[18,14] cannot find symbol
+[ERROR]   symbol:   method setApiPayload(java.lang.String)
+[ERROR]   location: class dynamicData.TestSessionData
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/backend/Utils/ApiUtils.java:[22,133] cannot find symbol
+[ERROR]   symbol:   method getApiPayload()
+[ERROR]   location: class dynamicData.TestSessionData
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/backend/stepDefinitions/QueueStepDefinitions.java:[16,37] cannot find symbol
+[ERROR]   symbol:   method getPartnerLoanId()
+[ERROR]   location: class dynamicData.TestSessionData
+[ERROR] /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/Utils/Utils.java:[30,14] cannot find symbol
+[ERROR]   symbol:   method setPartnerLoanId(java.lang.String)
+[ERROR]   location: class dynamicData.TestSessionData
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.automation:branchBot >----------------------
+[INFO] Building branchBot 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ branchBot ---
+[INFO] Deleting /Users/adarshgani/Documents/GitHub/branachAutomate/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/adarshgani/Documents/GitHub/branachAutomate/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ branchBot ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ branchBot ---
+[INFO] Recompiling the module because of changed source code.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 46 source files with javac [debug target 25] to target/test-classes
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by lombok.permit.Permit
+WARNING: Please consider reporting this to the maintainers of class lombok.permit.Permit
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.899 s
+[INFO] Finished at: 2026-04-20T21:56:14+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:testCompile (default-testCompile) on project branchBot: Fatal error compiling: java.lang.ExceptionInInitializerError: com.sun.tools.javac.code.TypeTag :: UNKNOWN -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.automation:branchBot >----------------------
+[INFO] Building branchBot 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ branchBot ---
+[INFO] Deleting /Users/adarshgani/Documents/GitHub/branachAutomate/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/adarshgani/Documents/GitHub/branachAutomate/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ branchBot ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ branchBot ---
+[INFO] Recompiling the module because of changed source code.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 46 source files with javac [debug target 25] to target/test-classes
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by lombok.permit.Permit
+WARNING: Please consider reporting this to the maintainers of class lombok.permit.Permit
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.892 s
+[INFO] Finished at: 2026-04-20T21:56:42+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:testCompile (default-testCompile) on project branchBot: Fatal error compiling: java.lang.ExceptionInInitializerError: com.sun.tools.javac.code.TypeTag :: UNKNOWN -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.automation:branchBot >----------------------
+[INFO] Building branchBot 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ branchBot ---
+[INFO] Deleting /Users/adarshgani/Documents/GitHub/branachAutomate/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/adarshgani/Documents/GitHub/branachAutomate/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ branchBot ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ branchBot ---
+[INFO] Recompiling the module because of changed source code.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 46 source files with javac [debug target 21] to target/test-classes
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by lombok.permit.Permit
+WARNING: Please consider reporting this to the maintainers of class lombok.permit.Permit
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.943 s
+[INFO] Finished at: 2026-04-20T21:57:10+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:testCompile (default-testCompile) on project branchBot: Fatal error compiling: java.lang.ExceptionInInitializerError: com.sun.tools.javac.code.TypeTag :: UNKNOWN -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.automation:branchBot >----------------------
+[INFO] Building branchBot 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ branchBot ---
+[INFO] Deleting /Users/adarshgani/Documents/GitHub/branachAutomate/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/adarshgani/Documents/GitHub/branachAutomate/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ branchBot ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ branchBot ---
+[INFO] Recompiling the module because of changed source code.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 46 source files with javac [debug target 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ branchBot ---
+[INFO] Using auto detected provider org.apache.maven.surefire.testng.TestNGProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running TestSuite
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.164 s -- in TestSuite
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 0, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  6.875 s
+[INFO] Finished at: 2026-04-20T21:57:45+05:30
+[INFO] ------------------------------------------------------------------------
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.automation:branchBot >----------------------
+[INFO] Building branchBot 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ branchBot ---
+[INFO] Deleting /Users/adarshgani/Documents/GitHub/branachAutomate/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/adarshgani/Documents/GitHub/branachAutomate/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ branchBot ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ branchBot ---
+[INFO] Recompiling the module because of changed source code.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 46 source files with javac [debug target 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ branchBot ---
+[INFO] Using auto detected provider org.apache.maven.surefire.testng.TestNGProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running TestSuite
+21:58:32.321 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.setUpClass(org.testng.ITestContext)[pri:0, instance:null] -393284817
+21:58:32.323 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+21:58:32.324 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+21:58:32.324 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+21:58:32.324 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+21:58:32.324 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.tearDownClass()[pri:0, instance:null] 1523153566
+21:58:32.324 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+21:58:32.324 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+21:58:32.324 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+21:58:32.324 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+21:58:32.326 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:testRunner.UblRunnerTest@33d512c1] -280757358
+21:58:32.327 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+21:58:32.327 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+21:58:32.327 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+21:58:32.327 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+
+@UBL @Regression
+Scenario: Complete DSA Portal to Jarvis Portal Handoff using Context Bridge                             # features/ubl.feature:4
+2026-04-20 21:58:38 [INFO ] - Starting new browser for scenario: Complete DSA Portal to Jarvis Portal Handoff using Context Bridge
+2026-04-20 21:58:43 [INFO ] - Browser, context and page initialized successfully for thread
+2026-04-20 21:58:43 [INFO ] - Generated and stored mobile number: 8062405512
+2026-04-20 21:58:43 [INFO ] - Generated and stored PAN number: FBJPB5896H
+====================================================================
+
+Request method:   POST
+Request URI:      https://mystique.uat.creditsaison.corp/addKyc?kycType=pancard
+Query params:     {kycType=pancard}
+Request Body:
+{
+    "input": {
+        "pan": "FBJPB5896H",
+        "consent": "Y"
+    },
+    "output": {
+        "requestId": "d041f16d-902f-4ced-a365-427de20f2e78",
+        "result": {
+            "pan": "FBJPB5896H",
+            "name": "Shea Test",
+            "firstName": "Shea",
+            "middleName": "",
+            "lastName": "Test",
+            "gender": "F",
+            "aadhaarLinked": true,
+            "aadhaarMatch": true,
+            "dob": "2004-02-23",
+            "address": {
+                "buildingName": "2/21 RAM WADI",
+                "locality": "JOGESHWARI SOUTH",
+                "streetName": "AGARWAL NGR CAVES RD",
+                "pinCode": "400060",
+                "city": "MUMBAI",
+                "state": "MAHARASHTRA",
+                "country": ""
+            },
+            "mobileNo": null,
+            "emailId": null,
+            "profileMatch": [
+                {
+                    "parameter": "address",
+                    "matchScore": 0.99,
+                    "matchResult": true
+                },
+                {
+                    "parameter": "name",
+                    "matchScore": 1,
+                    "matchResult": true
+                },
+                {
+                    "parameter": "dob",
+                    "matchScore": 1,
+                    "matchResult": true
+                }
+            ],
+            "authorizedSignatory": {
+                "pan": "",
+                "name": "",
+                "firstName": "",
+                "middleName": "",
+                "lastName": "",
+                "gender": "",
+                "aadhaarLinked": null,
+                "dob": "",
+                "mobileNo": "",
+                "emailId": "",
+                "address": {
+                    "buildingName": "",
+                    "locality": "",
+                    "streetName": "",
+                    "pinCode": "",
+                    "city": "",
+                    "state": "",
+                    "country": ""
+                }
+            },
+            "status": "Active",
+            "issueDate": "2016-06-28",
+            "isSalaried": true,
+            "isDirector": false,
+            "isSoleProp": false
+        },
+        "statusCode": 101
+    }
+}
+
+Response Status:  HTTP/1.1 200 OK
+Response Body:
+{
+    "message": "Added a new kyc of type pancard with id- FBJPB5896H"
+}
+====================================================================
+
+  Given Generates required test data and Whitelist PAN for profile "Shea Test" in Mystique              # backend.stepDefinitions.ApiStepDefinitions.generateDataAndWhitelistPan(java.lang.String)
+2026-04-20 21:58:46 [INFO ] - Navigated to DSA Portal: https://portal.uat.creditsaison.xyz/signin
+  Given User navigates to the DSA Portal                                                                # ui.stepDefinitions.dsa.LoginSteps.navigateToDsaPortal()
+2026-04-20 21:58:46 [INFO ] - Switching to Jarvis portal and performing login...
+2026-04-20 21:58:46 [INFO ] - Loading credentials from: /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/resources/properties/uatCredentials.properties
+2026-04-20 21:58:46 [INFO ] - Loaded credentials for jarvis: User=tenjin.user@creditsaison-in.com, Email=null, OTP=****
+2026-04-20 21:58:46 [INFO ] - Storage state saved to: /Users/adarshgani/Documents/GitHub/branachAutomate/target/storage-states/dsa-session-1.json
+2026-04-20 21:58:47 [INFO ] - New context created from storage state: /Users/adarshgani/Documents/GitHub/branachAutomate/target/storage-states/dsa-session-1.json
+2026-04-20 21:58:49 [INFO ] - Switched to Jarvis Portal at: https://jarvis.uat.creditsaison.corp
+2026-04-20 21:58:49 [INFO ] - Starting Jarvis Login process...
+2026-04-20 21:58:59 [INFO ] - Jarvis Login submitted.
+2026-04-20 21:59:06 [INFO ] - Successfully landed on Jarvis Dashboard
+  And User switches to Jarvis portal and logins                                                         # ui.stepDefinitions.jarvis.LoginSteps.switchToJarvisAndLogin()
+2026-04-20 21:59:06 [INFO ] - Navigating to Application tab in Jarvis sidebar
+2026-04-20 21:59:11 [INFO ] - Application tab loaded
+2026-04-20 21:59:11 [INFO ] - Searching by [Partner LID] with value: dsa-3d3e3f75-38d3-4dcf-b2e5-3c3c1dc279ad
+2026-04-20 21:59:12 [INFO ] - Selected [Partner LID] from search criteria dropdown
+2026-04-20 21:59:12 [INFO ] - Search executed. Waiting for results...
+2026-04-20 21:59:12 [INFO ] - Captured App ID from first row: Universal Pvt Ltd
+2026-04-20 21:59:12 [INFO ] - Clicking to open the first application in the list...
+2026-04-20 21:59:12 [INFO ] - Application form opened successfully.
+  And User navigates to the Applications tab searches appFrom using "Partner LID" and opens the appform # ui.stepDefinitions.jarvis.ApplicationSteps.openAppFromInJarvis(java.lang.String)
+2026-04-20 21:59:12 [INFO ] - Navigating to Allocation Dashboard...
+2026-04-20 21:59:13 [INFO ] - Navigated to Allocation Dashboard via URL: https://jarvis.uat.creditsaison.corp/allocation-dashboard
+  And User navigates to the Allocation Dashboard from the sidebar                                       # ui.stepDefinitions.jarvis.AllocationDashboardSteps.navigateToAllocationDashboard()
+2026-04-20 21:59:13 [INFO ] - Switching to Team View...
+  And User switches to Team View in the Allocation Dashboard                                            # ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView()
+      com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for locator("button:has-text('Team View'), label:has-text('Team View')").first() to be visible
+
+	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:106)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at ✽.User switches to Team View in the Allocation Dashboard(file:///Users/adarshgani/Documents/GitHub/branachAutomate/features/ubl.feature:81)
+Caused by: com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for locator("button:has-text('Team View'), label:has-text('Team View')").first() to be visible
+
+	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:254)
+	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:211)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:118)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:106)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)
+	at io.cucumber.java.Invoker.invoke(Invoker.java:24)
+	at io.cucumber.java.AbstractGlueDefinition.invokeMethod(AbstractGlueDefinition.java:47)
+	at io.cucumber.java.JavaStepDefinition.execute(JavaStepDefinition.java:29)
+	at io.cucumber.core.runner.CoreStepDefinition.execute(CoreStepDefinition.java:66)
+	at io.cucumber.core.runner.PickleStepDefinitionMatch.runStep(PickleStepDefinitionMatch.java:63)
+	at io.cucumber.core.runner.ExecutionMode$1.execute(ExecutionMode.java:10)
+	at io.cucumber.core.runner.TestStep.executeStep(TestStep.java:84)
+	at io.cucumber.core.runner.TestStep.run(TestStep.java:56)
+	at io.cucumber.core.runner.PickleStepTestStep.run(PickleStepTestStep.java:51)
+	at io.cucumber.core.runner.TestCase.run(TestCase.java:84)
+	at io.cucumber.core.runner.Runner.runPickle(Runner.java:75)
+	at io.cucumber.testng.TestNGCucumberRunner.lambda$runScenario$1(TestNGCucumberRunner.java:132)
+	at io.cucumber.core.runtime.CucumberExecutionContext.lambda$runTestCase$5(CucumberExecutionContext.java:137)
+	at io.cucumber.core.runtime.RethrowingThrowableCollector.executeAndThrow(RethrowingThrowableCollector.java:23)
+	at io.cucumber.core.runtime.CucumberExecutionContext.runTestCase(CucumberExecutionContext.java:137)
+	at io.cucumber.testng.TestNGCucumberRunner.runScenario(TestNGCucumberRunner.java:129)
+	at io.cucumber.testng.AbstractTestNGCucumberTests.runScenario(AbstractTestNGCucumberTests.java:35)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:135)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:673)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:220)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:945)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:193)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:808)
+	at org.testng.TestRunner.run(TestRunner.java:603)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:429)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:423)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:383)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:326)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1249)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1169)
+	at org.testng.TestNG.runSuites(TestNG.java:1092)
+	at org.testng.TestNG.run(TestNG.java:1060)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:155)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:169)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:88)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:137)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+
+  And User searches for the appform using App ID in Allocation Dashboard                                # ui.stepDefinitions.jarvis.AllocationDashboardSteps.searchByAppIdInAllocationDashboard()
+  And User selects the appform checkbox and clicks Allocate                                             # ui.stepDefinitions.jarvis.AllocationDashboardSteps.selectCheckboxAndClickAllocate()
+  And User clicks Proceed on the allocation alert popup                                                 # ui.stepDefinitions.jarvis.AllocationDashboardSteps.clickProceedOnAlert()
+  And User assigns the appform to Tenjin and finishes allocation                                        # ui.stepDefinitions.jarvis.AllocationDashboardSteps.assignToTenjinAndFinish()
+  And User re-opens the appform from the Allocation Dashboard row                                       # ui.stepDefinitions.jarvis.AllocationDashboardSteps.reOpenAppFormFromRow()
+  And User moves the application to CM via Application Actions                                          # ui.stepDefinitions.jarvis.AppFormActionsSteps.moveApplicationToCM()
+2026-04-20 21:59:43 [INFO ] - Tearing down browser for scenario: Complete DSA Portal to Jarvis Portal Handoff using Context Bridge
+2026-04-20 21:59:43 [INFO ] - Playwright resources cleaned up for thread
+2026-04-20 21:59:43 [INFO ] - Storage state files cleaned up.
+21:59:48.772 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:testRunner.UblRunnerTest@33d512c1] -280757358
+21:59:48.772 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+21:59:48.772 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+21:59:48.772 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+21:59:48.772 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 76.57 s <<< FAILURE! -- in TestSuite
+[ERROR] testRunner.UblRunnerTest.runScenario["Complete DSA Portal to Jarvis Portal Handoff using Context Bridge", "Unsecured Business Loan End-to-End Workflow"](1) -- Time elapsed: 71.12 s <<< FAILURE!
+com.microsoft.playwright.TimeoutError: 
+Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for locator("button:has-text('Team View'), label:has-text('Team View')").first() to be visible
+
+	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:106)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at ✽.User switches to Team View in the Allocation Dashboard(file:///Users/adarshgani/Documents/GitHub/branachAutomate/features/ubl.feature:81)
+Caused by: com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for locator("button:has-text('Team View'), label:has-text('Team View')").first() to be visible
+
+	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:254)
+	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:211)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:118)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:106)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)
+	at io.cucumber.java.Invoker.invoke(Invoker.java:24)
+	at io.cucumber.java.AbstractGlueDefinition.invokeMethod(AbstractGlueDefinition.java:47)
+	at io.cucumber.java.JavaStepDefinition.execute(JavaStepDefinition.java:29)
+	at io.cucumber.core.runner.CoreStepDefinition.execute(CoreStepDefinition.java:66)
+	at io.cucumber.core.runner.PickleStepDefinitionMatch.runStep(PickleStepDefinitionMatch.java:63)
+	at io.cucumber.core.runner.ExecutionMode$1.execute(ExecutionMode.java:10)
+	at io.cucumber.core.runner.TestStep.executeStep(TestStep.java:84)
+	at io.cucumber.core.runner.TestStep.run(TestStep.java:56)
+	at io.cucumber.core.runner.PickleStepTestStep.run(PickleStepTestStep.java:51)
+	at io.cucumber.core.runner.TestCase.run(TestCase.java:84)
+	at io.cucumber.core.runner.Runner.runPickle(Runner.java:75)
+	at io.cucumber.testng.TestNGCucumberRunner.lambda$runScenario$1(TestNGCucumberRunner.java:132)
+	at io.cucumber.core.runtime.CucumberExecutionContext.lambda$runTestCase$5(CucumberExecutionContext.java:137)
+	at io.cucumber.core.runtime.RethrowingThrowableCollector.executeAndThrow(RethrowingThrowableCollector.java:23)
+	at io.cucumber.core.runtime.CucumberExecutionContext.runTestCase(CucumberExecutionContext.java:137)
+	at io.cucumber.testng.TestNGCucumberRunner.runScenario(TestNGCucumberRunner.java:129)
+	at io.cucumber.testng.AbstractTestNGCucumberTests.runScenario(AbstractTestNGCucumberTests.java:35)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:135)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:673)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:220)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:945)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:193)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:808)
+	at org.testng.TestRunner.run(TestRunner.java:603)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:429)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:423)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:383)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:326)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1249)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1169)
+	at org.testng.TestNG.runSuites(TestNG.java:1092)
+	at org.testng.TestNG.run(TestNG.java:1060)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:155)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:169)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:88)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:137)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   UblRunnerTest.runScenario » Timeout Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-11983219625486603449/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for locator("button:has-text('Team View'), label:has-text('Team View')").first() to be visible
+
+[INFO] 
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:18 min
+[INFO] Finished at: 2026-04-20T21:59:48+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project branchBot: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /Users/adarshgani/Documents/GitHub/branachAutomate/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.automation:branchBot >----------------------
+[INFO] Building branchBot 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ branchBot ---
+[INFO] Deleting /Users/adarshgani/Documents/GitHub/branachAutomate/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/adarshgani/Documents/GitHub/branachAutomate/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ branchBot ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ branchBot ---
+[INFO] Recompiling the module because of changed source code.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 46 source files with javac [debug target 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ branchBot ---
+[INFO] Using auto detected provider org.apache.maven.surefire.testng.TestNGProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running TestSuite
+22:00:53.979 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.setUpClass(org.testng.ITestContext)[pri:0, instance:null] -393284817
+22:00:53.982 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+22:00:53.984 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+22:00:53.985 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+22:00:53.985 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+22:00:53.985 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.tearDownClass()[pri:0, instance:null] 1523153566
+22:00:53.985 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+22:00:53.985 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+22:00:53.985 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+22:00:53.985 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+22:00:53.988 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:testRunner.UblRunnerTest@33d512c1] -280757358
+22:00:53.988 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+22:00:53.988 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+22:00:53.988 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+22:00:53.988 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+
+@UBL @Regression
+Scenario: Complete DSA Portal to Jarvis Portal Handoff using Context Bridge                             # features/ubl.feature:4
+2026-04-20 22:00:59 [INFO ] - Starting new browser for scenario: Complete DSA Portal to Jarvis Portal Handoff using Context Bridge
+2026-04-20 22:01:02 [INFO ] - Browser, context and page initialized successfully for thread
+2026-04-20 22:01:02 [INFO ] - Generated and stored mobile number: 8230399218
+2026-04-20 22:01:02 [INFO ] - Generated and stored PAN number: GJRPA2674B
+====================================================================
+
+Request method:   POST
+Request URI:      https://mystique.uat.creditsaison.corp/addKyc?kycType=pancard
+Query params:     {kycType=pancard}
+Request Body:
+{
+    "input": {
+        "pan": "GJRPA2674B",
+        "consent": "Y"
+    },
+    "output": {
+        "requestId": "d041f16d-902f-4ced-a365-427de20f2e78",
+        "result": {
+            "pan": "GJRPA2674B",
+            "name": "Shea Test",
+            "firstName": "Shea",
+            "middleName": "",
+            "lastName": "Test",
+            "gender": "F",
+            "aadhaarLinked": true,
+            "aadhaarMatch": true,
+            "dob": "2004-02-23",
+            "address": {
+                "buildingName": "2/21 RAM WADI",
+                "locality": "JOGESHWARI SOUTH",
+                "streetName": "AGARWAL NGR CAVES RD",
+                "pinCode": "400060",
+                "city": "MUMBAI",
+                "state": "MAHARASHTRA",
+                "country": ""
+            },
+            "mobileNo": null,
+            "emailId": null,
+            "profileMatch": [
+                {
+                    "parameter": "address",
+                    "matchScore": 0.99,
+                    "matchResult": true
+                },
+                {
+                    "parameter": "name",
+                    "matchScore": 1,
+                    "matchResult": true
+                },
+                {
+                    "parameter": "dob",
+                    "matchScore": 1,
+                    "matchResult": true
+                }
+            ],
+            "authorizedSignatory": {
+                "pan": "",
+                "name": "",
+                "firstName": "",
+                "middleName": "",
+                "lastName": "",
+                "gender": "",
+                "aadhaarLinked": null,
+                "dob": "",
+                "mobileNo": "",
+                "emailId": "",
+                "address": {
+                    "buildingName": "",
+                    "locality": "",
+                    "streetName": "",
+                    "pinCode": "",
+                    "city": "",
+                    "state": "",
+                    "country": ""
+                }
+            },
+            "status": "Active",
+            "issueDate": "2016-06-28",
+            "isSalaried": true,
+            "isDirector": false,
+            "isSoleProp": false
+        },
+        "statusCode": 101
+    }
+}
+
+Response Status:  HTTP/1.1 200 OK
+Response Body:
+{
+    "message": "Added a new kyc of type pancard with id- GJRPA2674B"
+}
+====================================================================
+
+  Given Generates required test data and Whitelist PAN for profile "Shea Test" in Mystique              # backend.stepDefinitions.ApiStepDefinitions.generateDataAndWhitelistPan(java.lang.String)
+2026-04-20 22:01:06 [INFO ] - Navigated to DSA Portal: https://portal.uat.creditsaison.xyz/signin
+  Given User navigates to the DSA Portal                                                                # ui.stepDefinitions.dsa.LoginSteps.navigateToDsaPortal()
+2026-04-20 22:01:06 [INFO ] - Switching to Jarvis portal and performing login...
+2026-04-20 22:01:06 [INFO ] - Loading credentials from: /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/resources/properties/uatCredentials.properties
+2026-04-20 22:01:06 [INFO ] - Loaded credentials for jarvis: User=tenjin.user@creditsaison-in.com, Email=null, OTP=****
+2026-04-20 22:01:06 [INFO ] - Storage state saved to: /Users/adarshgani/Documents/GitHub/branachAutomate/target/storage-states/dsa-session-1.json
+2026-04-20 22:01:07 [INFO ] - New context created from storage state: /Users/adarshgani/Documents/GitHub/branachAutomate/target/storage-states/dsa-session-1.json
+2026-04-20 22:01:08 [INFO ] - Switched to Jarvis Portal at: https://jarvis.uat.creditsaison.corp
+2026-04-20 22:01:08 [INFO ] - Starting Jarvis Login process...
+2026-04-20 22:01:17 [INFO ] - Jarvis Login submitted.
+2026-04-20 22:01:24 [INFO ] - Successfully landed on Jarvis Dashboard
+  And User switches to Jarvis portal and logins                                                         # ui.stepDefinitions.jarvis.LoginSteps.switchToJarvisAndLogin()
+2026-04-20 22:01:24 [INFO ] - Navigating to Application tab in Jarvis sidebar
+2026-04-20 22:01:29 [INFO ] - Application tab loaded
+2026-04-20 22:01:29 [INFO ] - Searching by [Partner LID] with value: dsa-3d3e3f75-38d3-4dcf-b2e5-3c3c1dc279ad
+2026-04-20 22:01:29 [INFO ] - Selected [Partner LID] from search criteria dropdown
+2026-04-20 22:01:30 [INFO ] - Search executed. Waiting for results...
+2026-04-20 22:01:30 [INFO ] - Captured App ID from first row: 1bca88ab-dbde-4e63-b016-2f0fc60cb459
+2026-04-20 22:01:30 [INFO ] - Clicking to open the first application in the list...
+2026-04-20 22:01:30 [INFO ] - Application form opened successfully.
+  And User navigates to the Applications tab searches appFrom using "Partner LID" and opens the appform # ui.stepDefinitions.jarvis.ApplicationSteps.openAppFromInJarvis(java.lang.String)
+2026-04-20 22:01:30 [INFO ] - Navigating to Allocation Dashboard...
+2026-04-20 22:01:30 [INFO ] - Navigated to Allocation Dashboard via URL: https://jarvis.uat.creditsaison.corp/allocation-dashboard
+  And User navigates to the Allocation Dashboard from the sidebar                                       # ui.stepDefinitions.jarvis.AllocationDashboardSteps.navigateToAllocationDashboard()
+2026-04-20 22:01:30 [INFO ] - Switching to Team View...
+  And User switches to Team View in the Allocation Dashboard                                            # ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView()
+      com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for getByText("Team View").first() to be visible
+
+	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:106)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at ✽.User switches to Team View in the Allocation Dashboard(file:///Users/adarshgani/Documents/GitHub/branachAutomate/features/ubl.feature:81)
+Caused by: com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for getByText("Team View").first() to be visible
+
+	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:254)
+	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:211)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:118)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:106)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)
+	at io.cucumber.java.Invoker.invoke(Invoker.java:24)
+	at io.cucumber.java.AbstractGlueDefinition.invokeMethod(AbstractGlueDefinition.java:47)
+	at io.cucumber.java.JavaStepDefinition.execute(JavaStepDefinition.java:29)
+	at io.cucumber.core.runner.CoreStepDefinition.execute(CoreStepDefinition.java:66)
+	at io.cucumber.core.runner.PickleStepDefinitionMatch.runStep(PickleStepDefinitionMatch.java:63)
+	at io.cucumber.core.runner.ExecutionMode$1.execute(ExecutionMode.java:10)
+	at io.cucumber.core.runner.TestStep.executeStep(TestStep.java:84)
+	at io.cucumber.core.runner.TestStep.run(TestStep.java:56)
+	at io.cucumber.core.runner.PickleStepTestStep.run(PickleStepTestStep.java:51)
+	at io.cucumber.core.runner.TestCase.run(TestCase.java:84)
+	at io.cucumber.core.runner.Runner.runPickle(Runner.java:75)
+	at io.cucumber.testng.TestNGCucumberRunner.lambda$runScenario$1(TestNGCucumberRunner.java:132)
+	at io.cucumber.core.runtime.CucumberExecutionContext.lambda$runTestCase$5(CucumberExecutionContext.java:137)
+	at io.cucumber.core.runtime.RethrowingThrowableCollector.executeAndThrow(RethrowingThrowableCollector.java:23)
+	at io.cucumber.core.runtime.CucumberExecutionContext.runTestCase(CucumberExecutionContext.java:137)
+	at io.cucumber.testng.TestNGCucumberRunner.runScenario(TestNGCucumberRunner.java:129)
+	at io.cucumber.testng.AbstractTestNGCucumberTests.runScenario(AbstractTestNGCucumberTests.java:35)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:135)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:673)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:220)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:945)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:193)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:808)
+	at org.testng.TestRunner.run(TestRunner.java:603)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:429)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:423)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:383)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:326)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1249)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1169)
+	at org.testng.TestNG.runSuites(TestNG.java:1092)
+	at org.testng.TestNG.run(TestNG.java:1060)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:155)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:169)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:88)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:137)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+
+  And User searches for the appform using App ID in Allocation Dashboard                                # ui.stepDefinitions.jarvis.AllocationDashboardSteps.searchByAppIdInAllocationDashboard()
+  And User selects the appform checkbox and clicks Allocate                                             # ui.stepDefinitions.jarvis.AllocationDashboardSteps.selectCheckboxAndClickAllocate()
+  And User clicks Proceed on the allocation alert popup                                                 # ui.stepDefinitions.jarvis.AllocationDashboardSteps.clickProceedOnAlert()
+  And User assigns the appform to Tenjin and finishes allocation                                        # ui.stepDefinitions.jarvis.AllocationDashboardSteps.assignToTenjinAndFinish()
+  And User re-opens the appform from the Allocation Dashboard row                                       # ui.stepDefinitions.jarvis.AllocationDashboardSteps.reOpenAppFormFromRow()
+  And User moves the application to CM via Application Actions                                          # ui.stepDefinitions.jarvis.AppFormActionsSteps.moveApplicationToCM()
+2026-04-20 22:02:00 [INFO ] - Tearing down browser for scenario: Complete DSA Portal to Jarvis Portal Handoff using Context Bridge
+2026-04-20 22:02:00 [INFO ] - Playwright resources cleaned up for thread
+2026-04-20 22:02:00 [INFO ] - Storage state files cleaned up.
+22:02:06.063 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:testRunner.UblRunnerTest@33d512c1] -280757358
+22:02:06.063 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+22:02:06.063 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+22:02:06.063 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+22:02:06.063 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 72.22 s <<< FAILURE! -- in TestSuite
+[ERROR] testRunner.UblRunnerTest.runScenario["Complete DSA Portal to Jarvis Portal Handoff using Context Bridge", "Unsecured Business Loan End-to-End Workflow"](1) -- Time elapsed: 66.74 s <<< FAILURE!
+com.microsoft.playwright.TimeoutError: 
+Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for getByText("Team View").first() to be visible
+
+	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:106)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at ✽.User switches to Team View in the Allocation Dashboard(file:///Users/adarshgani/Documents/GitHub/branachAutomate/features/ubl.feature:81)
+Caused by: com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for getByText("Team View").first() to be visible
+
+	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:254)
+	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:211)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:118)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:106)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)
+	at io.cucumber.java.Invoker.invoke(Invoker.java:24)
+	at io.cucumber.java.AbstractGlueDefinition.invokeMethod(AbstractGlueDefinition.java:47)
+	at io.cucumber.java.JavaStepDefinition.execute(JavaStepDefinition.java:29)
+	at io.cucumber.core.runner.CoreStepDefinition.execute(CoreStepDefinition.java:66)
+	at io.cucumber.core.runner.PickleStepDefinitionMatch.runStep(PickleStepDefinitionMatch.java:63)
+	at io.cucumber.core.runner.ExecutionMode$1.execute(ExecutionMode.java:10)
+	at io.cucumber.core.runner.TestStep.executeStep(TestStep.java:84)
+	at io.cucumber.core.runner.TestStep.run(TestStep.java:56)
+	at io.cucumber.core.runner.PickleStepTestStep.run(PickleStepTestStep.java:51)
+	at io.cucumber.core.runner.TestCase.run(TestCase.java:84)
+	at io.cucumber.core.runner.Runner.runPickle(Runner.java:75)
+	at io.cucumber.testng.TestNGCucumberRunner.lambda$runScenario$1(TestNGCucumberRunner.java:132)
+	at io.cucumber.core.runtime.CucumberExecutionContext.lambda$runTestCase$5(CucumberExecutionContext.java:137)
+	at io.cucumber.core.runtime.RethrowingThrowableCollector.executeAndThrow(RethrowingThrowableCollector.java:23)
+	at io.cucumber.core.runtime.CucumberExecutionContext.runTestCase(CucumberExecutionContext.java:137)
+	at io.cucumber.testng.TestNGCucumberRunner.runScenario(TestNGCucumberRunner.java:129)
+	at io.cucumber.testng.AbstractTestNGCucumberTests.runScenario(AbstractTestNGCucumberTests.java:35)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:135)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:673)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:220)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:945)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:193)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:808)
+	at org.testng.TestRunner.run(TestRunner.java:603)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:429)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:423)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:383)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:326)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1249)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1169)
+	at org.testng.TestNG.runSuites(TestNG.java:1092)
+	at org.testng.TestNG.run(TestNG.java:1060)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:155)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:169)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:88)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:137)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   UblRunnerTest.runScenario » Timeout Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-10663265040060673335/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for getByText("Team View").first() to be visible
+
+[INFO] 
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:15 min
+[INFO] Finished at: 2026-04-20T22:02:06+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project branchBot: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /Users/adarshgani/Documents/GitHub/branachAutomate/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.automation:branchBot >----------------------
+[INFO] Building branchBot 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ branchBot ---
+[INFO] Deleting /Users/adarshgani/Documents/GitHub/branachAutomate/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory /Users/adarshgani/Documents/GitHub/branachAutomate/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ branchBot ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ branchBot ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ branchBot ---
+[INFO] Recompiling the module because of changed source code.
+[WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[INFO] Compiling 46 source files with javac [debug target 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.2.5:test (default-test) @ branchBot ---
+[INFO] Using auto detected provider org.apache.maven.surefire.testng.TestNGProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running TestSuite
+22:02:35.209 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.setUpClass(org.testng.ITestContext)[pri:0, instance:null] -393284817
+22:02:35.210 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+22:02:35.211 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+22:02:35.211 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+22:02:35.211 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+22:02:35.211 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.tearDownClass()[pri:0, instance:null] 1523153566
+22:02:35.211 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+22:02:35.211 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+22:02:35.211 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+22:02:35.211 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+22:02:35.213 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:testRunner.UblRunnerTest@33d512c1] -280757358
+22:02:35.213 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+22:02:35.213 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+22:02:35.213 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+22:02:35.213 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+
+@UBL @Regression
+Scenario: Complete DSA Portal to Jarvis Portal Handoff using Context Bridge                             # features/ubl.feature:4
+2026-04-20 22:02:40 [INFO ] - Starting new browser for scenario: Complete DSA Portal to Jarvis Portal Handoff using Context Bridge
+2026-04-20 22:02:43 [INFO ] - Browser, context and page initialized successfully for thread
+2026-04-20 22:02:43 [INFO ] - Generated and stored mobile number: 6472433202
+2026-04-20 22:02:43 [INFO ] - Generated and stored PAN number: NRZPK4139W
+====================================================================
+
+Request method:   POST
+Request URI:      https://mystique.uat.creditsaison.corp/addKyc?kycType=pancard
+Query params:     {kycType=pancard}
+Request Body:
+{
+    "input": {
+        "pan": "NRZPK4139W",
+        "consent": "Y"
+    },
+    "output": {
+        "requestId": "d041f16d-902f-4ced-a365-427de20f2e78",
+        "result": {
+            "pan": "NRZPK4139W",
+            "name": "Shea Test",
+            "firstName": "Shea",
+            "middleName": "",
+            "lastName": "Test",
+            "gender": "F",
+            "aadhaarLinked": true,
+            "aadhaarMatch": true,
+            "dob": "2004-02-23",
+            "address": {
+                "buildingName": "2/21 RAM WADI",
+                "locality": "JOGESHWARI SOUTH",
+                "streetName": "AGARWAL NGR CAVES RD",
+                "pinCode": "400060",
+                "city": "MUMBAI",
+                "state": "MAHARASHTRA",
+                "country": ""
+            },
+            "mobileNo": null,
+            "emailId": null,
+            "profileMatch": [
+                {
+                    "parameter": "address",
+                    "matchScore": 0.99,
+                    "matchResult": true
+                },
+                {
+                    "parameter": "name",
+                    "matchScore": 1,
+                    "matchResult": true
+                },
+                {
+                    "parameter": "dob",
+                    "matchScore": 1,
+                    "matchResult": true
+                }
+            ],
+            "authorizedSignatory": {
+                "pan": "",
+                "name": "",
+                "firstName": "",
+                "middleName": "",
+                "lastName": "",
+                "gender": "",
+                "aadhaarLinked": null,
+                "dob": "",
+                "mobileNo": "",
+                "emailId": "",
+                "address": {
+                    "buildingName": "",
+                    "locality": "",
+                    "streetName": "",
+                    "pinCode": "",
+                    "city": "",
+                    "state": "",
+                    "country": ""
+                }
+            },
+            "status": "Active",
+            "issueDate": "2016-06-28",
+            "isSalaried": true,
+            "isDirector": false,
+            "isSoleProp": false
+        },
+        "statusCode": 101
+    }
+}
+
+Response Status:  HTTP/1.1 200 OK
+Response Body:
+{
+    "message": "Added a new kyc of type pancard with id- NRZPK4139W"
+}
+====================================================================
+
+  Given Generates required test data and Whitelist PAN for profile "Shea Test" in Mystique              # backend.stepDefinitions.ApiStepDefinitions.generateDataAndWhitelistPan(java.lang.String)
+2026-04-20 22:02:47 [INFO ] - Navigated to DSA Portal: https://portal.uat.creditsaison.xyz/signin
+  Given User navigates to the DSA Portal                                                                # ui.stepDefinitions.dsa.LoginSteps.navigateToDsaPortal()
+2026-04-20 22:02:47 [INFO ] - Switching to Jarvis portal and performing login...
+2026-04-20 22:02:47 [INFO ] - Loading credentials from: /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/resources/properties/uatCredentials.properties
+2026-04-20 22:02:47 [INFO ] - Loaded credentials for jarvis: User=tenjin.user@creditsaison-in.com, Email=null, OTP=****
+2026-04-20 22:02:47 [INFO ] - Storage state saved to: /Users/adarshgani/Documents/GitHub/branachAutomate/target/storage-states/dsa-session-1.json
+2026-04-20 22:02:48 [INFO ] - New context created from storage state: /Users/adarshgani/Documents/GitHub/branachAutomate/target/storage-states/dsa-session-1.json
+2026-04-20 22:02:49 [INFO ] - Switched to Jarvis Portal at: https://jarvis.uat.creditsaison.corp
+2026-04-20 22:02:49 [INFO ] - Starting Jarvis Login process...
+2026-04-20 22:02:58 [INFO ] - Jarvis Login submitted.
+2026-04-20 22:03:04 [INFO ] - Successfully landed on Jarvis Dashboard
+  And User switches to Jarvis portal and logins                                                         # ui.stepDefinitions.jarvis.LoginSteps.switchToJarvisAndLogin()
+2026-04-20 22:03:04 [INFO ] - Navigating to Application tab in Jarvis sidebar
+2026-04-20 22:03:10 [INFO ] - Application tab loaded
+2026-04-20 22:03:10 [INFO ] - Searching by [Partner LID] with value: dsa-3d3e3f75-38d3-4dcf-b2e5-3c3c1dc279ad
+2026-04-20 22:03:11 [INFO ] - Selected [Partner LID] from search criteria dropdown
+2026-04-20 22:03:11 [INFO ] - Search executed. Waiting for results...
+2026-04-20 22:03:11 [INFO ] - Captured App ID from first row: 1bca88ab-dbde-4e63-b016-2f0fc60cb459
+2026-04-20 22:03:11 [INFO ] - Clicking to open the first application in the list...
+2026-04-20 22:03:11 [INFO ] - Application form opened successfully.
+  And User navigates to the Applications tab searches appFrom using "Partner LID" and opens the appform # ui.stepDefinitions.jarvis.ApplicationSteps.openAppFromInJarvis(java.lang.String)
+2026-04-20 22:03:11 [INFO ] - Navigating to Allocation Dashboard...
+2026-04-20 22:03:11 [INFO ] - Navigated to Allocation Dashboard via URL: https://jarvis.uat.creditsaison.corp/allocation-dashboard
+  And User navigates to the Allocation Dashboard from the sidebar                                       # ui.stepDefinitions.jarvis.AllocationDashboardSteps.navigateToAllocationDashboard()
+2026-04-20 22:03:11 [INFO ] - Switching to Team View...
+2026-04-20 22:03:16 [INFO ] - UI Elements found: []
+  And User switches to Team View in the Allocation Dashboard                                            # ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView()
+      com.microsoft.playwright.impl.TargetClosedError: Error {
+  message='Target page, context or browser has been closed
+  name='TargetClosedError
+  stack='TargetClosedError:Target page, context or browser has been closed
+Error
+    at captureRawStack (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/stackTrace.js:49:17)
+    at LongStandingScope._race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:91:52)
+    at LongStandingScope.race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:84:17)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:96:36)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for getByText("Team View").first() to be visible
+
+	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:54)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:115)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at ✽.User switches to Team View in the Allocation Dashboard(file:///Users/adarshgani/Documents/GitHub/branachAutomate/features/ubl.feature:81)
+Caused by: com.microsoft.playwright.impl.TargetClosedError: Error {
+  message='Target page, context or browser has been closed
+  name='TargetClosedError
+  stack='TargetClosedError:Target page, context or browser has been closed
+Error
+    at captureRawStack (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/stackTrace.js:49:17)
+    at LongStandingScope._race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:91:52)
+    at LongStandingScope.race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:84:17)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:96:36)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for getByText("Team View").first() to be visible
+
+	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:256)
+	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:211)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:118)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:115)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)
+	at io.cucumber.java.Invoker.invoke(Invoker.java:24)
+	at io.cucumber.java.AbstractGlueDefinition.invokeMethod(AbstractGlueDefinition.java:47)
+	at io.cucumber.java.JavaStepDefinition.execute(JavaStepDefinition.java:29)
+	at io.cucumber.core.runner.CoreStepDefinition.execute(CoreStepDefinition.java:66)
+	at io.cucumber.core.runner.PickleStepDefinitionMatch.runStep(PickleStepDefinitionMatch.java:63)
+	at io.cucumber.core.runner.ExecutionMode$1.execute(ExecutionMode.java:10)
+	at io.cucumber.core.runner.TestStep.executeStep(TestStep.java:84)
+	at io.cucumber.core.runner.TestStep.run(TestStep.java:56)
+	at io.cucumber.core.runner.PickleStepTestStep.run(PickleStepTestStep.java:51)
+	at io.cucumber.core.runner.TestCase.run(TestCase.java:84)
+	at io.cucumber.core.runner.Runner.runPickle(Runner.java:75)
+	at io.cucumber.testng.TestNGCucumberRunner.lambda$runScenario$1(TestNGCucumberRunner.java:132)
+	at io.cucumber.core.runtime.CucumberExecutionContext.lambda$runTestCase$5(CucumberExecutionContext.java:137)
+	at io.cucumber.core.runtime.RethrowingThrowableCollector.executeAndThrow(RethrowingThrowableCollector.java:23)
+	at io.cucumber.core.runtime.CucumberExecutionContext.runTestCase(CucumberExecutionContext.java:137)
+	at io.cucumber.testng.TestNGCucumberRunner.runScenario(TestNGCucumberRunner.java:129)
+	at io.cucumber.testng.AbstractTestNGCucumberTests.runScenario(AbstractTestNGCucumberTests.java:35)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:135)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:673)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:220)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:945)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:193)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:808)
+	at org.testng.TestRunner.run(TestRunner.java:603)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:429)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:423)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:383)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:326)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1249)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1169)
+	at org.testng.TestNG.runSuites(TestNG.java:1092)
+	at org.testng.TestNG.run(TestNG.java:1060)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:155)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:169)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:88)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:137)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+
+  And User searches for the appform using App ID in Allocation Dashboard                                # ui.stepDefinitions.jarvis.AllocationDashboardSteps.searchByAppIdInAllocationDashboard()
+  And User selects the appform checkbox and clicks Allocate                                             # ui.stepDefinitions.jarvis.AllocationDashboardSteps.selectCheckboxAndClickAllocate()
+  And User clicks Proceed on the allocation alert popup                                                 # ui.stepDefinitions.jarvis.AllocationDashboardSteps.clickProceedOnAlert()
+  And User assigns the appform to Tenjin and finishes allocation                                        # ui.stepDefinitions.jarvis.AllocationDashboardSteps.assignToTenjinAndFinish()
+  And User re-opens the appform from the Allocation Dashboard row                                       # ui.stepDefinitions.jarvis.AllocationDashboardSteps.reOpenAppFormFromRow()
+  And User moves the application to CM via Application Actions                                          # ui.stepDefinitions.jarvis.AppFormActionsSteps.moveApplicationToCM()
+2026-04-20 22:03:19 [INFO ] - Tearing down browser for scenario: Complete DSA Portal to Jarvis Portal Handoff using Context Bridge
+2026-04-20 22:03:19 [INFO ] - Playwright resources cleaned up for thread
+2026-04-20 22:03:19 [INFO ] - Storage state files cleaned up.
+22:03:24.776 [main] DEBUG org.testng.internal.Graph -- [Graph] ADDING NODE AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:testRunner.UblRunnerTest@33d512c1] -280757358
+22:03:24.776 [main] DEBUG org.testng.internal.Graph -- [Graph] ================ SORTING
+22:03:24.776 [main] DEBUG org.testng.internal.Graph -- [Graph] =============== DONE SORTING
+22:03:24.776 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== SORTED NODES
+22:03:24.776 [main] DEBUG org.testng.internal.Graph -- [Graph] ====== END SORTED NODES
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 49.67 s <<< FAILURE! -- in TestSuite
+[ERROR] testRunner.UblRunnerTest.runScenario["Complete DSA Portal to Jarvis Portal Handoff using Context Bridge", "Unsecured Business Loan End-to-End Workflow"](1) -- Time elapsed: 44.30 s <<< FAILURE!
+com.microsoft.playwright.impl.TargetClosedError: 
+Error {
+  message='Target page, context or browser has been closed
+  name='TargetClosedError
+  stack='TargetClosedError:Target page, context or browser has been closed
+Error
+    at captureRawStack (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/stackTrace.js:49:17)
+    at LongStandingScope._race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:91:52)
+    at LongStandingScope.race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:84:17)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:96:36)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for getByText("Team View").first() to be visible
+
+	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:54)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:115)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at ✽.User switches to Team View in the Allocation Dashboard(file:///Users/adarshgani/Documents/GitHub/branachAutomate/features/ubl.feature:81)
+Caused by: com.microsoft.playwright.impl.TargetClosedError: Error {
+  message='Target page, context or browser has been closed
+  name='TargetClosedError
+  stack='TargetClosedError:Target page, context or browser has been closed
+Error
+    at captureRawStack (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/stackTrace.js:49:17)
+    at LongStandingScope._race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:91:52)
+    at LongStandingScope.race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:84:17)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:96:36)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for getByText("Team View").first() to be visible
+
+	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:256)
+	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:211)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:118)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
+	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
+	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
+	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
+	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
+	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
+	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:115)
+	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)
+	at io.cucumber.java.Invoker.invoke(Invoker.java:24)
+	at io.cucumber.java.AbstractGlueDefinition.invokeMethod(AbstractGlueDefinition.java:47)
+	at io.cucumber.java.JavaStepDefinition.execute(JavaStepDefinition.java:29)
+	at io.cucumber.core.runner.CoreStepDefinition.execute(CoreStepDefinition.java:66)
+	at io.cucumber.core.runner.PickleStepDefinitionMatch.runStep(PickleStepDefinitionMatch.java:63)
+	at io.cucumber.core.runner.ExecutionMode$1.execute(ExecutionMode.java:10)
+	at io.cucumber.core.runner.TestStep.executeStep(TestStep.java:84)
+	at io.cucumber.core.runner.TestStep.run(TestStep.java:56)
+	at io.cucumber.core.runner.PickleStepTestStep.run(PickleStepTestStep.java:51)
+	at io.cucumber.core.runner.TestCase.run(TestCase.java:84)
+	at io.cucumber.core.runner.Runner.runPickle(Runner.java:75)
+	at io.cucumber.testng.TestNGCucumberRunner.lambda$runScenario$1(TestNGCucumberRunner.java:132)
+	at io.cucumber.core.runtime.CucumberExecutionContext.lambda$runTestCase$5(CucumberExecutionContext.java:137)
+	at io.cucumber.core.runtime.RethrowingThrowableCollector.executeAndThrow(RethrowingThrowableCollector.java:23)
+	at io.cucumber.core.runtime.CucumberExecutionContext.runTestCase(CucumberExecutionContext.java:137)
+	at io.cucumber.testng.TestNGCucumberRunner.runScenario(TestNGCucumberRunner.java:129)
+	at io.cucumber.testng.AbstractTestNGCucumberTests.runScenario(AbstractTestNGCucumberTests.java:35)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:135)
+	at org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:673)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:220)
+	at org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+	at org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:945)
+	at org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:193)
+	at org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+	at org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at org.testng.TestRunner.privateRun(TestRunner.java:808)
+	at org.testng.TestRunner.run(TestRunner.java:603)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:429)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:423)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:383)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:326)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1249)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1169)
+	at org.testng.TestNG.runSuites(TestNG.java:1092)
+	at org.testng.TestNG.run(TestNG.java:1060)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:155)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:169)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:88)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:137)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   UblRunnerTest.runScenario » TargetClosed Error {
+  message='Target page, context or browser has been closed
+  name='TargetClosedError
+  stack='TargetClosedError:Target page, context or browser has been closed
+Error
+    at captureRawStack (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/stackTrace.js:49:17)
+    at LongStandingScope._race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:91:52)
+    at LongStandingScope.race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:84:17)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:96:36)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:361:39)
+}
+Call log:
+- waiting for getByText("Team View").first() to be visible
+
+[INFO] 
+[ERROR] Tests run: 1, Failures: 1, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  51.369 s
+[INFO] Finished at: 2026-04-20T22:03:24+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.2.5:test (default-test) on project branchBot: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /Users/adarshgani/Documents/GitHub/branachAutomate/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

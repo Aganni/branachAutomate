@@ -4,7 +4,7 @@
 <suite name="BranchBot UBL Test Suite" parallel="methods" thread-count="1">
     <test name="UBL End-to-End">
         <classes>
-            <class name="testRunner.UblRunner"/>
+            <class name="testRunner.UblRunnerTest"/>
         </classes>
     </test>
 </suite>

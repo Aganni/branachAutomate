@@ -2,52 +2,113 @@ package ui.pages.jarvis;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.LoadState;
+import com.microsoft.playwright.options.WaitForSelectorState;
 import hooks.BaseTest;
 
 public class ApplicationPage extends BaseTest {
-    private final String APPLICATION_SIDEBAR_LINK = "a[href='/application']";
-    private final String SEARCH_TYPE_DROPDOWN = ".search-by-filter .el-input__inner";
-    private final String SEARCH_INPUT_NAME = "Enter App ID)"; // Generic placeholder
-    private final String FIRST_ROW_APP_ID = "tr.appform-row .app-id p";
+
+    // Sidebar link to the Applications section
+    private static final String APPLICATION_SIDEBAR_LINK = "a[href='/application']";
+
+    // Search-by dropdown trigger (the filter pill)
+    private static final String SEARCH_TYPE_DROPDOWN = ".search-by-filter .el-input__inner";
+
+    // The option inside the dropdown (e.g. "Partner LID", "App ID")
+    private static final String SEARCH_OPTION_XPATH = "//li[contains(@class,'el-select-dropdown__item')]//span[text()='%s']";
+
+    // The actual text-input that appears after a search-type is chosen
+    private static final String SEARCH_INPUT = ".search-by-filter input[type='text']:not([readonly])";
+
+    // The APP ID cell in the results table (visible text link / p tag)
+    private static final String FIRST_ROW_APP_ID_LINK = "table tbody tr:first-child td .app-id p, " +
+            "table tbody tr:first-child [class*='app-id'], " +
+            "table tbody tr:first-child td:nth-child(2) p";
 
     public static Page getPage() {
         return BaseTest.getPage();
     }
 
     public void navigateToApplicationTab() {
-        log.info("Navigating to Application Tab in Jarvis sidebar");
+        log.info("Navigating to Application tab in Jarvis sidebar");
         getPage().locator(APPLICATION_SIDEBAR_LINK).click();
-        getPage().waitForLoadState();
+        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        log.info("Application tab loaded");
     }
 
+    /**
+     * Selects a search type from the filter dropdown and types the search value.
+     * 
+     * @param searchType  e.g. "Partner LID"
+     * @param searchValue the actual ID/value to search for
+     */
     public void searchByCriteria(String searchType, String searchValue) {
         log.info("Searching by [{}] with value: {}", searchType, searchValue);
 
-        getPage().locator(SEARCH_TYPE_DROPDOWN).first().click();
+        // 1. Open the filter-type dropdown
+        Locator dropdownTrigger = getPage().locator(SEARCH_TYPE_DROPDOWN).first();
+        dropdownTrigger.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        dropdownTrigger.click();
 
-        String dynamicOptionXpath = "//li[contains(@class,'el-select-dropdown__item')]//span[text()='" + searchType + "']";
-
-        getPage().locator(dynamicOptionXpath).click();
+        // 2. Select the right option (e.g. "Partner LID")
+        String optionXpath = String.format(SEARCH_OPTION_XPATH, searchType);
+        getPage().locator(optionXpath).click();
         log.info("Selected [{}] from search criteria dropdown", searchType);
 
-        getPage().getByRole(AriaRole.TEXTBOX, new Page.GetByRoleOptions().setName(SEARCH_INPUT_NAME))
-                .fill(searchValue);
+        // 3. Type in the search box that appears after the type is selected
+        Locator searchInput = getPage().locator(SEARCH_INPUT).last();
+        searchInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        searchInput.fill(searchValue);
         getPage().keyboard().press("Enter");
 
         getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        log.info("Search executed. Waiting for results...");
     }
 
+    /**
+     * Reads the App ID text from the first result row and stores it.
+     * 
+     * @return the App ID string (e.g. "e878034a-bc51-4d01-af6c-e6af61d5dcdc")
+     */
+    public String getAppFormIdFromFirstRow() {
+        // Wait for the row to be visible
+        getPage().locator("table tbody tr:first-child")
+                .waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+
+        // Grab all cells in the first row
+        java.util.List<String> cellsText = getPage().locator("table tbody tr:first-child td").allInnerTexts();
+        String appId = null;
+
+        // Find the one that looks like an App ID (e.g. FB123456 or a UUID), typically
+        // no spaces and alphanumeric
+        for (String text : cellsText) {
+            String trimmed = text.trim();
+            if (!trimmed.isEmpty() && !trimmed.contains(" ") && trimmed.length() >= 8 && trimmed.matches(".*[A-Za-z].*")
+                    && trimmed.matches(".*[0-9].*")) {
+                appId = trimmed;
+                break;
+            }
+        }
+
+        // Fallback if regex fails (e.g. it's only letters or only numbers, but usually
+        // App IDs are alphanumeric)
+        if (appId == null && cellsText.size() > 1) {
+            appId = cellsText.get(1).trim(); // commonly standard is index 1 or 2
+        }
+
+        log.info("Captured App ID from first row: {}", appId);
+        return appId;
+    }
+
+    /**
+     * Clicks the first appform row to open its detail view.
+     */
     public void openFirstApplication() {
-        log.info("Opening the first application in the list...");
-
-        // Wait for the first row to be visible
-        Locator firstRow = getPage().locator(FIRST_ROW_APP_ID).first();
-        firstRow.waitFor();
-
-        // Clicking the App ID usually opens the detail view/app form
+        log.info("Clicking to open the first application in the list...");
+        Locator firstRow = getPage().locator(FIRST_ROW_APP_ID_LINK).first();
+        firstRow.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         firstRow.click();
+        getPage().waitForLoadState(LoadState.NETWORKIDLE);
         log.info("Application form opened successfully.");
     }
 }
