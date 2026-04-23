@@ -71,29 +71,18 @@ public class ApplicationPage extends BaseTest {
      * @return the App ID string (e.g. "e878034a-bc51-4d01-af6c-e6af61d5dcdc")
      */
     public String getAppFormIdFromFirstRow() {
-        // Wait for the row to be visible
-        getPage().locator("table tbody tr:first-child")
-                .waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        log.info("Extracting App ID from the first row...");
 
-        // Grab all cells in the first row
-        java.util.List<String> cellsText = getPage().locator("table tbody tr:first-child td").allInnerTexts();
-        String appId = null;
+        // Based on your HTML: <div class="app-id"><p class="app-id-ellipse">...
+        Locator appIdLocator = getPage().locator("table tbody tr:first-child .app-id p.app-id-ellipse").first();
 
-        // Find the one that looks like an App ID (e.g. FB123456 or a UUID), typically
-        // no spaces and alphanumeric
-        for (String text : cellsText) {
-            String trimmed = text.trim();
-            if (!trimmed.isEmpty() && !trimmed.contains(" ") && trimmed.length() >= 8 && trimmed.matches(".*[A-Za-z].*")
-                    && trimmed.matches(".*[0-9].*")) {
-                appId = trimmed;
-                break;
-            }
-        }
+        appIdLocator.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
 
-        // Fallback if regex fails (e.g. it's only letters or only numbers, but usually
-        // App IDs are alphanumeric)
-        if (appId == null && cellsText.size() > 1) {
-            appId = cellsText.get(1).trim(); // commonly standard is index 1 or 2
+        // Grab the text directly without looping through all columns
+        String appId = appIdLocator.innerText().trim();
+
+        if (appId.isEmpty()) {
+            throw new RuntimeException("App ID was found but the text was empty!");
         }
 
         log.info("Captured App ID from first row: {}", appId);
@@ -103,12 +92,13 @@ public class ApplicationPage extends BaseTest {
     /**
      * Clicks the first appform row to open its detail view.
      */
-    public void openFirstApplication() {
+    public void openFirstApplication() throws InterruptedException {
         log.info("Clicking to open the first application in the list...");
         Locator firstRow = getPage().locator(FIRST_ROW_APP_ID_LINK).first();
         firstRow.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         firstRow.click();
         getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        Thread.sleep(3000);// Extra wait to ensure the detail page is fully loaded
         log.info("Application form opened successfully.");
     }
 }

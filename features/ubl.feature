@@ -77,12 +77,7 @@ Feature: Unsecured Business Loan End-to-End Workflow
     And User switches to Jarvis portal and logins
     And User navigates to the Applications tab searches appFrom using "Partner LID" and opens the appform
     ## Allocation Dashboard flow
-    And User navigates to the Allocation Dashboard from the sidebar
-    And User switches to Team View in the Allocation Dashboard
-    And User searches for the appform using App ID in Allocation Dashboard
-    And User selects the appform checkbox and clicks Allocate
-    And User clicks Proceed on the allocation alert popup
-    And User assigns the appform to Tenjin and finishes allocation
+    And User navigates to the Allocation Dashboard and assign appform to self from unassigned queue using app ID
     ## Re-open appform and move to CM
     And User re-opens the appform from the Allocation Dashboard row
     And User moves the application to CM via Application Actions
