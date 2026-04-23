@@ -77,7 +77,5 @@ Feature: Unsecured Business Loan End-to-End Workflow
     And User switches to Jarvis portal and logins
     And User navigates to the Applications tab searches appFrom using "Partner LID" and opens the appform
     ## Allocation Dashboard flow
-    And User navigates to the Allocation Dashboard and assign appform to self from unassigned queue using app ID
-    ## Re-open appform and move to CM
-    And User re-opens the appform from the Allocation Dashboard row
-    And User moves the application to CM via Application Actions
+    And User navigates to the Allocation Dashboard and assign appform to self using app ID
+    And User selects "Move to Credit Review" from Application Actions and moves appForm next stage

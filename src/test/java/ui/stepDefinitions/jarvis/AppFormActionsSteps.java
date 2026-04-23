@@ -7,8 +7,8 @@ public class AppFormActionsSteps {
 
     private final AppFormActionsPage appFormActionsPage = new AppFormActionsPage();
 
-    @And("User moves the application to CM via Application Actions")
-    public void moveApplicationToCM() {
-        appFormActionsPage.moveToCAM();
+    @And("User selects {string} from Application Actions and moves appForm next stage")
+    public void userSelectsApplicationAction(String action) {
+        appFormActionsPage.selectApplicationAction(action);
     }
 }

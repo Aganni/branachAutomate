@@ -7,53 +7,33 @@ import ui.pages.jarvis.AllocationDashboardPage;
 
 public class AllocationDashboardSteps extends BaseTest {
 
+    // Using the email from your uatCredentials and its display name
     private static final String TENJIN_EMAIL = "tenjin.user@creditsaison-in.com";
+    private static final String TENJIN_DISPLAY_NAME = "Tenjin User";
 
     private final AllocationDashboardPage allocationPage = new AllocationDashboardPage();
 
-    @And("User navigates to the Allocation Dashboard and assign appform to self from unassigned queue using app ID")
+    @And("User navigates to the Allocation Dashboard and assign appform to self using app ID")
     public void navigateToAllocationDashboard() {
+        // 1. Navigate and setup view
         allocationPage.navigateToAllocationDashboard();
         allocationPage.switchToTeamView();
+
+        // 2. Fetch App ID and search
         String appFormId = (String) DynamicDataClass.getValue("appFormId");
         log.info("Using stored App ID for allocation search: {}", appFormId);
         allocationPage.searchByAppId(appFormId);
+
+        // 3. Trigger Allocation
         allocationPage.selectFirstRowCheckbox();
         allocationPage.clickAllocate();
         allocationPage.clickProceedOnAlert();
-    }
 
-//    @And("User switches to Team View in the Allocation Dashboard")
-//    public void switchToTeamView() {
-//        allocationPage.switchToTeamView();
-//    }
-//
-//    @And("User searches for the appform using App ID in Allocation Dashboard")
-//    public void searchByAppIdInAllocationDashboard() {
-//        // Retrieve the App ID captured earlier from the Applications table
-//        String appFormId = (String) DynamicDataClass.getValue("appFormId");
-//        log.info("Using stored App ID for allocation search: {}", appFormId);
-//        allocationPage.searchByAppId(appFormId);
-//    }
-//
-//    @And("User selects the appform checkbox and clicks Allocate")
-//    public void selectCheckboxAndClickAllocate() {
-//        allocationPage.selectFirstRowCheckbox();
-//        allocationPage.clickAllocate();
-//    }
-//
-//    @And("User clicks Proceed on the allocation alert popup")
-//    public void clickProceedOnAlert() {
-//        allocationPage.clickProceedOnAlert();
-//    }
+        // 4. Manual Assign Flow
+        allocationPage.manualAssignAndFinish(TENJIN_EMAIL);
 
-//    @And("User assigns the appform to Tenjin and finishes allocation")
-//    public void assignToTenjinAndFinish() {
-//        allocationPage.assignAndFinish(TENJIN_EMAIL);
-//    }
-
-    @And("User re-opens the appform from the Allocation Dashboard row")
-    public void reOpenAppFormFromRow() {
-        allocationPage.openAppFormFromRow();
+        // 5. Verify the row actually updated to Tenjin User before clicking and open the appform
+        allocationPage.verifyAssignedUser(TENJIN_DISPLAY_NAME);
+        allocationPage.openAppFormByApplicantName();
     }
 }

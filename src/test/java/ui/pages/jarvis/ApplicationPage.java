@@ -46,23 +46,40 @@ public class ApplicationPage extends BaseTest {
         log.info("Searching by [{}] with value: {}", searchType, searchValue);
 
         // 1. Open the filter-type dropdown
-        Locator dropdownTrigger = getPage().locator(SEARCH_TYPE_DROPDOWN).first();
+        Locator dropdownTrigger = getPage().locator(".search-by-filter .el-input__inner").first();
         dropdownTrigger.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         dropdownTrigger.click();
 
-        // 2. Select the right option (e.g. "Partner LID")
-        String optionXpath = String.format(SEARCH_OPTION_XPATH, searchType);
+        // 2. Select the right option
+        String optionXpath = "//li[contains(@class,'el-select-dropdown__item')]//span[text()='" + searchType + "']";
         getPage().locator(optionXpath).click();
         log.info("Selected [{}] from search criteria dropdown", searchType);
 
-        // 3. Type in the search box that appears after the type is selected
-        Locator searchInput = getPage().locator(SEARCH_INPUT).last();
+        // 3. Type in the search box
+        Locator searchInput = getPage().locator(".search-by-filter input[type='text']:not([readonly])").last();
         searchInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         searchInput.fill(searchValue);
+
+        log.info("Triggering search. Waiting for table to refresh...");
         getPage().keyboard().press("Enter");
 
+        // --- THE FIX: Handle the Race Condition ---
+
+        // A. Wait for the Element UI loading mask to disappear (if it appears)
+        Locator loadingMask = getPage().locator(".el-loading-mask").first();
+        try {
+            loadingMask.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN).setTimeout(10000));
+        } catch (Exception e) {
+            log.info("No loading mask detected or it disappeared instantly.");
+        }
+
+        // B. Wait for the network API calls to finish fetching the filtered data
         getPage().waitForLoadState(LoadState.NETWORKIDLE);
-        log.info("Search executed. Waiting for results...");
+
+        // C. The Pragmatic Wait: Give the frontend framework (Vue.js) a brief moment to redraw the HTML table
+        getPage().waitForTimeout(1500);
+
+        log.info("Search results loaded and table updated.");
     }
 
     /**
