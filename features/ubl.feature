@@ -95,3 +95,10 @@ Feature: Unsecured Business Loan End-to-End Workflow
           ## Allocation Dashboard flow
     And User navigates to the Allocation Dashboard and assign appform to self using app ID
     And User selects "Move to CAM" from Application Actions and moves appForm next stage
+        # Allocation Dashboard flow
+    And User navigates to the Allocation Dashboard and assign appform to self using app ID
+    And User selects "Move to Credit Review" from Application Actions and moves appForm next stage
+    And User navigates to the Dedupe tab in Application Dashboard
+    And User navigates to the RegCheck tab in Application Dashboard
+    And User navigates to the CAM tab in Application Dashboard
+    And User selects "Move to Terms" from Application Actions and moves appForm next stage

@@ -1,8 +1,7 @@
-package ui.pages.jarvis;
+package ui.pages.jarvis.AppFormPage.AppformTab;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import hooks.BaseTest;
@@ -10,10 +9,10 @@ import ui.Utils.ScreenshotUtil;
 
 import java.util.Map;
 
-public class ApplicationDetailsPage extends BaseTest{
+public class BusinessDetails extends BaseTest {
     private final Page page;
 
-    public ApplicationDetailsPage(Page page) {
+    public BusinessDetails(Page page) {
         this.page = page;
     }
 
@@ -24,18 +23,18 @@ public class ApplicationDetailsPage extends BaseTest{
     public void openBusinessDetailsAndEdit() {
         log.info("Opening Business Details section...");
 
-        Locator businessCard = getPage().locator("button.appform-card").filter(new Locator.FilterOptions().setHasText("Business Details")).first();
+        Locator businessCard = page.locator("button.appform-card").filter(new Locator.FilterOptions().setHasText("Business Details")).first();
         businessCard.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         businessCard.click();
 
         log.info("Clicking Edit on Company Details...");
-        Locator editBtn = getPage().locator(".el-card__body")
+        Locator editBtn = page.locator(".el-card__body")
                 .filter(new Locator.FilterOptions().setHasText("Company Details"))
                 .locator("button:has-text('Edit')");
         editBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         editBtn.click();
 
-        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        page.waitForLoadState(LoadState.NETWORKIDLE);
     }
 
     /**
@@ -69,7 +68,7 @@ public class ApplicationDetailsPage extends BaseTest{
 
         // 4. Handle Employees
         if (details.containsKey("No Of Employees")) {
-            Locator empInput = getPage().locator("//label[text()='NO OF EMPLOYEES']/following-sibling::div//input").first();
+            Locator empInput = page.locator("//label[text()='NO OF EMPLOYEES']/following-sibling::div//input").first();
             empInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
             empInput.fill(details.get("No Of Employees"));
             log.info("Filled Employees: {}", details.get("No Of Employees"));
@@ -82,11 +81,11 @@ public class ApplicationDetailsPage extends BaseTest{
 
         // 6. Click Submit (Floating Action Button)
         log.info("Clicking Submit floating button...");
-        getPage().locator(".cs-fab").click();
+        page.locator(".cs-fab").click();
 
         // 7. Handle Submission Response (Success vs Error Toasts)
         log.info("Waiting for form submission response...");
-        Locator toastTitle = getPage().locator(".el-notification__title").first();
+        Locator toastTitle = page.locator(".el-notification__title").first();
 
         try {
             // Wait up to 8 seconds for ANY toast to appear
@@ -95,17 +94,17 @@ public class ApplicationDetailsPage extends BaseTest{
 
             if (titleText.contains("Success")) {
                 log.info("Business details submitted successfully!");
-                getPage().waitForLoadState(LoadState.NETWORKIDLE);
+                page.waitForLoadState(LoadState.NETWORKIDLE);
 
             } else if (titleText.contains("Error")) {
                 // If the toast says Error, grab the specific error message text
-                Locator toastMessage = getPage().locator(".el-notification__content").first();
+                Locator toastMessage = page.locator(".el-notification__content").first();
                 String errorMsg = toastMessage.isVisible() ? toastMessage.innerText().trim() : "Unknown Form Error";
 
                 log.error("Failed to update Business Details: {}", errorMsg);
 
                 // Capture Screenshot
-                ScreenshotUtil.saveScreenshot(getPage(), "BusinessDetailsError", scenarioName);
+                ScreenshotUtil.saveScreenshot(page, "BusinessDetailsError", scenarioName);
 
                 // Fail the test cleanly
                 throw new AssertionError("Business Details submission failed: " + errorMsg);
@@ -115,7 +114,7 @@ public class ApplicationDetailsPage extends BaseTest{
 
         } catch (Exception e) {
             log.error("No success or error toast appeared within the timeout period.");
-            ScreenshotUtil.saveScreenshot(getPage(), "NoResponseToast_BusinessDetails", scenarioName);
+            ScreenshotUtil.saveScreenshot(page, "NoResponseToast_BusinessDetails", scenarioName);
             throw new RuntimeException("Timeout waiting for submission response toast.", e);
         }
     }
@@ -127,13 +126,13 @@ public class ApplicationDetailsPage extends BaseTest{
         log.info("Selecting '{}' for '{}'", optionText, label);
 
         // Click the input box under the specific label
-        Locator input = getPage().locator("//label[text()='" + label + "']/following-sibling::div//input").first();
+        Locator input = page.locator("//label[text()='" + label + "']/following-sibling::div//input").first();
         input.click(new Locator.ClickOptions().setForce(true));
 
-        getPage().waitForTimeout(500); // Allow Element UI dropdown animation to finish
+        page.waitForTimeout(500); // Allow Element UI dropdown animation to finish
 
         // Find and click the option from the floating list
-        Locator option = getPage().locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText(optionText)).first();
+        Locator option = page.locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText(optionText)).first();
         option.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         option.click(new Locator.ClickOptions().setForce(true));
     }
@@ -145,35 +144,35 @@ public class ApplicationDetailsPage extends BaseTest{
         log.info("Handling Udyam Verification for: {}", udyamNumber);
 
         // 1. Click AND Type the Udyam number into the box
-        Locator uanInput = getPage().locator("//label[text()='ENTITY UAN/UDYAM NUMBER']/following-sibling::div//input").first();
+        Locator uanInput = page.locator("//label[text()='ENTITY UAN/UDYAM NUMBER']/following-sibling::div//input").first();
         uanInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         uanInput.click(new Locator.ClickOptions().setForce(true));
         uanInput.fill(udyamNumber); // Typing it forces the dropdown to generate the option
 
-        getPage().waitForTimeout(500); // Allow UI to update the dropdown list
+        page.waitForTimeout(500); // Allow UI to update the dropdown list
 
         // 2. Select the newly generated option from the dropdown list
-        Locator udyamOption = getPage().locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText(udyamNumber)).first();
+        Locator udyamOption = page.locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText(udyamNumber)).first();
         udyamOption.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         udyamOption.click(new Locator.ClickOptions().setForce(true));
         log.info("Selected Udyam Number from dropdown.");
 
         // 3. Click Verify
-        Locator verifyBtn = getPage().locator(".verify-btn").first();
+        Locator verifyBtn = page.locator(".verify-btn").first();
         verifyBtn.click();
         log.info("Clicked Verify button.");
 
         // 4. Handle the specific Element UI Message Box popup ("Are you sure...")
         try {
-            Locator messageBox = getPage().locator(".el-message-box").first();
+            Locator messageBox = page.locator(".el-message-box").first();
             messageBox.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3000));
 
             Locator okBtn = messageBox.locator(".el-message-box__btns button").filter(new Locator.FilterOptions().setHasText("OK")).first();
             okBtn.click();
             log.info("Clicked OK on the Udyam verification popup.");
 
-            getPage().waitForLoadState(LoadState.NETWORKIDLE);
-            getPage().waitForTimeout(1000);
+            page.waitForLoadState(LoadState.NETWORKIDLE);
+            page.waitForTimeout(1000);
         } catch (Exception e) {
             log.info("Udyam confirmation popup did not appear, proceeding...");
         }
