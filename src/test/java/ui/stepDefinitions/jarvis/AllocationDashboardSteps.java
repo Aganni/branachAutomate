@@ -3,7 +3,8 @@ package ui.stepDefinitions.jarvis;
 import dynamicData.DynamicDataClass;
 import hooks.BaseTest;
 import io.cucumber.java.en.*;
-import ui.pages.jarvis.AllocationDashboardPage;
+import ui.pages.jarvis.Dashboard.AllocationDashboardPage;
+import ui.pages.jarvis.Dashboard.DashboardPage;
 
 public class AllocationDashboardSteps extends BaseTest {
 
@@ -12,11 +13,12 @@ public class AllocationDashboardSteps extends BaseTest {
     private static final String TENJIN_DISPLAY_NAME = "Tenjin User";
 
     private final AllocationDashboardPage allocationPage = new AllocationDashboardPage();
+    private final DashboardPage dashboardPage = new DashboardPage();
 
     @And("User navigates to the Allocation Dashboard and assign appform to self using app ID")
-    public void navigateToAllocationDashboard() {
+    public void assignAppFormToSelf() {
         // 1. Navigate and setup view
-        allocationPage.navigateToAllocationDashboard();
+        dashboardPage.navigateToAllocationDashboard();
         allocationPage.switchToTeamView();
 
         // 2. Fetch App ID and search

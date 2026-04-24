@@ -1,4 +1,4 @@
-package ui.pages.jarvis;
+package ui.pages.jarvis.AppFormPage;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
@@ -7,7 +7,7 @@ import com.microsoft.playwright.options.WaitForSelectorState;
 import hooks.BaseTest;
 import ui.Utils.ScreenshotUtil;
 
-public class AppFormActionsPage extends BaseTest {
+public class ApplicationPage extends BaseTest {
 
     public static Page getPage() {
         return BaseTest.getPage();
@@ -81,4 +81,6 @@ public class AppFormActionsPage extends BaseTest {
             }
         }
     }
+
+
 }
