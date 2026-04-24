@@ -36,4 +36,6 @@ public class AppFormActionsPage extends BaseTest {
         // 3. Wait for the page to react (usually opens a modal or triggers a network call)
         getPage().waitForLoadState(LoadState.NETWORKIDLE);
     }
+
+
 }

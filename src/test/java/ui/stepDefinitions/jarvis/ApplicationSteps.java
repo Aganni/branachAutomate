@@ -15,7 +15,7 @@ public class ApplicationSteps extends BaseTest {
     @And("User navigates to the Applications tab searches appFrom using {string} and opens the appform")
     public void openAppFromInJarvis(String searchType) throws InterruptedException {
         jarvisAppPage.navigateToApplicationTab();
-        jarvisAppPage.searchByCriteria(searchType, PARTNER_LID);
+        jarvisAppPage.searchByCriteria(searchType, "dsa-defbd0ef-d77c-4af0-ac4b-635a513b1a7f");
 
         // Capture and store App ID before clicking open — needed for Allocation
         DynamicDataClass.setValue("appFormId", jarvisAppPage.getAppFormIdFromFirstRow());
