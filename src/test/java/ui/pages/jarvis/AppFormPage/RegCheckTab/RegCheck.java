@@ -1,15 +1,15 @@
-package ui.pages.jarvis.tabs;
+package ui.pages.jarvis.AppFormPage.RegCheckTab;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
-public class RegCheckTab {
+public class RegCheck {
 
     private final Page page;
 
-    public RegCheckTab(Page page) {
+    public RegCheck(Page page) {
         this.page = page;
     }
 

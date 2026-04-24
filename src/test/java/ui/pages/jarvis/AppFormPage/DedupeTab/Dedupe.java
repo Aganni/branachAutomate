@@ -1,15 +1,15 @@
-package ui.pages.jarvis.tabs;
+package ui.pages.jarvis.AppFormPage.DedupeTab;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
-public class DedupeTab {
+public class Dedupe {
 
     private final Page page;
 
-    public DedupeTab(Page page) {
+    public Dedupe(Page page) {
         this.page = page;
     }
 

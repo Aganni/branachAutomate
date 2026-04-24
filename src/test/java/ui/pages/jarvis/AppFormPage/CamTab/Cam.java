@@ -1,4 +1,4 @@
-package ui.pages.jarvis.tabs;
+package ui.pages.jarvis.AppFormPage.CamTab;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
@@ -6,11 +6,11 @@ import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
-public class CamTab {
+public class Cam {
 
     private final Page page;
 
-    public CamTab(Page page) {
+    public Cam(Page page) {
         this.page = page;
     }
 

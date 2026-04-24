@@ -1,18 +1,16 @@
 package ui.stepDefinitions.jarvis;
 
-import dynamicData.DynamicDataClass;
 import hooks.BaseTest;
 import io.cucumber.java.en.And;
-import ui.pages.jarvis.AllocationDashboardPage;
-import ui.pages.jarvis.tabs.CamTab;
-import ui.pages.jarvis.tabs.DedupeTab;
-import ui.pages.jarvis.tabs.RegCheckTab;
+import ui.pages.jarvis.AppFormPage.CamTab.Cam;
+import ui.pages.jarvis.AppFormPage.DedupeTab.Dedupe;
+import ui.pages.jarvis.AppFormPage.RegCheckTab.RegCheck;
 
 public class AppFormDashboardSteps extends BaseTest {
 
-    private final DedupeTab dedupeTab = new DedupeTab(getPage());
-    private final RegCheckTab regCheckTab = new RegCheckTab(getPage());
-    private final CamTab camTab = new CamTab(getPage());
+    private final Dedupe dedupeTab = new Dedupe(getPage());
+    private final RegCheck regCheckTab = new RegCheck(getPage());
+    private final Cam camTab = new Cam(getPage());
 
     @And("User navigates to the Dedupe tab in Application Dashboard")
     public void navigateDedupe() {

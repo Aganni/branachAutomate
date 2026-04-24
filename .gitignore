@@ -33,3 +33,6 @@ target/storage-states/dsa-session-1.json
 target/storage-states/dsa-session-1.json
 target/test-classes/ui/stepDefinitions/jarvis/ApplicationSteps.class
 .idea/compiler.xml
+output.log
+output.log
+target/test-classes/ui/pages/jarvis/AllocationDashboardPage.class

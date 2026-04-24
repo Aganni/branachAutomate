@@ -1,4 +1,4 @@
-package ui.pages.jarvis;
+package ui.pages.jarvis.Dashboard;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
@@ -11,8 +11,6 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 public class AllocationDashboardPage extends BaseTest {
 
     // ── Locators ──────────────────────────────────────────────────────
-
-    private static final String ALLOCATION_DASHBOARD_LINK = "a[href='/new/dashboard']";
     private static final String TEAM_VIEW_SWITCH = ".download-csv-container-sme .el-switch";
     private static final String FIRST_ROW_CHECKBOX = ".el-table__body tbody tr:first-child .el-checkbox__original, .el-table__body tbody tr:first-child .el-checkbox";
 
@@ -22,15 +20,6 @@ public class AllocationDashboardPage extends BaseTest {
 
     public static Page getPage() {
         return BaseTest.getPage();
-    }
-
-    public void navigateToAllocationDashboard() {
-        log.info("Navigating to Allocation Dashboard via sidebar...");
-        Locator dashboardLink = getPage().locator(ALLOCATION_DASHBOARD_LINK).first();
-        dashboardLink.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        dashboardLink.click();
-
-        getPage().waitForLoadState(LoadState.NETWORKIDLE);
     }
 
     public void switchToTeamView() {

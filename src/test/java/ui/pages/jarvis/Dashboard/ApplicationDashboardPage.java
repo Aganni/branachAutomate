@@ -1,4 +1,4 @@
-package ui.pages.jarvis;
+package ui.pages.jarvis.Dashboard;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
@@ -6,7 +6,7 @@ import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import hooks.BaseTest;
 
-public class ApplicationPage extends BaseTest {
+public class ApplicationDashboardPage extends BaseTest {
 
     // Sidebar link to the Applications section
     private static final String APPLICATION_SIDEBAR_LINK = "a[href='/application']";
@@ -27,13 +27,6 @@ public class ApplicationPage extends BaseTest {
 
     public static Page getPage() {
         return BaseTest.getPage();
-    }
-
-    public void navigateToApplicationTab() {
-        log.info("Navigating to Application tab in Jarvis sidebar");
-        getPage().locator(APPLICATION_SIDEBAR_LINK).click();
-        getPage().waitForLoadState(LoadState.NETWORKIDLE);
-        log.info("Application tab loaded");
     }
 
     /**

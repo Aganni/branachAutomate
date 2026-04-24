@@ -3,25 +3,28 @@ package ui.stepDefinitions.jarvis;
 import dynamicData.DynamicDataClass;
 import hooks.BaseTest;
 import io.cucumber.java.en.*;
-import ui.pages.jarvis.ApplicationPage;
+import ui.pages.jarvis.Dashboard.ApplicationDashboardPage;
+import ui.pages.jarvis.Dashboard.DashboardPage;
 
 public class ApplicationSteps extends BaseTest {
 
     // Hardcoded Partner LID — update here when test data changes
-//    private static final String PARTNER_LID = "dsa-44c52e72-0ede-4598-bd4f-2dc9dd89fe3f";
+    private static final String PARTNER_LID = "dsa-4cbeb803-cc75-4f6d-9e67-f2bbaa4a0ae2";
 
-    private final ApplicationPage jarvisAppPage = new ApplicationPage();
+
+    private final ApplicationDashboardPage applicationDashboardPage = new ApplicationDashboardPage();
+    private final DashboardPage dashboardPage = new DashboardPage();
 
     @And("User navigates to the Applications tab searches appFrom using {string} and opens the appform")
     public void openAppFromInJarvis(String searchType) throws InterruptedException {
-        jarvisAppPage.navigateToApplicationTab();
+        dashboardPage.navigateToApplicationTab();
 
-        jarvisAppPage.searchByCriteria(searchType, "dsa-defbd0ef-d77c-4af0-ac4b-635a513b1a7f");
+        applicationDashboardPage.searchByCriteria(searchType, PARTNER_LID);
 
         // Capture and store App ID before clicking open — needed for Allocation
-        DynamicDataClass.setValue("appFormId", jarvisAppPage.getAppFormIdFromFirstRow());
+        DynamicDataClass.setValue("appFormId", applicationDashboardPage.getAppFormIdFromFirstRow());
         log.info("Appform ID [{}]", DynamicDataClass.getValue("appFormId"));
 
-        jarvisAppPage.openFirstApplication();
+        applicationDashboardPage.openFirstApplication();
     }
 }

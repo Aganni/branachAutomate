@@ -76,7 +76,7 @@ Feature: Unsecured Business Loan End-to-End Workflow
     ## Jarvis flow starts here
     And User switches to Jarvis portal and logins
     And User navigates to the Applications tab searches appFrom using "Partner LID" and opens the appform
-#    And User selects "Move to Login Desk" from Application Actions and moves appForm next stage
+    And User selects "Move to Login Desk" from Application Actions and moves appForm next stage
     And User updates the Business Details with the following data:
       |CLASSIFICATION   |                                                   CORPORATE|
       | Udyam Number    | UDYAM-AD-12-1234567                                      |
@@ -84,8 +84,8 @@ Feature: Unsecured Business Loan End-to-End Workflow
       | Sub Sector      | Trader- Wholesale                                 |
       | No Of Employees | 50                                               |
       | Business Type   | Small                                             |
-#    |     Entity CGTMSE            |   yes                                                |
-        ## Allocation Dashboard flow
+    |     Entity CGTMSE            |   yes                                                |
+        # Allocation Dashboard flow
     And User navigates to the Allocation Dashboard and assign appform to self using app ID
     And User selects "Move to Credit Review" from Application Actions and moves appForm next stage
     And User navigates to the Dedupe tab in Application Dashboard
