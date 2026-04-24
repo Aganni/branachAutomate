@@ -1,6 +1,7 @@
 package backend.Utils;
 
 import backend.constants.Constants;
+import backend.constants.Headers;
 import backend.payload.ApiPayload;
 import hooks.BaseTest;
 import io.restassured.path.json.JsonPath;
@@ -32,6 +33,39 @@ public class ApiUtils extends BaseTest {
         } catch (Exception e) {
             log.error("Failed to update PAN in Mystique", e);
             Assert.fail("Exception during Mystique PAN Whitelist: " + e.getMessage());
+        }
+    }
+
+    public static void moveAppFormToStage(String stage) {
+        // Fetch the dynamic Application ID stored in the current session
+        String appId = get().getAppFormId();
+
+        if (appId == null || appId.isEmpty()) {
+            throw new AssertionError("Cannot move to stage: appFormId is missing in TestSessionData.");
+        }
+
+        // Formats the endpoint: e.g., /api/v1/UBL/TERMS/start-process/1b945302...
+        String endpoint = String.format(Constants.START_PROCESS_ENDPOINT, stage, appId);
+
+        try {
+            log.info("Triggering Nebula API to move App ID: [{}] to Stage: [{}]", appId, stage);
+
+            // Execute the API call
+            Response response = ApiClientUtils.doPostEmptyBodyWithBasicAuth(
+                    "nebulaUri", endpoint, Headers.BASIC_AUTH
+            );
+
+            // Assert Success Status Code (Assuming 200 or 204 for successful process start)
+            int statusCode = response.getStatusCode();
+            log.info("API Response Status Code: {}", statusCode);
+            log.info("API Response Body: {}", response.getBody().asString());
+
+            Assert.assertTrue(statusCode == 200 || statusCode == 204,
+                    "Failed to move app to stage " + stage + ". API returned status: " + statusCode);
+
+        } catch (Exception e) {
+            log.error("Failed to execute Nebula start-process API", e);
+            Assert.fail("Exception during moving app to stage " + stage + ": " + e.getMessage());
         }
     }
 }

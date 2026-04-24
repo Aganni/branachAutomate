@@ -45,4 +45,15 @@ public class ApiClientUtils extends BaseTest {
         return response;
     }
 
+    /**
+     * Executes a POST request with Basic Auth and no payload body.
+     */
+    public static Response doPostEmptyBodyWithBasicAuth(String baseUri, String endpoint, String basicAuthToken) {
+        RestAssured.baseURI = baseUri;
+        return RestAssured.given()
+                .header("Authorization", "Basic " + basicAuthToken)
+                .header("Content-Type", "application/json")
+                .post(endpoint);
+    }
+
 }

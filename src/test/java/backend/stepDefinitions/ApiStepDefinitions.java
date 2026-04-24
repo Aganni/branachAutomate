@@ -23,4 +23,9 @@ public class ApiStepDefinitions extends BaseTest {
         // Hits the Mystique API with the profile name and the PAN
         ApiUtils.updatePanInMystique(profileName);
     }
+
+    @And("User moves appForm to {string} stage")
+    public void userMovesAppFormToStage(String stage) {
+        ApiUtils.moveAppFormToStage(stage);
+    }
 }

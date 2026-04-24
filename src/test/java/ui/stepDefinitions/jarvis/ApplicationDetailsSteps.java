@@ -4,20 +4,28 @@ import hooks.BaseTest;
 import io.cucumber.java.en.And;
 import java.util.Map;
 
-import ui.pages.jarvis.AppFormPage.AppformTab.BankDetails;
-import ui.pages.jarvis.AppFormPage.AppformTab.BusinessDetails;
-
+import ui.pages.jarvis.AppFormPage.AppformTab.*;
+import ui.pages.jarvis.AppFormPage.DedupeTab.Dedupe;
 
 
 public class ApplicationDetailsSteps {
 
     private final BusinessDetails businessDetailsPage;
-
     private final BankDetails bankDetailsPage;
+    private final LoanRequirment loanRequirment;
+    private final AppFormOwnerShipDetails appFormOwnerShipDetails;
+    private final Dedupe dedupe;
+    private final EsignDocuments eSignPage;
+    private final InsuranceDetails insurancePage;
 
     public ApplicationDetailsSteps() {
         this.businessDetailsPage = new BusinessDetails(BaseTest.getPage());
         this.bankDetailsPage = new BankDetails(BaseTest.getPage());
+        this.loanRequirment = new LoanRequirment(BaseTest.getPage());
+        this.dedupe = new Dedupe(BaseTest.getPage());
+        this.appFormOwnerShipDetails = new AppFormOwnerShipDetails(BaseTest.getPage());
+        this.eSignPage = new EsignDocuments(BaseTest.getPage());
+        this.insurancePage = new InsuranceDetails(BaseTest.getPage());
     }
 
     @And("User updates the Business Details with the following data:")
@@ -32,4 +40,37 @@ public class ApplicationDetailsSteps {
         bankDetailsPage.openBankDetailsAndEdit();
         bankDetailsPage.fillBankDetails(details, "Updating_Bank_Details");
     }
+
+    @And("User opens the Loan Requirements section and updates the details")
+    public void userOpensLoanRequirementsAndEdits() {
+        dedupe.navigateToAppFormTab();
+        loanRequirment.openLoanRequirementsAndEdit();
+        loanRequirment.fillLoanRequirementsAndSubmit("Updating_Loan_Requirements");
+    }
+
+    @And("User updates the Appform Ownership Details with the following data:")
+    public void updateAppFormOwnershipDetails(Map<String, String> details) {
+        dedupe.navigateToAppFormTab();
+        appFormOwnerShipDetails.openAppFormOwnerShipAndEdit();
+        appFormOwnerShipDetails.selectCreditApproverAndSubmit(details, "Updating_Appform_Ownership_Details");
+    }
+
+    @And("User opens the Loan Requirements section and initiates Credit Approval with reason {string}")
+    public void userInitiatesCreditApproval(String reason) {
+        loanRequirment.openLoanRequirementsAndEdit();
+        loanRequirment.initiateCreditApproval(reason);
+    }
+
+    @And("User opens E-Sign section, generates documents, and opts for offline signatures")
+    public void processESignOffline() {
+        eSignPage.openESignSection();
+        eSignPage.generateAndOptInOfflineSignatures();
+    }
+
+    @And("User opens Insurance Details and updates Insurance and Nominee Details with the following data")
+    public void openInsuranceDetails(Map<String, String> data) {
+        insurancePage.openInsuranceAndEdit();
+        insurancePage.fillInsuranceAndSubmit(data, "Updating_Insurance_Details");
+    }
+
 }

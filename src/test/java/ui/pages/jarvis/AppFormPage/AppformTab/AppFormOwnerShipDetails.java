@@ -9,7 +9,8 @@ import ui.Utils.ScreenshotUtil;
 
 import java.util.Map;
 
-public class AppFormOwnerShipDetails extends BaseTest{
+public class AppFormOwnerShipDetails extends BaseTest {
+
     private final Page page;
 
     public AppFormOwnerShipDetails(Page page) {
@@ -17,76 +18,89 @@ public class AppFormOwnerShipDetails extends BaseTest{
     }
 
     // ─────────────────────────────────────────────────────────────────────────────
-      // AppForm OwnerShip Details FORM
+    // AppForm Ownership Details Form
     // ─────────────────────────────────────────────────────────────────────────────
 
     public void openAppFormOwnerShipAndEdit() {
         log.info("Opening Appform Ownership Details section...");
 
-        Locator appFormOwnerShipDetails = page.locator("//body/div[@id='__nuxt']/div[@id='__layout']/div/section[@class='el-container app-container']/section[@class='el-container content-wrapper']/main[@class='el-main dashboard-main-slot']/div[@class='application-layout ubl-layout']/div[@class='application-page-component']/div[@class='application-main-slot-with-side-bar application-main-slot-default']/div[@id='mainView']/div/div/div[@class='appform-section-container']/div[@id='DSA Details']/div/button[1]");
-        appFormOwnerShipDetails.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        appFormOwnerShipDetails.click();
-        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        // 1. REFACTORED: Replaced massive absolute XPath with a stable semantic locator
+        Locator ownershipCard = page.locator("button.appform-card")
+                .filter(new Locator.FilterOptions().setHasText("Appform Ownership Details"))
+                .first();
+        ownershipCard.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        ownershipCard.click();
+
+        page.waitForLoadState(LoadState.NETWORKIDLE);
+
+        log.info("Clicking Edit on Appform Ownership Details...");
+
+        // 2. Click the specific edit button inside the floating dialog
+        Locator editBtn = page.locator("[role='dialog']:visible button.edit-btn").first();
+        editBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        editBtn.click(new Locator.ClickOptions().setForce(true));
     }
 
     /**
-     * Select Credit Approver from the dropdown based on the email provided in the data map.
+     * Searches for, selects the Credit Approver/Manager, submits, and exits the modal.
      */
-    public void selectCreditApprover(Map<String, String> details, String scenarioName) {
-        log.info("Clicking Edit to select Credit Approver for scenario: [{}]...", scenarioName);
-        clickEditButton();
+    public void selectCreditApproverAndSubmit(Map<String, String> details, String scenarioName) {
         String approverEmail = details.get("UserEmail");
-        log.info("Selecting Credit Approver: [{}] for scenario: [{}]", approverEmail, scenarioName);
+        log.info("Assigning Credit Approver: [{}] for scenario: [{}]", approverEmail, scenarioName);
 
-        // 1. Click the dropdown input.
-        // Using a more stable selector that doesn't rely on 'is-focus'
-        page.locator("input[placeholder='Select']").click();
+        // 3. REFACTORED: Find the input using the visible Label, NOT the placeholder!
+        // (Placeholders change based on who is currently assigned, breaking tests)
+        Locator approverInput = page.locator("//label[contains(text(), 'Credit Manager') or contains(text(), 'Credit Approver')]/following-sibling::div//input").first();
 
-        // 2. Select the specific email from the dropdown list.
-        // Element UI typically renders options in 'li' tags with this class.
-        page.locator("li.el-select-dropdown__item")
+        approverInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        approverInput.click(new Locator.ClickOptions().setForce(true));
+
+        // 4. Type the email directly from the keyboard to trigger Element UI's filter
+        page.keyboard().type(approverEmail);
+        page.waitForTimeout(1000); // Allow backend to search and populate the dropdown list
+
+        // 5. Select the visible filtered option
+        Locator option = page.locator("li.el-select-dropdown__item:visible")
                 .filter(new Locator.FilterOptions().setHasText(approverEmail))
-                .click();
+                .first();
+        option.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        option.click(new Locator.ClickOptions().setForce(true));
 
-        clickSubmitButton();
-        log.info("Successfully selected Credit Approver email.");
-    }
-
-    private void clickSubmitButton() {
+        // 6. Submit via the active Floating Action Button
         log.info("Submitting Appform Ownership Details...");
+        Locator submitBtn = page.locator(".cs-fab:visible").first();
+        submitBtn.click(new Locator.ClickOptions().setForce(true));
 
-        Locator submitBtn = page.locator("//div[@class='cs-fab']");
-        submitBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        submitBtn.click();
+        // 7. Verify Success / Capture Screenshot on Error
+        Locator toastTitle = page.locator(".el-notification__title").first();
+        try {
+            toastTitle.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(8000));
+            if (toastTitle.innerText().trim().contains("Error")) {
+                String errorMsg = page.locator(".el-notification__content").first().innerText().trim();
+                log.error("Failed to update Ownership Details: {}", errorMsg);
+                ScreenshotUtil.saveScreenshot(page, "OwnershipError", scenarioName);
+                throw new AssertionError("Ownership submission failed: " + errorMsg);
+            }
+            log.info("Appform Ownership Details submitted successfully.");
+        } catch (Exception e) {
+            log.warn("No toast appeared after submitting ownership, continuing...");
+        }
 
-        log.info("Appform Ownership Details submitted successfully.");
+        page.waitForLoadState(LoadState.NETWORKIDLE);
+        page.waitForTimeout(1000); // Let the toast clear
+
+        // 8. NEW: Click outside the modal to close it and go back
+        log.info("Clicking outside the modal to dismiss it...");
+        page.mouse().click(10, 10);
+        page.waitForTimeout(1000);
+
+        // Safety fallback: if the dialog is still open, smash the Escape key
+        if (page.locator(".el-dialog__wrapper:visible").last().isVisible()) {
+            log.info("Modal didn't close, pressing 'Escape' key...");
+            page.keyboard().press("Escape");
+            page.waitForTimeout(1000);
+        }
+
+        log.info("Successfully returned to the main Application Details page.");
     }
-
-    private void clickEditButton() {
-        log.info("Clicking Edit on Appform Ownership Details...");
-        Locator editBtn = page.locator("button[class='el-button edit-btn el-button--primary'] span");
-        editBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        editBtn.click();
-    }
-
-
-//    /**
-//     * Helper method to handle Element UI dropdowns reliably
-//     */
-//    private void selectDropdownOption(String label, String optionText) {
-//        log.info("Selecting '{}' for '{}'", optionText, label);
-//
-//        // Click the input box under the specific label
-//        Locator input = getPage().locator("//label[text()='" + label + "']/following-sibling::div//input").first();
-//        input.click(new Locator.ClickOptions().setForce(true));
-//
-//        getPage().waitForTimeout(500); // Allow Element UI dropdown animation to finish
-//
-//        // Find and click the option from the floating list
-//        Locator option = getPage().locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText(optionText)).first();
-//        option.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-//        option.click(new Locator.ClickOptions().setForce(true));
-//    }
-
-
 }

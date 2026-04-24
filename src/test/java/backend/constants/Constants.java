@@ -11,4 +11,6 @@ public interface Constants {
     String WHITELIST_PANCARD_IN_MYSTIQUE = "/addKyc?kycType=pancard";
     String KYC_TYPE = "kycType";
     String PANCARD = "pancard";
+
+    String START_PROCESS_ENDPOINT = "/api/v1/UBL/%s/start-process/%s";
 }

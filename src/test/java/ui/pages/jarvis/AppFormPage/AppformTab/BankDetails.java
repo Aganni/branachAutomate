@@ -48,39 +48,40 @@ public class BankDetails extends BaseTest {
     public void fillBankDetails(Map<String, String> details, String scenarioName) {
         log.info("Filling Bank Details dynamically...");
 
-        // --- 1. DISBURSAL BANK DETAILS ---
-        String disbursalScope = "//h3[contains(text(),'Disbursal Bank Details')]/ancestor::div[contains(@class,'el-row')]/following-sibling::div[1]";
-
+        // --- 1. DISBURSAL BANK DETAILS (Index 0) ---
         if (details.containsKey("Disbursal Account Number")) {
-            selectBankDropdownOption(disbursalScope, "ACCOUNT NUMBER", details.get("Disbursal Account Number"));
+            selectBankDropdownOption("ACCOUNT NUMBER", 0, details.get("Disbursal Account Number"));
         }
         if (details.containsKey("Disbursal Account Type")) {
-            selectBankDropdownOption(disbursalScope, "ACCOUNT TYPE", details.get("Disbursal Account Type"));
+            selectBankDropdownOption("ACCOUNT TYPE", 0, details.get("Disbursal Account Type"));
         }
         if (details.containsKey("Disbursal IFSC Code")) {
-            Locator ifscInput = page.locator(disbursalScope + "//label[text()='IFSC CODE']/following-sibling::div//input").first();
+            Locator ifscInput = getPage().locator("//label[text()='IFSC CODE']/following-sibling::div//input").nth(0);
             ifscInput.fill(details.get("Disbursal IFSC Code"));
         }
 
-        // --- 2. COLLECTION BANK DETAILS ---
-        String collectionScope = "//h3[contains(text(),'Collection Bank Details')]/ancestor::div[contains(@class,'el-row')]/following-sibling::div[1]";
-
+        // --- 2. COLLECTION BANK DETAILS (Index 1) ---
         if (details.containsKey("Collection Account Number")) {
-            selectBankDropdownOption(collectionScope, "ACCOUNT NUMBER", details.get("Collection Account Number"));
+            selectBankDropdownOption("ACCOUNT NUMBER", 1, details.get("Collection Account Number"));
         }
         if (details.containsKey("Collection Account Type")) {
-            selectBankDropdownOption(collectionScope, "ACCOUNT TYPE", details.get("Collection Account Type"));
+            selectBankDropdownOption("ACCOUNT TYPE", 1, details.get("Collection Account Type"));
         }
         if (details.containsKey("Collection IFSC Code")) {
-            Locator ifscInput = page.locator(collectionScope + "//label[text()='IFSC CODE']/following-sibling::div//input").first();
+            Locator ifscInput = getPage().locator("//label[text()='IFSC CODE']/following-sibling::div//input").nth(1);
             ifscInput.fill(details.get("Collection IFSC Code"));
         }
 
         // --- 3. SUBMIT & VERIFY ---
         log.info("Clicking Submit floating button...");
-        page.locator(".cs-fab:not(.disabled)").last().click();
 
-        Locator toastTitle = page.locator(".el-notification__title").first();
+        Locator submitBtn = getPage().locator(".cs-fab:visible").first();
+
+// Hover over it to trigger any CSS animations, then force click
+        submitBtn.hover(new Locator.HoverOptions().setForce(true));
+        submitBtn.click(new Locator.ClickOptions().setForce(true));
+
+        Locator toastTitle = getPage().locator(".el-notification__title").first();
         try {
             toastTitle.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(8000));
             String titleText = toastTitle.innerText().trim();
@@ -88,42 +89,47 @@ public class BankDetails extends BaseTest {
             if (titleText.contains("Success")) {
                 log.info("Bank details submitted successfully!");
             } else if (titleText.contains("Error")) {
-                Locator toastMessage = page.locator(".el-notification__content").first();
+                Locator toastMessage = getPage().locator(".el-notification__content").first();
                 String errorMsg = toastMessage.isVisible() ? toastMessage.innerText().trim() : "Validation Error";
                 log.error("Failed to update Bank Details: {}", errorMsg);
-                ScreenshotUtil.saveScreenshot(page, "BankDetailsError", scenarioName);
+                ScreenshotUtil.saveScreenshot(getPage(), "BankDetailsError", scenarioName);
                 throw new AssertionError("Bank Details submission failed: " + errorMsg);
             }
         } catch (Exception e) {
             log.error("No toast appeared after submitting Bank details.");
-            ScreenshotUtil.saveScreenshot(page, "NoToast_BankDetails", scenarioName);
+            ScreenshotUtil.saveScreenshot(getPage(), "NoToast_BankDetails", scenarioName);
             throw new RuntimeException("Timeout waiting for submission response.", e);
         }
 
-        page.waitForLoadState(LoadState.NETWORKIDLE);
-        page.waitForTimeout(1000); // Allow toast to clear
+        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        getPage().waitForTimeout(1000); // Allow toast to clear
 
         // --- 4. CLOSE MODAL ---
         log.info("Clicking outside the modal to dismiss it...");
-        page.mouse().click(10, 10);
-        page.waitForTimeout(1000);
+        getPage().mouse().click(10, 10);
+        getPage().waitForTimeout(1000);
     }
 
-    /**
-     * Specialized helper for Bank Details dropdowns, restricted to a specific scope (Disbursal vs Collection)
-     */
-    private void selectBankDropdownOption(String scopeXpath, String label, String optionText) {
-        log.info("Selecting '{}' for '{}'", optionText, label);
+    private void selectBankDropdownOption(String label, int index, String optionText) {
+        log.info("Selecting '{}' for '{}' (Index: {})", optionText, label, index);
 
-        // Find the input strictly within the provided scope (Disbursal or Collection block)
-        Locator input = page.locator(scopeXpath + "//label[text()='" + label + "']/following-sibling::div//input").first();
+        // Find the input based on its label and index
+        Locator input = getPage().locator("//label[text()='" + label + "']/following-sibling::div//input").nth(index);
+
+        // Force hover and click to open the dropdown
+        input.hover(new Locator.HoverOptions().setForce(true));
         input.click(new Locator.ClickOptions().setForce(true));
 
-        page.waitForTimeout(500); // Allow Element UI dropdown animation
+        getPage().waitForTimeout(500); // Allow Element UI dropdown animation to finish
 
-        // Find and click the option from the floating list
-        Locator option = page.locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText(optionText)).first();
+        // --- THE FIX ---
+        // Added `:visible` so Playwright strictly ignores old, hidden dropdown lists in the DOM!
+        Locator option = getPage().locator("li.el-select-dropdown__item:visible")
+                .filter(new Locator.FilterOptions().setHasText(optionText))
+                .first();
+
         option.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         option.click(new Locator.ClickOptions().setForce(true));
+        log.info("Successfully clicked option: {}", optionText);
     }
 }
