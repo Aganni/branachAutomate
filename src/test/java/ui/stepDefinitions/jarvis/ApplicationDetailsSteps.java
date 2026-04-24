@@ -19,5 +19,12 @@ public class ApplicationDetailsSteps {
     public void updateBusinessDetails(Map<String, String> details) {
         appDetailsPage.openBusinessDetailsAndEdit();
         appDetailsPage.fillCompanyDetails(details,"Updating_Business_Details");
+        appDetailsPage.navigateBackToAppDetails();
+    }
+
+    @And("User updates the Bank Details with the following data:")
+    public void updateBankDetailsWithData(Map<String, String> details) {
+        appDetailsPage.openBankDetailsAndEdit();
+        appDetailsPage.fillBankDetails(details, "Updating_Bank_Details");
     }
 }

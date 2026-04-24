@@ -178,4 +178,155 @@ public class ApplicationDetailsPage extends BaseTest{
             log.info("Udyam confirmation popup did not appear, proceeding...");
         }
     }
+
+    /**
+     * Clicks the back arrow to exit the form, then clicks outside the resulting
+     * popup menu to return to the main Application Details page.
+     */
+    public void navigateBackToAppDetails() {
+        log.info("Navigating back to the main Application Details page...");
+
+        // 1. Click the back arrow inside the Company Details form
+        Locator firstBackBtn = getPage().locator("button.close-btn:has(.el-icon-arrow-left)").last();
+
+        try {
+            firstBackBtn.hover(new Locator.HoverOptions().setForce(true));
+            firstBackBtn.click(new Locator.ClickOptions().setForce(true));
+            log.info("Clicked first back arrow.");
+
+            // Wait 1 second for the intermediate "Business Details" list popup to appear
+            getPage().waitForTimeout(1000);
+        } catch (Exception e) {
+            log.warn("Could not click first back arrow: " + e.getMessage());
+        }
+
+        // 2. Click outside the popup to dismiss it
+        log.info("Clicking outside the modal to dismiss it...");
+
+        // Clicks the absolute top-left pixel of the browser window (safest place to hit the background mask)
+        getPage().mouse().click(10, 10);
+        getPage().waitForTimeout(1000); // Allow fade-out animation
+
+        // 3. Fallback: If for some reason the dialog is STILL visible, hit the Escape key
+        Locator activeDialog = getPage().locator(".el-dialog__wrapper[style*='z-index']").last();
+        if (activeDialog.isVisible()) {
+            log.info("Modal still visible, pressing Escape key to force close...");
+            getPage().keyboard().press("Escape");
+            getPage().waitForTimeout(1000);
+        }
+
+        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        log.info("Returned to main Application Details screen.");
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    //  5. BANK DETAILS FLOW
+    // ─────────────────────────────────────────────────────────────────────────────
+
+    /**
+     * Opens the Bank Details accordion and clicks the Edit button.
+     */
+    public void openBankDetailsAndEdit() {
+        log.info("Opening Bank Details section...");
+
+        // Click the Bank Details accordion card
+        Locator bankCard = getPage().locator("button.appform-card").filter(new Locator.FilterOptions().setHasText("Bank Details")).first();
+        bankCard.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        bankCard.click();
+
+        log.info("Clicking Edit on Bank Details modal...");
+        Locator editBtn = getPage().locator(".el-dialog__body").filter(new Locator.FilterOptions().setHasText("Bank Details"))
+                .locator("button.edit-btn").first();
+        editBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        editBtn.click();
+
+        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+    }
+
+    /**
+     * Fills both the Disbursal and Collection Bank details dynamically.
+     * @param details Map containing the feature file data
+     * @param scenarioName For capturing screenshots on failure
+     */
+    public void fillBankDetails(Map<String, String> details, String scenarioName) {
+        log.info("Filling Bank Details dynamically...");
+
+        // --- 1. DISBURSAL BANK DETAILS ---
+        String disbursalScope = "//h3[contains(text(),'Disbursal Bank Details')]/ancestor::div[contains(@class,'el-row')]/following-sibling::div[1]";
+
+        if (details.containsKey("Disbursal Account Number")) {
+            selectBankDropdownOption(disbursalScope, "ACCOUNT NUMBER", details.get("Disbursal Account Number"));
+        }
+        if (details.containsKey("Disbursal Account Type")) {
+            selectBankDropdownOption(disbursalScope, "ACCOUNT TYPE", details.get("Disbursal Account Type"));
+        }
+        if (details.containsKey("Disbursal IFSC Code")) {
+            Locator ifscInput = getPage().locator(disbursalScope + "//label[text()='IFSC CODE']/following-sibling::div//input").first();
+            ifscInput.fill(details.get("Disbursal IFSC Code"));
+        }
+
+        // --- 2. COLLECTION BANK DETAILS ---
+        String collectionScope = "//h3[contains(text(),'Collection Bank Details')]/ancestor::div[contains(@class,'el-row')]/following-sibling::div[1]";
+
+        if (details.containsKey("Collection Account Number")) {
+            selectBankDropdownOption(collectionScope, "ACCOUNT NUMBER", details.get("Collection Account Number"));
+        }
+        if (details.containsKey("Collection Account Type")) {
+            selectBankDropdownOption(collectionScope, "ACCOUNT TYPE", details.get("Collection Account Type"));
+        }
+        if (details.containsKey("Collection IFSC Code")) {
+            Locator ifscInput = getPage().locator(collectionScope + "//label[text()='IFSC CODE']/following-sibling::div//input").first();
+            ifscInput.fill(details.get("Collection IFSC Code"));
+        }
+
+        // --- 3. SUBMIT & VERIFY ---
+        log.info("Clicking Submit floating button...");
+        getPage().locator(".cs-fab:not(.disabled)").last().click();
+
+        Locator toastTitle = getPage().locator(".el-notification__title").first();
+        try {
+            toastTitle.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(8000));
+            String titleText = toastTitle.innerText().trim();
+
+            if (titleText.contains("Success")) {
+                log.info("Bank details submitted successfully!");
+            } else if (titleText.contains("Error")) {
+                Locator toastMessage = getPage().locator(".el-notification__content").first();
+                String errorMsg = toastMessage.isVisible() ? toastMessage.innerText().trim() : "Validation Error";
+                log.error("Failed to update Bank Details: {}", errorMsg);
+                ScreenshotUtil.saveScreenshot(getPage(), "BankDetailsError", scenarioName);
+                throw new AssertionError("Bank Details submission failed: " + errorMsg);
+            }
+        } catch (Exception e) {
+            log.error("No toast appeared after submitting Bank details.");
+            ScreenshotUtil.saveScreenshot(getPage(), "NoToast_BankDetails", scenarioName);
+            throw new RuntimeException("Timeout waiting for submission response.", e);
+        }
+
+        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        getPage().waitForTimeout(1000); // Allow toast to clear
+
+        // --- 4. CLOSE MODAL ---
+        log.info("Clicking outside the modal to dismiss it...");
+        getPage().mouse().click(10, 10);
+        getPage().waitForTimeout(1000);
+    }
+
+    /**
+     * Specialized helper for Bank Details dropdowns, restricted to a specific scope (Disbursal vs Collection)
+     */
+    private void selectBankDropdownOption(String scopeXpath, String label, String optionText) {
+        log.info("Selecting '{}' for '{}'", optionText, label);
+
+        // Find the input strictly within the provided scope (Disbursal or Collection block)
+        Locator input = getPage().locator(scopeXpath + "//label[text()='" + label + "']/following-sibling::div//input").first();
+        input.click(new Locator.ClickOptions().setForce(true));
+
+        getPage().waitForTimeout(500); // Allow Element UI dropdown animation
+
+        // Find and click the option from the floating list
+        Locator option = getPage().locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText(optionText)).first();
+        option.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        option.click(new Locator.ClickOptions().setForce(true));
+    }
 }
