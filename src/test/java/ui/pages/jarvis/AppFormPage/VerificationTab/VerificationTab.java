@@ -14,10 +14,6 @@ public class VerificationTab extends BaseTest {
         this.page = page;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────────
-    //  STRICT XPATH LOCATORS
-    // ─────────────────────────────────────────────────────────────────────────────
-
     // Finds the Verification tab precisely
     private static final String VERIFICATION_TAB = "//p[@class='tab-item-title' and normalize-space()='Verification']";
 
@@ -30,19 +26,35 @@ public class VerificationTab extends BaseTest {
     // Finds the Resolve button strictly inside the "Resolve Kyc" confirmation modal
     private static final String CONFIRM_RESOLVE_BTN = "//div[@role='dialog' and @aria-label='Resolve Kyc']//div[contains(@class, 'el-dialog__footer')]//button[contains(@class,'el-button--primary')]";
 
-    // ─────────────────────────────────────────────────────────────────────────────
-    //  METHODS
-    // ─────────────────────────────────────────────────────────────────────────────
 
     /**
-     * Navigates to the Verification tab.
+     * Navigates to the Verification tab and forces a page refresh to ensure data is fully synced.
      */
     public void navigateToVerificationTab() {
         log.info("Navigating to Verification tab...");
-        Locator tab = page.locator(VERIFICATION_TAB).first();
+
+        Locator tab = getPage().locator(VERIFICATION_TAB).first();
         tab.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        tab.click();
-        page.waitForLoadState(LoadState.NETWORKIDLE);
+        tab.click(new Locator.ClickOptions().setForce(true));
+
+        // --- CRITICAL FIX: Wait for the URL to actually change to the Verification route ---
+        log.info("Waiting for URL to route to /verification...");
+        getPage().waitForURL("**/verification*");
+
+        // Wait for the initial routing and network calls to finish
+        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+
+        // --- ADDED REFRESH LOGIC ---
+        log.info("Refreshing the Verification page to ensure backend data and event listeners are fully loaded...");
+        getPage().reload(new Page.ReloadOptions().setTimeout(60000));
+
+        // Wait for the network to settle again after the refresh
+        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+
+        // A small 1-second buffer for Element UI components to fully render after the network stops
+        getPage().waitForTimeout(1000);
+
+        log.info("Verification Page successfully reloaded and network is idle.");
     }
 
     /**

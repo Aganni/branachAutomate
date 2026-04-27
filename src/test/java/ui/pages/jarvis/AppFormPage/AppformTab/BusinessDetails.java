@@ -179,39 +179,47 @@ public class BusinessDetails extends BaseTest {
     }
 
     /**
-     * Clicks the back arrow to exit the form, then clicks outside the resulting
-     * popup menu to return to the main Application Details page.
+     * Clicks the back arrow to exit the Company Details form, then clicks the main
+     * Business Details back arrow to return to the main Application Dashboard.
      */
     public void navigateBackToAppDetails() {
         log.info("Navigating back to the main Application Details page...");
 
-        // 1. Click the back arrow inside the Company Details form
-        Locator firstBackBtn = getPage().locator("button.close-btn:has(.el-icon-arrow-left)").last();
+        // --- Step 1: Close the inner "Company Details" Modal ---
+        log.info("Closing inner Company Details modal...");
+        Locator firstBackBtn = getPage().locator(".el-dialog__body button.close-btn:has(.el-icon-arrow-left)").last();
 
         try {
-            firstBackBtn.hover(new Locator.HoverOptions().setForce(true));
-            firstBackBtn.click(new Locator.ClickOptions().setForce(true));
-            log.info("Clicked first back arrow.");
-
-            // Wait 1 second for the intermediate "Business Details" list popup to appear
-            getPage().waitForTimeout(1000);
+            if (firstBackBtn.isVisible()) {
+                firstBackBtn.hover(new Locator.HoverOptions().setForce(true));
+                firstBackBtn.click(new Locator.ClickOptions().setForce(true));
+                log.info("Clicked inner modal back arrow.");
+                getPage().waitForTimeout(1000); // Allow Element UI transition to finish
+            }
         } catch (Exception e) {
-            log.warn("Could not click first back arrow: " + e.getMessage());
+            log.warn("Could not click inner modal back arrow, or it was already closed. " + e.getMessage());
         }
 
-        // 2. Click outside the popup to dismiss it
-        log.info("Clicking outside the modal to dismiss it...");
-
-        // Clicks the absolute top-left pixel of the browser window (safest place to hit the background mask)
+        // --- Step 2: Dismiss any intermediate floating popups (Safety catch) ---
+        log.info("Clicking outside to dismiss any floating menus...");
         getPage().mouse().click(10, 10);
-        getPage().waitForTimeout(1000); // Allow fade-out animation
+        getPage().waitForTimeout(500);
 
-        // 3. Fallback: If for some reason the dialog is STILL visible, hit the Escape key
-        Locator activeDialog = getPage().locator(".el-dialog__wrapper[style*='z-index']").last();
-        if (activeDialog.isVisible()) {
-            log.info("Modal still visible, pressing Escape key to force close...");
+        // --- Step 3: Click the main "Business Details" Back Arrow ---
+        log.info("Clicking the main Business Details back arrow...");
+
+        // This targets the specific arrow next to the "Business Details" header text
+        Locator mainBackBtn = getPage().locator(".business-heading button.close-btn:has(.el-icon-arrow-left)").first();
+
+        try {
+            // Force hover is critical here because the CSS hides the button until the mouse is over the header
+            mainBackBtn.hover(new Locator.HoverOptions().setForce(true));
+            mainBackBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(2000));
+            mainBackBtn.click(new Locator.ClickOptions().setForce(true));
+            log.info("Successfully clicked main Business Details back arrow.");
+        } catch (Exception e) {
+            log.error("Failed to click the main back arrow. Try pressing Escape as fallback.");
             getPage().keyboard().press("Escape");
-            getPage().waitForTimeout(1000);
         }
 
         getPage().waitForLoadState(LoadState.NETWORKIDLE);

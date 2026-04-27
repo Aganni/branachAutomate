@@ -21,7 +21,7 @@ public class LoginPage extends BaseTest {
 
         log.info("Jarvis Login submitted.");
 
-        getPage().waitForTimeout(5000);
+        getPage().waitForTimeout(10000);
         assertThat(getPage()).hasTitle("jarvis");
         log.info("Successfully landed on Jarvis Dashboard");
     }

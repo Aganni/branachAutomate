@@ -18,7 +18,7 @@ public class ApplicationSteps extends BaseTest {
     public void openAppFromInJarvis(String searchType) throws InterruptedException {
         dashboardPage.navigateToApplicationTab();
 
-        applicationDashboardPage.searchByCriteria(searchType, "dsa-41eb4b86-5379-45ab-804d-42d42a089403");
+        applicationDashboardPage.searchByCriteria(searchType, "dsa-d6c762b7-7069-4841-a328-934edf3b38b6");
 
         // Capture and store App ID before clicking open — needed for Allocation
         DynamicDataClass.setValue("appFormId", applicationDashboardPage.getAppFormIdFromFirstRow());
