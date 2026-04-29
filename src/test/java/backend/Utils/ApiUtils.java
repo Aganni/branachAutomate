@@ -38,7 +38,7 @@ public class ApiUtils extends BaseTest {
 
     public static void moveAppFormToStage(String stage) {
         // Fetch the dynamic Application ID stored in the current session
-        String appId = get().getAppFormId();
+        String appId = getValue("appFormId").toString();
 
         if (appId == null || appId.isEmpty()) {
             throw new AssertionError("Cannot move to stage: appFormId is missing in TestSessionData.");
@@ -52,7 +52,7 @@ public class ApiUtils extends BaseTest {
 
             // Execute the API call
             Response response = ApiClientUtils.doPostEmptyBodyWithBasicAuth(
-                    "nebulaUri", endpoint, Headers.BASIC_AUTH
+                    "https://nebula.uat.creditsaison.corp" , endpoint, Headers.BASIC_AUTH
             );
 
             // Assert Success Status Code (Assuming 200 or 204 for successful process start)

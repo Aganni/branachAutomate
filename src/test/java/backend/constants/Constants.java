@@ -12,5 +12,7 @@ public interface Constants {
     String KYC_TYPE = "kycType";
     String PANCARD = "pancard";
 
+    String NEBULA_BASE_URI = "nebulaUri";
     String START_PROCESS_ENDPOINT = "/api/v1/UBL/%s/start-process/%s";
+
 }

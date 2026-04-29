@@ -28,7 +28,7 @@ public class AppFormDashboardSteps extends BaseTest {
 
     @And("User navigates to the RegCheck tab in Application Dashboard")
     public void navigateToRegCheckTab() {
-        regCheckTab.selectRegCheckTab();
+        regCheckTab.selectRegCheckTabAndValidate();
     }
 
     @And("User navigates to the CAM tab in Application Dashboard and start the cam")
@@ -39,7 +39,7 @@ public class AppFormDashboardSteps extends BaseTest {
     @And("User navigates to the Verification tab and resolves the Udyam KYC status")
     public void userNavigatesToVerificationTab() {
         verificationPage.navigateToVerificationTab();
-        verificationPage.resolveUdyamKyc();
+        verificationPage.resolveUdyamKyc("Resolving Udyam KYC status");
     }
 
 

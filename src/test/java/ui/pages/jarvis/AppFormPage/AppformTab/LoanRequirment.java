@@ -62,6 +62,7 @@ public class LoanRequirment extends BaseTest {
 
         // 3. Select the first 3 banks from CLM2 Eligible Banks
         selectMultipleBanks("IDBI", "DCB", "CBI");
+        page.waitForTimeout(3000);
 
 // --- 4. SUBMIT & VERIFY ---
         log.info("Clicking Submit floating button...");
@@ -152,49 +153,57 @@ public class LoanRequirment extends BaseTest {
     public void initiateCreditApproval(String reason) {
         log.info("Initiating Credit Approval with reason: {}", reason);
 
-        // 1. Scroll to and click the 'Initiate' button in the Credit Approval section
-        Locator initiateBtn = page.locator(".credit-approval-container button")
-                .filter(new Locator.FilterOptions().setHasText("Initiate"))
-                .first();
-        initiateBtn.scrollIntoViewIfNeeded();
-        initiateBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        initiateBtn.click(new Locator.ClickOptions().setForce(true));
-        log.info("Clicked the initial 'Initiate' button.");
+        // Give the modal 1 second to completely finish all opening animations
+        page.waitForTimeout(1000);
 
-        // 2. Wait for the form to appear and type the reason
-        Locator reasonInput = page.locator("//label[text()='Reason for approval']/following-sibling::div//input").first();
-        reasonInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        // 1. Locate the initial 'Initiate' button
+        Locator initiateBtn = page.locator(".credit-approval-container button").filter(new Locator.FilterOptions().setHasText("Initiate")).first();
+        initiateBtn.scrollIntoViewIfNeeded();
+
+        // 2. Locate the input box we expect to appear
+        Locator reasonInput = page.locator(".credit-approval-form-container input[type='text']").first();
+
+        // 3. BULLETPROOF CLICK LOGIC: Try standard click. If ignored, force a JS click.
+        try {
+            initiateBtn.click(new Locator.ClickOptions().setForce(true));
+            // Wait just 3 seconds to see if the input appears
+            reasonInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3000));
+        } catch (Exception e) {
+            log.warn("Standard click intercepted or ignored by Element UI. Forcing JavaScript click...");
+
+            // This injects raw JS into the browser to force the click event from the inside out
+            initiateBtn.evaluate("node => node.click()");
+
+            // Wait for the input box again
+            reasonInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+        }
+
+        // 4. Fill the reason
         reasonInput.fill(reason);
         log.info("Filled reason for approval: {}", reason);
 
-        // 3. Click the 'Save' button
-        Locator saveBtn = page.locator(".credit-approval-form-container button")
-                .filter(new Locator.FilterOptions().setHasText("Save"))
-                .first();
+        // 5. Click the 'Save' button
+        Locator saveBtn = page.locator(".credit-approval-form-container button").filter(new Locator.FilterOptions().setHasText("Save")).first();
         saveBtn.click(new Locator.ClickOptions().setForce(true));
         log.info("Clicked 'Save' button.");
 
-        // 4. Click the 'Initiate Credit Approval' button
-        // Note: Using :not(.is-disabled) to ensure Playwright waits for the Save action to unlock this button
-        Locator submitApprovalBtn = page.locator(".credit-approval-form-container button:not(.is-disabled)")
-                .filter(new Locator.FilterOptions().setHasText("Initiate Credit Approval"))
-                .first();
-        submitApprovalBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        submitApprovalBtn.click(new Locator.ClickOptions().setForce(true));
-        log.info("Clicked 'Initiate Credit Approval' button.");
+        // 6. Click 'Initiate Credit Approval' (Waits for the 'is-disabled' class to vanish!)
+        Locator finalSubmitBtn = page.locator(".credit-approval-form-container button:not(.is-disabled)").filter(new Locator.FilterOptions().setHasText("Initiate Credit Approval")).first();
+        finalSubmitBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        finalSubmitBtn.click(new Locator.ClickOptions().setForce(true));
+        log.info("Clicked final 'Initiate Credit Approval' button.");
 
-        // 5. Wait 10 seconds for the backend process to complete
+        // 7. Wait 10 seconds for the backend process to complete
         log.info("Waiting 10 seconds for backend credit approval processing...");
         page.waitForTimeout(10000);
 
-        // 6. Close the modal by clicking outside (top-left corner)
+        // 8. Close the modal by clicking outside
         log.info("Clicking outside the modal to dismiss it...");
         page.mouse().click(10, 10);
-        page.waitForTimeout(1000); // Allow fade-out animation
+        page.waitForTimeout(1000);
 
         // Fallback: If modal is still visible, press Escape
-        Locator activeDialog = page.locator(".el-dialog__wrapper:visible").last();
-        if (activeDialog.isVisible()) {
+        if (page.locator(".el-dialog__wrapper:visible").last().isVisible()) {
             log.info("Modal didn't close, pressing 'Escape' key...");
             page.keyboard().press("Escape");
             page.waitForTimeout(1000);

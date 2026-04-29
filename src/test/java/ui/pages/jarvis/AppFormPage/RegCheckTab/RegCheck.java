@@ -4,8 +4,9 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import hooks.BaseTest;
 
-public class RegCheck {
+public class RegCheck extends BaseTest {
 
     private final Page page;
 
@@ -13,20 +14,35 @@ public class RegCheck {
         this.page = page;
     }
 
-    public void selectRegCheckTab() {
-        System.out.println("Navigating to RegCheck tab...");
+    public void selectRegCheckTabAndValidate() {
+        log.info("Navigating to Reg. Check tab...");
 
-        page.locator("//a[@class='tab-item']//p[@class='tab-item-ubl-title']",
-                        new Page.LocatorOptions().setHasText("Reg. Check"))
-                .click();
+        // 1. Click the Reg. Check Tab
+        Locator regCheckTab = page.locator("a.tab-item").filter(new Locator.FilterOptions().setHasText("Reg. Check")).first();
+        regCheckTab.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        regCheckTab.click(new Locator.ClickOptions().setForce(true));
 
+        // 2. Wait for URL to route to Reg. Check
+        log.info("Waiting for URL to route to /regulatoryCheck...");
+        page.waitForURL("**/regulatoryCheck*");
         page.waitForLoadState(LoadState.NETWORKIDLE);
 
-        System.out.println("Validate Reg. Check is resolved...");
+        // 3. Refresh to ensure latest status is fetched from backend
+        log.info("Refreshing the Reg. Check page...");
+        page.reload(new Page.ReloadOptions().setTimeout(60000));
+        page.waitForLoadState(LoadState.NETWORKIDLE);
+        page.waitForTimeout(1000);
 
-        page.locator("//a[@class='tab-item']//span[@class='tab-item-spacing el-tag el-tag--info el-tag--small el-tag--light'][normalize-space()='Resolved']")
-                .waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        
-        System.out.println("Reg. Check is resolved...");
+        // 4. Validate it is Resolved
+        log.info("Validating Reg. Check is resolved...");
+
+        Locator resolvedTag = page.locator("a.tab-item")
+                .filter(new Locator.FilterOptions().setHasText("Reg. Check"))
+                .locator("span")
+                .filter(new Locator.FilterOptions().setHasText("Resolved"))
+                .first();
+
+        resolvedTag.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));
+        log.info("Reg. Check is resolved.");
     }
 }

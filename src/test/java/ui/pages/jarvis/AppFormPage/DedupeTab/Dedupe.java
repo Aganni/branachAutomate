@@ -15,20 +15,37 @@ public class Dedupe extends BaseTest {
     }
 
     public void selectDedupeTab() {
-        System.out.println("Navigating to Dedupe tab...");
+        log.info("Navigating to Dedupe tab...");
 
-        page.locator("//a[@class='tab-item tab-item-ubl']//p[@class='tab-item-ubl-title']",
-                        new Page.LocatorOptions().setHasText("Dedupe"))
-                .click();
+        // 1. Click the Dedupe Tab
+        Locator dedupeTab = page.locator("a.tab-item").filter(new Locator.FilterOptions().setHasText("Dedupe")).first();
+        dedupeTab.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        dedupeTab.click(new Locator.ClickOptions().setForce(true));
 
+        // 2. Wait for URL to route to Dedupe
+        log.info("Waiting for URL to route to /dedupe...");
+        page.waitForURL("**/dedupe*");
         page.waitForLoadState(LoadState.NETWORKIDLE);
+        page.waitForTimeout(3000);
 
-        System.out.println("Validate Dedupe is resolved...");
+        // 3. Refresh to ensure latest status is fetched from backend
+        log.info("Refreshing the Dedupe page...");
+        page.reload(new Page.ReloadOptions().setTimeout(60000));
+        page.waitForLoadState(LoadState.NETWORKIDLE);
+        page.waitForTimeout(1000); // Give DOM a second to re-attach
 
-        page.locator("//a[contains(@class, 'nuxt-link-active')]//span[normalize-space()='Resolved']")
-                .waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        // 4. Validate it is Resolved
+        log.info("Validating Dedupe is resolved...");
 
-        System.out.println("Dedupe is resolved...");
+        // Strict locator: Find the Dedupe tab again, then look for the "Resolved" span inside it
+        Locator resolvedTag = page.locator("a.tab-item")
+                .filter(new Locator.FilterOptions().setHasText("Dedupe"))
+                .locator("span")
+                .filter(new Locator.FilterOptions().setHasText("Resolved"))
+                .first();
+
+        resolvedTag.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));
+        log.info("Dedupe is resolved.");
     }
 
     /**
@@ -37,13 +54,11 @@ public class Dedupe extends BaseTest {
     public void navigateToAppFormTab() {
         log.info("Navigating back to App Form tab...");
 
-        // Find the tab by its specific title class and text
-        Locator appFormTab = page.locator("//p[@class='tab-item-title' and normalize-space()='App Form']").first();
-
+        Locator appFormTab = page.locator("a.tab-item").filter(new Locator.FilterOptions().setHasText("App Form")).first();
         appFormTab.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         appFormTab.click(new Locator.ClickOptions().setForce(true));
 
-        // Wait for the Application Details page to fully render
+        page.waitForURL("**/appForm*");
         page.waitForLoadState(LoadState.NETWORKIDLE);
         log.info("Successfully switched to the App Form tab.");
     }

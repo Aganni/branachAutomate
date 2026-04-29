@@ -38,6 +38,7 @@ public class ApplicationPage extends BaseTest {
      * @param scenarioName Used for saving screenshots if it fails
      */
     public void selectApplicationActionAndAccept(String actionName, String scenarioName) {
+        // Skip wait if moving to Login Desk
         if (!"Move to Login Desk".equalsIgnoreCase(actionName)) {
             waitForAssignee("Tenjin");
         }
@@ -55,6 +56,9 @@ public class ApplicationPage extends BaseTest {
         actionOption.click();
         log.info("Successfully clicked action: [{}]", actionName);
 
+        // Handle the intermittent FI Warning popup
+        handleOptionalFIWarning();
+
         handleActionResponse(actionName, scenarioName);
     }
 
@@ -62,7 +66,10 @@ public class ApplicationPage extends BaseTest {
      * Selects an action (like Move to Credit Approval) that requires Level and Assignee selection.
      */
     public void selectActionWithAssignment(String actionName, String level, String assigneeEmail, String scenarioName) {
-        waitForAssignee("Tenjin");
+        // Skip wait if moving to Login Desk
+        if (!"Move to Login Desk".equalsIgnoreCase(actionName)) {
+            waitForAssignee("Tenjin");
+        }
 
         log.info("Selecting Application Action: [{}] with assignment to [{}]", actionName, assigneeEmail);
 
@@ -75,6 +82,9 @@ public class ApplicationPage extends BaseTest {
                 .first();
         actionOption.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         actionOption.click(new Locator.ClickOptions().setForce(true));
+
+        // Handle the intermittent FI Warning popup
+        handleOptionalFIWarning();
 
         page.waitForTimeout(1000);
 
@@ -142,6 +152,33 @@ public class ApplicationPage extends BaseTest {
                 ScreenshotUtil.saveScreenshot(page, "UnknownError_" + actionName.replace(" ", ""), scenarioName);
                 throw new RuntimeException("Expected confirmation modal did not appear for action: " + actionName, e);
             }
+        }
+    }
+
+    /**
+     * Checks for the intermittent "No FI has been triggered" warning popup.
+     * Clicks "Yes" if it appears, otherwise safely proceeds.
+     */
+    private void handleOptionalFIWarning() {
+        // Strictly locate the message box containing the specific warning text
+        Locator fiWarningBox = page.locator(".el-message-box")
+                .filter(new Locator.FilterOptions().setHasText("No FI has been triggered"));
+
+        try {
+            // Wait up to 3 seconds for this specific popup to appear
+            fiWarningBox.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3000));
+            log.info("FI Warning popup appeared: 'No FI has been triggered...'. Clicking 'Yes'.");
+
+            // Strictly locate the "Yes" primary button inside that specific message box
+            Locator yesBtn = fiWarningBox.locator(".el-message-box__btns button.el-button--primary")
+                    .filter(new Locator.FilterOptions().setHasText("Yes"))
+                    .first();
+            yesBtn.click(new Locator.ClickOptions().setForce(true));
+
+            // Wait a moment for the fade-out animation before the next modal renders
+            page.waitForTimeout(1000);
+        } catch (Exception e) {
+            log.info("No FI warning popup detected. Proceeding with standard flow.");
         }
     }
 }

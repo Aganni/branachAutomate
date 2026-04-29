@@ -5,6 +5,7 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import hooks.BaseTest;
+import ui.Utils.ScreenshotUtil;
 
 public class VerificationTab extends BaseTest {
 
@@ -61,7 +62,7 @@ public class VerificationTab extends BaseTest {
      * Clicks Edit on the Udyam ID, then clicks Resolve on the first popup, 
      * and Resolve again on the confirmation popup.
      */
-    public void resolveUdyamKyc() {
+    public void resolveUdyamKyc(String scenarioName) {
         log.info("Starting Udyam KYC Resolution flow...");
 
         // 1. Click the Edit button next to Udyam ID
@@ -69,6 +70,7 @@ public class VerificationTab extends BaseTest {
         editBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         editBtn.click(new Locator.ClickOptions().setForce(true));
         log.info("Clicked Edit on Udyam KYC.");
+        page.waitForTimeout(3000);
 
         // 2. Wait for the 'Edit KYC' modal and click Resolve
         Locator firstResolveBtn = page.locator(EDIT_KYC_RESOLVE_BTN).first();
@@ -76,15 +78,46 @@ public class VerificationTab extends BaseTest {
         firstResolveBtn.click(new Locator.ClickOptions().setForce(true));
         log.info("Clicked Resolve on the Edit KYC modal.");
 
+        page.waitForTimeout(3000);
         // 3. Wait for the 'Resolve Kyc' confirmation modal and click Resolve again
         Locator secondResolveBtn = page.locator(CONFIRM_RESOLVE_BTN).first();
         secondResolveBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
         secondResolveBtn.click(new Locator.ClickOptions().setForce(true));
         log.info("Clicked Resolve on the Confirmation modal.");
 
-        // 4. Wait for the modals to close and network to settle
-        page.waitForLoadState(LoadState.NETWORKIDLE);
-        page.waitForTimeout(1000); // Give Vue a second to update the UI status to 'Ok'
-        log.info("Udyam KYC successfully resolved.");
+        page.waitForTimeout(3000);
+        log.info("Waiting for system response after resolving KYC...");
+        Locator notificationTitle = page.locator(".el-notification__title").first();
+
+        try {
+            // Wait up to 8 seconds for ANY toast to appear
+            notificationTitle.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(8000));
+            String titleText = notificationTitle.innerText().trim();
+
+            // Grab the actual message inside the toast
+            Locator notificationContent = page.locator(".el-notification__content").first();
+            String msgText = notificationContent.isVisible() ? notificationContent.innerText().trim() : "";
+
+            if (titleText.contains("Success")) {
+                log.info("Success popup verified! Message: '{}'", msgText);
+
+                // Optional: You can uncomment the line below to fail the test if the message isn't exactly right
+                // Assert.assertTrue(msgText.contains("Kyc SuccessFully edited"), "Unexpected success message: " + msgText);
+
+                page.waitForLoadState(LoadState.NETWORKIDLE);
+                page.waitForTimeout(1000); // Give Vue a second to update the UI status to 'Ok'
+
+            } else if (titleText.contains("Error")) {
+                log.error("Backend Error blocked KYC resolution: {}", msgText);
+                ScreenshotUtil.saveScreenshot(page, "KycResolveError", scenarioName);
+                throw new AssertionError("Failed to resolve KYC. Backend Error: " + msgText);
+            }
+
+        } catch (Exception e) {// Re-throw the assertion if it failed above
+
+            log.error("Timeout waiting for success toast after resolving KYC.");
+            ScreenshotUtil.saveScreenshot(page, "UnknownKycError", scenarioName);
+            throw new RuntimeException("Expected success toast did not appear for KYC resolution.", e);
+        }
     }
 }

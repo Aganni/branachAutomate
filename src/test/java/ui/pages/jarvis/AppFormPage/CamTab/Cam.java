@@ -17,43 +17,54 @@ public class Cam extends BaseTest {
     public void selectCamTab() {
         log.info("Navigating to CAM tab...");
 
-        // 1. Click the actual <a> tag for the CAM tab
         Locator camTabLink = page.locator("a.tab-item").filter(new Locator.FilterOptions().setHasText("CAM")).first();
         camTabLink.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         camTabLink.click(new Locator.ClickOptions().setForce(true));
-        
+
         log.info("Waiting for URL to route to /cam...");
         page.waitForURL("**/cam*");
-
         page.waitForLoadState(LoadState.NETWORKIDLE);
+        page.waitForTimeout(3000);
 
-        // 3. Now it is 100% safe to refresh the page
-        log.info("Refreshing the CAM page to ensure JavaScript event listeners are fully attached...");
+        log.info("Refreshing the CAM page...");
         page.reload(new Page.ReloadOptions().setTimeout(60000));
         page.waitForLoadState(LoadState.NETWORKIDLE);
-        page.waitForTimeout(1000);
+        page.waitForTimeout(2000);
+
+        log.info("Checking for 'Start CAM' button...");
+        Locator startCamBtn = page.locator("button.download-cam:visible").first();
+
+        // --- THE DOUBLE REFRESH LOGIC ---
+        try {
+            // Wait up to 5 seconds for the button to appear after the first refresh
+            startCamBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+        } catch (Exception e) {
+            log.warn("Start CAM button not visible yet. Backend is likely still processing. Waiting 3 seconds and refreshing again...");
+            page.waitForTimeout(3000); // Give the backend time to finish generating the CAM
+            page.reload(new Page.ReloadOptions().setTimeout(60000));
+            page.waitForLoadState(LoadState.NETWORKIDLE);
+            page.waitForTimeout(1000);
+
+            // Try one more time, this time failing the test if it still isn't there
+            startCamBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));
+        }
 
         log.info("Clicking on 'Start CAM' and waiting for the new tab to open...");
-
-        Locator startCamBtn = page.locator("button.download-cam:visible").first();
-        startCamBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-
-        // 4. Catch the new tab
         Page newCamTab = page.waitForPopup(() -> {
             startCamBtn.click(new Locator.ClickOptions().setForce(true));
         });
 
-        // 5. Switch focus to the new tab
+        // Switch focus to the new tab
         newCamTab.waitForLoadState(LoadState.NETWORKIDLE);
         log.info("Successfully switched to new CAM tab: " + newCamTab.url());
 
-        // 6. Click 'Go to Appform' inside the NEW tab
+        // Click 'Go to Appform' inside the NEW tab
         log.info("Clicking 'Go to Appform' in the new tab...");
         Locator goToAppFormBtn = newCamTab.locator("span.back-to-application:visible").first();
         goToAppFormBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         goToAppFormBtn.click(new Locator.ClickOptions().setForce(true));
 
-        // 7. Handle Tab Closing
+        // Handle Tab Closing
         newCamTab.waitForLoadState(LoadState.NETWORKIDLE);
         newCamTab.waitForTimeout(1000);
 
@@ -62,7 +73,6 @@ public class Cam extends BaseTest {
             log.info("Closed the CAM tab manually.");
         }
 
-        // 8. Bring focus back to the original Application tab
         page.bringToFront();
         log.info("Returned focus to the original Application Details tab.");
     }

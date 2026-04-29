@@ -17,14 +17,9 @@ public class AppFormOwnerShipDetails extends BaseTest {
         this.page = page;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────────
-    // AppForm Ownership Details Form
-    // ─────────────────────────────────────────────────────────────────────────────
-
     public void openAppFormOwnerShipAndEdit() {
         log.info("Opening Appform Ownership Details section...");
 
-        // 1. REFACTORED: Replaced massive absolute XPath with a stable semantic locator
         Locator ownershipCard = page.locator("button.appform-card")
                 .filter(new Locator.FilterOptions().setHasText("Appform Ownership Details"))
                 .first();
@@ -34,41 +29,57 @@ public class AppFormOwnerShipDetails extends BaseTest {
         page.waitForLoadState(LoadState.NETWORKIDLE);
 
         log.info("Clicking Edit on Appform Ownership Details...");
-
-        // 2. Click the specific edit button inside the floating dialog
         Locator editBtn = page.locator("[role='dialog']:visible button.edit-btn").first();
         editBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         editBtn.click(new Locator.ClickOptions().setForce(true));
     }
 
     /**
-     * Searches for, selects the Credit Approver/Manager, submits, and exits the modal.
+     * Selects the Credit Approver/Manager, submits, and exits the modal.
+     */
+    /**
+     * Selects the Credit Approver/Manager, submits, and exits the modal.
      */
     public void selectCreditApproverAndSubmit(Map<String, String> details, String scenarioName) {
         String approverEmail = details.get("UserEmail");
         log.info("Assigning Credit Approver: [{}] for scenario: [{}]", approverEmail, scenarioName);
 
-        // 3. REFACTORED: Find the input using the visible Label, NOT the placeholder!
-        // (Placeholders change based on who is currently assigned, breaking tests)
-        Locator approverInput = page.locator("//label[contains(text(), 'Credit Manager') or contains(text(), 'Credit Approver')]/following-sibling::div//input").first();
+        // 1. SCOPE TO THE VISIBLE MODAL ONLY!
+        // This prevents Playwright from accidentally clicking hidden inputs in the background
+        Locator activeModal = page.locator(".el-dialog__wrapper:visible").last();
 
+        // 2. Locate the input strictly inside the active modal
+        Locator approverInput = activeModal.locator("//label[contains(text(), 'Credit Manager') or contains(text(), 'Credit Approver')]/following-sibling::div//input").first();
+
+        // 3. Click the input box
         approverInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        approverInput.click(new Locator.ClickOptions().setForce(true));
 
-        // 4. Type the email directly from the keyboard to trigger Element UI's filter
-        page.keyboard().type(approverEmail);
-        page.waitForTimeout(1000); // Allow backend to search and populate the dropdown list
+        try {
+            approverInput.click();
+        } catch (Exception e) {
+            log.warn("Standard click failed, forcing JavaScript click...");
+            approverInput.evaluate("node => node.click()");
+        }
 
-        // 5. Select the visible filtered option
-        Locator option = page.locator("li.el-select-dropdown__item:visible")
+        // CRITICAL: Give the heavy DOM half a second to render the 300+ list items
+        page.waitForTimeout(1000);
+
+        // 4. Locate the visible dropdown floating at the bottom of the HTML
+        Locator activeDropdown = page.locator(".el-select-dropdown:visible").last();
+
+        // 5. Find the exact email in the list and scroll to it internally.
+        Locator optionToSelect = activeDropdown.locator("li.el-select-dropdown__item")
                 .filter(new Locator.FilterOptions().setHasText(approverEmail))
                 .first();
-        option.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        option.click(new Locator.ClickOptions().setForce(true));
 
-        // 6. Submit via the active Floating Action Button
+        // scrollIntoViewIfNeeded handles Element UI's internal scrollbars perfectly
+        optionToSelect.scrollIntoViewIfNeeded();
+        optionToSelect.click(new Locator.ClickOptions().setForce(true));
+        log.info("Successfully selected email from the dropdown without typing.");
+
+        // 6. Submit via the active Floating Action Button inside the modal
         log.info("Submitting Appform Ownership Details...");
-        Locator submitBtn = page.locator(".cs-fab:visible").first();
+        Locator submitBtn = activeModal.locator(".cs-fab:visible").first();
         submitBtn.click(new Locator.ClickOptions().setForce(true));
 
         // 7. Verify Success / Capture Screenshot on Error
@@ -89,13 +100,13 @@ public class AppFormOwnerShipDetails extends BaseTest {
         page.waitForLoadState(LoadState.NETWORKIDLE);
         page.waitForTimeout(1000); // Let the toast clear
 
-        // 8. NEW: Click outside the modal to close it and go back
+        // 8. Click outside the modal to close it and go back
         log.info("Clicking outside the modal to dismiss it...");
         page.mouse().click(10, 10);
         page.waitForTimeout(1000);
 
         // Safety fallback: if the dialog is still open, smash the Escape key
-        if (page.locator(".el-dialog__wrapper:visible").last().isVisible()) {
+        if (activeModal.isVisible()) {
             log.info("Modal didn't close, pressing 'Escape' key...");
             page.keyboard().press("Escape");
             page.waitForTimeout(1000);

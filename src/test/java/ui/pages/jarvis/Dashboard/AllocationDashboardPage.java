@@ -122,6 +122,7 @@ public class AllocationDashboardPage extends BaseTest {
      * Verifies the 'Assigned To' column in the first row matches the expected name
      */
     public void verifyAssignedUser(String expectedUserName) {
+        getPage().waitForTimeout(1500);
         log.info("Verifying assignee is updated to: {}", expectedUserName);
         Locator assigneeName = getPage().locator(FIRST_ROW_ASSIGNEE_NAME).first();
         assigneeName.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));

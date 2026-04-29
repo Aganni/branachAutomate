@@ -1,5 +1,6 @@
 package ui.pages.jarvis.AppFormPage.AppformTab;
 
+import com.microsoft.playwright.Keyboard;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
@@ -140,29 +141,44 @@ public class BusinessDetails extends BaseTest {
     /**
      * Dedicated method to handle the Udyam Typing, Clicking, and Verify Alert
      */
+    /**
+     * Dedicated method to handle the Udyam Typing, Clicking, and Verify Alert
+     */
     private void handleUdyamVerification(String udyamNumber) {
         log.info("Handling Udyam Verification for: {}", udyamNumber);
 
-        // 1. Click AND Type the Udyam number into the box
+        // 1. Click the Udyam input box to activate the dropdown
         Locator uanInput = page.locator("//label[text()='ENTITY UAN/UDYAM NUMBER']/following-sibling::div//input").first();
         uanInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         uanInput.click(new Locator.ClickOptions().setForce(true));
-        uanInput.fill(udyamNumber); // Typing it forces the dropdown to generate the option
 
-        page.waitForTimeout(500); // Allow UI to update the dropdown list
+        // This fires the native JavaScript events Vue needs to trigger the dropdown filter
+        page.keyboard().type(udyamNumber, new Keyboard.TypeOptions().setDelay(50));
 
-        // 2. Select the newly generated option from the dropdown list
-        Locator udyamOption = page.locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText(udyamNumber)).first();
-        udyamOption.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        udyamOption.click(new Locator.ClickOptions().setForce(true));
-        log.info("Selected Udyam Number from dropdown.");
+        // 3. Wait dynamically for the specific option to render in the floating list
+        Locator udyamOption = page.locator("li.el-select-dropdown__item:visible")
+                .filter(new Locator.FilterOptions().setHasText(udyamNumber))
+                .first();
 
-        // 3. Click Verify
+        try {
+            // Wait up to 5 seconds for the list to populate (handles network/debounce delays)
+            udyamOption.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+            udyamOption.click(new Locator.ClickOptions().setForce(true));
+            log.info("Selected Udyam Number from dropdown.");
+        } catch (Exception e) {
+            log.warn("Dropdown option did not appear in time. Forcing 'Enter' key as fallback...");
+            page.keyboard().press("Enter");
+        }
+
+        // Give the UI a split second to register the selection before clicking Verify
+        page.waitForTimeout(500);
+
+        // 4. Click Verify
         Locator verifyBtn = page.locator(".verify-btn").first();
-        verifyBtn.click();
+        verifyBtn.click(new Locator.ClickOptions().setForce(true));
         log.info("Clicked Verify button.");
 
-        // 4. Handle the specific Element UI Message Box popup ("Are you sure...")
+        // 5. Handle the specific Element UI Message Box popup ("Are you sure...")
         try {
             Locator messageBox = page.locator(".el-message-box").first();
             messageBox.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3000));
