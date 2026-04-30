@@ -1,12 +1,17 @@
 package ui.stepDefinitions.dsa;
 
+import hooks.BaseTest;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
 import ui.Utils.Utils;
 import ui.pages.dsa.BusinessDetailsPage;
 
 public class BusinessDetailsSteps {
-    private final BusinessDetailsPage businessDetailsPage = new BusinessDetailsPage();
+    private final BusinessDetailsPage businessDetailsPage;
+
+    public BusinessDetailsSteps(){
+       this.businessDetailsPage=new BusinessDetailsPage(BaseTest.getPage());
+    }
 
     @Then("User enters Entity PAN {string} in business details, clicks the verification button, and verifies that entity name is {string}")
     public void userEntersPanAndVerifiesEntity(String panNumber, String expectedEntityName) {

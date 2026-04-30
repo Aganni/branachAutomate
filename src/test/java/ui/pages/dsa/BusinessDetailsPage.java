@@ -5,14 +5,13 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import hooks.BaseTest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class BusinessDetailsPage extends BaseTest {
+    private final Page page;
 
     private static final String ENTITY_PAN_INPUT = "input[name='entityPan']";
     private static final String ENTITY_NAME_INPUT = "input[name='entityName']";
@@ -38,8 +37,8 @@ public class BusinessDetailsPage extends BaseTest {
 
     private static final String SUBMIT_BTN = "button:has-text('Submit')";
 
-    public static Page getPage() {
-        return BaseTest.getPage();
+    public BusinessDetailsPage (Page page){
+       this.page = page;
     }
 
     /**
@@ -48,9 +47,9 @@ public class BusinessDetailsPage extends BaseTest {
     public void enterPanAndVerify(String panNumber) {
         log.info("Entering Entity PAN: {}", panNumber);
         // 1. Fill the PAN input
-        getPage().locator(ENTITY_PAN_INPUT).fill(panNumber);
+        page.locator(ENTITY_PAN_INPUT).fill(panNumber);
         // 2. Click the Verify button
-        getPage().getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Verify")).click();
+        page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Verify")).click();
         log.info("Clicked Verify button for PAN");
     }
 
@@ -59,13 +58,13 @@ public class BusinessDetailsPage extends BaseTest {
      */
     public void verifyAutoPopulatedEntityName(String expectedName) {
         log.info("Verifying auto-populated Entity Name is: {}", expectedName);
-        Locator entityNameField = getPage().locator(ENTITY_NAME_INPUT);
+        Locator entityNameField = page.locator(ENTITY_NAME_INPUT);
         assertThat(entityNameField).hasValue(expectedName);
         log.info("Entity Name verified successfully!");
     }
 
     public void clickContinueToFetchDetails() {
-        getPage().locator(CONTINUE_FETCH_BTN).click();
+        page.locator(CONTINUE_FETCH_BTN).click();
         log.info("Clicked Continue to fetch details");
     }
 
@@ -73,11 +72,11 @@ public class BusinessDetailsPage extends BaseTest {
     public void fillOperationalAddress() {
         String addressValue = "2/19 RAM WADI KUNTIDEVI, JOGESHWARI EAST";
 
-        Locator input = getPage().locator(OP_ADDRESS_LINE_1);
+        Locator input = page.locator(OP_ADDRESS_LINE_1);
         input.click(); // Opens the dropdown
 
         // Find the option
-        Locator dropdownOption = getPage().getByRole(AriaRole.LISTBOX)
+        Locator dropdownOption = page.getByRole(AriaRole.LISTBOX)
                 .getByText(addressValue, new Locator.GetByTextOptions().setExact(false))
                 .first();
         dropdownOption.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
@@ -98,44 +97,44 @@ public class BusinessDetailsPage extends BaseTest {
     }
 
     public void selectOwnership(String ownershipType) {
-        getPage().locator(OWNERSHIP_SELECT).click();
-        getPage().getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(ownershipType).setExact(true)).click();
+        page.locator(OWNERSHIP_SELECT).click();
+        page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(ownershipType).setExact(true)).click();
         log.info("Selected Ownership: {}", ownershipType);
     }
 
     public void selectSameAsOperationalAddress(String yesOrNo) {
         // value is lower case "yes" or "no" in the HTML
         String value = yesOrNo.toLowerCase();
-        getPage().locator(SAME_ADDRESS_RADIO + "[value='" + value + "']").click();
+        page.locator(SAME_ADDRESS_RADIO + "[value='" + value + "']").click();
         log.info("Selected Same as Operational Address: {}", yesOrNo);
     }
 
     public void fillMoreBusinessDetails(Map<String, String> data) {
         log.info("Filling more business details from provided data");
-        if (data.containsKey("Entity Email")) getPage().locator(ENTITY_EMAIL).fill(data.get("Entity Email"));
-        if (data.containsKey("Entity Contact Number")) getPage().locator(ENTITY_CONTACT).fill(data.get("Entity Contact Number"));
-        if (data.containsKey("Date of Registration")) getPage().locator(REGISTRATION_DATE).fill(data.get("Date of Registration"));
-        if (data.containsKey("Last Year's Turnover")) getPage().locator(TURNOVER).fill(data.get("Last Year's Turnover"));
+        if (data.containsKey("Entity Email")) page.locator(ENTITY_EMAIL).fill(data.get("Entity Email"));
+        if (data.containsKey("Entity Contact Number")) page.locator(ENTITY_CONTACT).fill(data.get("Entity Contact Number"));
+        if (data.containsKey("Date of Registration")) page.locator(REGISTRATION_DATE).fill(data.get("Date of Registration"));
+        if (data.containsKey("Last Year's Turnover")) page.locator(TURNOVER).fill(data.get("Last Year's Turnover"));
     }
 
     public void selectIndustrySubSector(String sector) {
-        getPage().locator(INDUSTRY_SUB_SECTOR).click();
-        getPage().getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(sector).setExact(true)).click();
+        page.locator(INDUSTRY_SUB_SECTOR).click();
+        page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(sector).setExact(true)).click();
         log.info("Selected Industry Sub-Sector: {} from sector dropdown", sector);
     }
 
     public void fillLoanRequirements(Map<String, String> data) {
-        if (data.containsKey("Tenure")) getPage().locator(TENURE).fill(data.get("Tenure"));
-        if (data.containsKey("Loan Amount")) getPage().locator(LOAN_AMOUNT).fill(data.get("Loan Amount"));
+        if (data.containsKey("Tenure")) page.locator(TENURE).fill(data.get("Tenure"));
+        if (data.containsKey("Loan Amount")) page.locator(LOAN_AMOUNT).fill(data.get("Loan Amount"));
         if (data.containsKey("End Use")) {
-            getPage().locator(END_USE).click();
-            getPage().getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(data.get("End Use")).setExact(true)).click();
+            page.locator(END_USE).click();
+            page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(data.get("End Use")).setExact(true)).click();
         }
         log.info("Filled loan requirements from provided data");
     }
 
     public void clickSubmit() {
-        getPage().locator(SUBMIT_BTN).click();
+        page.locator(SUBMIT_BTN).click();
         log.info("Clicked Submit button");
     }
 }

@@ -7,12 +7,14 @@ import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 public class DdePage extends BaseTest {
+    
+    private final Page page;
     // --- Static Locators for Buttons ---
     private static final String SAVE_BTN = "button:has-text('Save')";
     private static final String SUBMIT_BTN = "button:has-text('Submit')";
 
-    public static Page getPage() {
-        return BaseTest.getPage();
+    public DdePage(Page page) {
+        this.page = page;
     }
 
     /**
@@ -20,7 +22,7 @@ public class DdePage extends BaseTest {
      */
     public void fillField(String fieldId, String value) {
         if (value == null || value.isEmpty()) return;
-        getPage().locator("#" + fieldId).fill(value);
+        page.locator("#" + fieldId).fill(value);
         log.info("Filled field [{}] with value: {}", fieldId, value);
     }
 
@@ -29,12 +31,12 @@ public class DdePage extends BaseTest {
      */
     public void selectFromDropdown(String fieldId, String value) {
         if (value == null || value.isEmpty()) return;
-        Locator input = getPage().locator("#" + fieldId);
+        Locator input = page.locator("#" + fieldId);
         input.click();
         input.fill(value);
 
         // Select the first matching option from the listbox that appears
-        Locator option = getPage().getByRole(AriaRole.LISTBOX).getByText(value, new Locator.GetByTextOptions().setExact(false)).first();
+        Locator option = page.getByRole(AriaRole.LISTBOX).getByText(value, new Locator.GetByTextOptions().setExact(false)).first();
         option.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         option.click();
         log.info("Selected [{}] from dropdown [{}]", value, fieldId);
@@ -45,7 +47,7 @@ public class DdePage extends BaseTest {
      */
     public void selectRadio(String groupName, String option) {
         // Targets the radio input based on name and value (yes/no)
-        getPage().locator("input[name='" + groupName + "'][value='" + option.toLowerCase() + "']").click();
+        page.locator("input[name='" + groupName + "'][value='" + option.toLowerCase() + "']").click();
         log.info("Selected [{}] for radio group [{}]", option, groupName);
     }
 
@@ -56,13 +58,13 @@ public class DdePage extends BaseTest {
 
         String xpath = "//label[text()='" + labelText + "']/ancestor::div[1]//button";
 
-        Locator popoverTrigger = getPage().locator(xpath).first();
+        Locator popoverTrigger = page.locator(xpath).first();
 
         // Ensure it's visible before clicking
         popoverTrigger.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         popoverTrigger.click();
 
-        Locator option = getPage().locator("[role='option'], [data-radix-collection-item], button")
+        Locator option = page.locator("[role='option'], [data-radix-collection-item], button")
                 .filter(new Locator.FilterOptions().setHasText(optionValue))
                 .last(); // Sometimes hidden versions exist, 'last()' usually gets the active one
 
@@ -73,19 +75,19 @@ public class DdePage extends BaseTest {
     }
 
     public void clickSave() {
-        getPage().locator(SAVE_BTN).click();
+        page.locator(SAVE_BTN).click();
         log.info("Clicked Save button");
     }
 
     public void fillCorrespondenceAddress(String partialAddress) {
         log.info("Filling Correspondence Address: {}", partialAddress);
 
-        Locator addressInput = getPage().getByPlaceholder("Correspondence Address (Line 1)");
+        Locator addressInput = page.getByPlaceholder("Correspondence Address (Line 1)");
 
         addressInput.click();
         addressInput.fill(partialAddress);
 
-        Locator suggestion = getPage().locator("div").filter(new Locator.FilterOptions().setHasText(partialAddress)).last();
+        Locator suggestion = page.locator("div").filter(new Locator.FilterOptions().setHasText(partialAddress)).last();
         suggestion.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         suggestion.click();
 
@@ -95,7 +97,7 @@ public class DdePage extends BaseTest {
     public void selectEmail(String email) {
         log.info("Selecting Email: {}", email);
 
-        Locator emailInput = getPage().getByPlaceholder("Select Email");
+        Locator emailInput = page.getByPlaceholder("Select Email");
         emailInput.click();
         emailInput.fill(email);
     }
@@ -106,18 +108,18 @@ public class DdePage extends BaseTest {
         log.info("Opening MuiSelect dropdown [{}]", fieldId);
 
         // 1. Click the DIV to open the list (Do NOT use .fill() here)
-        Locator selectTrigger = getPage().locator("#" + fieldId);
+        Locator selectTrigger = page.locator("#" + fieldId);
         selectTrigger.click();
 
         // 2. The list appears in a Popover/Menu.
         // We look for the role 'option' that matches our text.
         log.info("Selecting option: {}", value);
-        Locator option = getPage().getByRole(AriaRole.OPTION,
+        Locator option = page.getByRole(AriaRole.OPTION,
                 new Page.GetByRoleOptions().setName(value).setExact(true));
 
         // If exact match fails, try a broader search within the menu
         if (option.count() == 0) {
-            option = getPage().locator("li[role='option']").filter(new Locator.FilterOptions().setHasText(value)).first();
+            option = page.locator("li[role='option']").filter(new Locator.FilterOptions().setHasText(value)).first();
         }
 
         option.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
@@ -128,8 +130,8 @@ public class DdePage extends BaseTest {
 
     public void clickSubmit() {
         // Wait for submit to be enabled after Save
-        getPage().locator(SUBMIT_BTN).waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        getPage().locator(SUBMIT_BTN).click();
+        page.locator(SUBMIT_BTN).waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        page.locator(SUBMIT_BTN).click();
         log.info("Clicked Submit button");
     }
 }

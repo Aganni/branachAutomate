@@ -123,18 +123,30 @@ public class BusinessDetails extends BaseTest {
     /**
      * Helper method to handle Element UI dropdowns reliably
      */
+    /**
+     * Helper method to handle Element UI dropdowns reliably without hitting hidden ghost elements.
+     */
     private void selectDropdownOption(String label, String optionText) {
         log.info("Selecting '{}' for '{}'", optionText, label);
 
-        // Click the input box under the specific label
-        Locator input = page.locator("//label[text()='" + label + "']/following-sibling::div//input").first();
+        // 1. Find the input box using the label and click it
+        Locator input = page.locator("//label[normalize-space(text())='" + label + "']/following-sibling::div//input").first();
+        input.scrollIntoViewIfNeeded();
         input.click(new Locator.ClickOptions().setForce(true));
 
-        page.waitForTimeout(500); // Allow Element UI dropdown animation to finish
+        // Allow Element UI dropdown animation to finish
+        page.waitForTimeout(500);
 
-        // Find and click the option from the floating list
-        Locator option = page.locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText(optionText)).first();
-        option.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        // 2. CRITICAL FIX: Locate the ACTIVE (visible) dropdown floating at the bottom of the DOM
+        Locator activeDropdown = page.locator(".el-select-dropdown:visible").last();
+
+        // 3. Find the option STRICTLY inside the active dropdown
+        Locator option = activeDropdown.locator("li.el-select-dropdown__item")
+                .filter(new Locator.FilterOptions().setHasText(optionText))
+                .first();
+
+        // Ensure the option is visible inside the dropdown's internal scroll area before clicking
+        option.scrollIntoViewIfNeeded();
         option.click(new Locator.ClickOptions().setForce(true));
     }
 

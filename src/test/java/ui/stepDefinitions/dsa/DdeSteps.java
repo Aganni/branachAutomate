@@ -1,13 +1,17 @@
 package ui.stepDefinitions.dsa;
 
+import hooks.BaseTest;
 import io.cucumber.java.en.*;
-import ui.pages.dsa.BankingPage;
 import ui.pages.dsa.DdePage;
 
 import java.util.Map;
 
 public class DdeSteps {
-    private final DdePage ddePage = new DdePage();
+    private final DdePage ddePage;
+
+    public DdeSteps(){
+        this.ddePage= new DdePage(BaseTest.getPage());
+    }
 
     @And("User fills the DDE form with following details")
     public void fillDdeForm(Map<String, String> details) {

@@ -3,12 +3,13 @@ package ui.pages.dsa;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
-import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import hooks.BaseTest;
 import java.nio.file.Paths;
 
 public class BankingPage extends BaseTest {
+
+    private final Page page;
 
     // DSA Portal Locators
     private static final String BANK_NAME_INPUT = "#bankName";
@@ -22,19 +23,19 @@ public class BankingPage extends BaseTest {
     private static final String FINISH_BTN = "button:has-text('Or click here to finish')";
     private static final String CLOSE_TAB_BTN = "button:has-text('close Tab')";
 
-    public static Page getPage() {
-        return BaseTest.getPage();
+    public BankingPage(Page page) {
+        this.page = page;
     }
 
     public void selectBankAndProceed(String bankName) {
         log.info("Selecting bank: {}", bankName);
 
-        getPage().locator(BANK_NAME_INPUT).fill(bankName);
-        getPage().keyboard().press("Enter");
+        page.locator(BANK_NAME_INPUT).fill(bankName);
+        page.keyboard().press("Enter");
 
         log.info("Setting up listener for new tab...");
-        Page perfiosPage = getPage().waitForPopup(() -> {
-            getPage().getByRole(AriaRole.BUTTON,
+        Page perfiosPage = page.waitForPopup(() -> {
+            page.getByRole(AriaRole.BUTTON,
                             new Page.GetByRoleOptions().setName("Continue").setExact(true))
                     .click();
         });
@@ -89,14 +90,14 @@ public class BankingPage extends BaseTest {
 
     public void submitAndMoveToNext() {
         // Refresh original page to see the 'Added' status
-        getPage().reload();
+        page.reload();
         log.info("Page reloaded. Submitting bank details...");
 
         // 1. Click Submit Bank Details
-        getPage().locator(SUBMIT_BANK_DETAILS_BTN).click();
+        page.locator(SUBMIT_BANK_DETAILS_BTN).click();
 
         // 2. Wait for background workflow and click Save and Next
         log.info("Waiting for Save and Next button to enable...");
-        getPage().locator(SAVE_AND_NEXT_BTN).click(new Locator.ClickOptions().setTimeout(30000));
+        page.locator(SAVE_AND_NEXT_BTN).click(new Locator.ClickOptions().setTimeout(30000));
     }
 }

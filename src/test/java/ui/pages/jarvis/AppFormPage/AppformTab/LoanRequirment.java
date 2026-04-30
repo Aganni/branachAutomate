@@ -1,5 +1,6 @@
 package ui.pages.jarvis.AppFormPage.AppformTab;
 
+import com.microsoft.playwright.Keyboard;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
@@ -37,34 +38,60 @@ public class LoanRequirment extends BaseTest {
     }
 
     /**
-     * Dynamically reads RACC rates, inputs them, selects banks, and submits.
+     * Dynamically reads RACC rates, inputs values, selects banks, and submits.
      */
     public void fillLoanRequirementsAndSubmit(String scenarioName) {
         log.info("Filling Loan Requirements dynamically...");
 
-        // 1. Read and Fill Interest Rate (ROI)
-        Locator roiIndicator = page.locator("//label[text()='INTEREST RATE (%)']/following-sibling::div//div[contains(@class,'racc-indicator')]").first();
-        String roiText = roiIndicator.innerText().trim(); // Example: "RACC ROI 19.50%"
-        String roiValue = extractNumberFromText(roiText);
-        log.info("Extracted ROI value: {}", roiValue);
+        // 1. EXTRACT AND FILL ROI
+        Locator roiIndicator = page.locator("//label[contains(text(),'INTEREST RATE')]/following-sibling::div//div[contains(@class,'racc-indicator')]").first();
+        String roiText = roiIndicator.textContent().trim();
+        String roiValue = roiText.replaceAll("[^0-9.]", ""); // Extracts just "19.50"
+
+        if (roiValue.isEmpty()) roiValue = "19.50"; // Fallback just in case
+        log.info("Extracted ROI value to input: {}", roiValue);
 
         Locator roiInput = page.getByPlaceholder("Enter the interest rate").first();
-        roiInput.fill(roiValue);
+        roiInput.scrollIntoViewIfNeeded();
+        roiInput.click(new Locator.ClickOptions().setForce(true));
 
-        // 2. Read and Fill Processing Fee (PF)
+        // Hard clear the box
+        page.keyboard().press("Meta+A");
+        page.keyboard().press("Control+A");
+        page.keyboard().press("Backspace");
+        page.waitForTimeout(200);
+
+        // Type the extracted value
+        page.keyboard().type(roiValue, new Keyboard.TypeOptions().setDelay(50));
+
+
+        // 2. EXTRACT AND FILL PF
         Locator pfIndicator = page.locator("//label[contains(text(),'PROCESSING FEE EXCLUSIVE GST')]/following-sibling::div//div[contains(@class,'racc-indicator')]").first();
-        String pfText = pfIndicator.innerText().trim(); // Example: "RACC PF 2.00%"
-        String pfValue = extractNumberFromText(pfText);
-        log.info("Extracted PF value: {}", pfValue);
+        String pfText = pfIndicator.textContent().trim();
+        String pfValue = pfText.replaceAll("[^0-9.]", ""); // Extracts just "2.00"
+
+        if (pfValue.isEmpty()) pfValue = "2.00"; // Fallback just in case
+        log.info("Extracted PF value to input: {}", pfValue);
 
         Locator pfInput = page.getByPlaceholder("Enter the processing fee percentage").first();
-        pfInput.fill(pfValue);
+        pfInput.scrollIntoViewIfNeeded();
+        pfInput.click(new Locator.ClickOptions().setForce(true));
 
-        // 3. Select the first 3 banks from CLM2 Eligible Banks
+        // Hard clear the box
+        page.keyboard().press("Meta+A");
+        page.keyboard().press("Control+A");
+        page.keyboard().press("Backspace");
+        page.waitForTimeout(200);
+
+        // Type the extracted value
+        page.keyboard().type(pfValue, new Keyboard.TypeOptions().setDelay(50));
+
+
+        // 3. SELECT MULTIPLE BANKS
         selectMultipleBanks("IDBI", "DCB", "CBI");
-        page.waitForTimeout(3000);
+        page.waitForTimeout(1000); // Give the UI a second to clear any validation errors
 
-// --- 4. SUBMIT & VERIFY ---
+        // --- 4. SUBMIT & VERIFY ---
         log.info("Clicking Submit floating button...");
         page.locator(".cs-fab:visible").first().click(new Locator.ClickOptions().setForce(true));
 
@@ -74,21 +101,18 @@ public class LoanRequirment extends BaseTest {
         try {
             toastTitle.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(8000));
             String titleText = toastTitle.innerText().trim();
-
             Locator toastMessage = page.locator(".el-notification__content").first();
             String msgText = toastMessage.isVisible() ? toastMessage.innerText().trim() : "";
 
             if (titleText.contains("Success")) {
                 log.info("Success popup verified! Message: '{}'", msgText);
-                // Optional: You can explicitly assert the text here if you want to be extra strict
-                // Assert.assertTrue(msgText.contains("Updated loan details"), "Unexpected success message");
             } else if (titleText.contains("Error")) {
                 log.error("Failed to update Loan Requirements: {}", msgText);
                 ScreenshotUtil.saveScreenshot(page, "LoanReqError", scenarioName);
                 throw new AssertionError("Loan Requirements submission failed: " + msgText);
             }
         } catch (Exception e) {
-            log.error("No toast appeared after submitting Loan Requirements.");
+            log.error("No toast appeared. The form likely has validation errors preventing submission.");
             ScreenshotUtil.saveScreenshot(page, "NoToast_LoanReq", scenarioName);
             throw new RuntimeException("Timeout waiting for submission response.", e);
         }
@@ -96,18 +120,14 @@ public class LoanRequirment extends BaseTest {
         page.waitForLoadState(LoadState.NETWORKIDLE);
         page.waitForTimeout(1000);
 
-        // --- 5. GO BACK (Click outside the form) ---
+        // --- 5. GO BACK ---
         log.info("Clicking outside the form to close it and go back...");
-
-        // 1. Click the absolute top-left pixel of the browser (this hits the grey background mask)
         page.mouse().click(10, 10);
-        page.waitForTimeout(1000); // Wait 1 second for the CSS fade-out animation to finish
+        page.waitForTimeout(1000);
 
-        // 2. Safety Fallback: Check if the modal is somehow still visible
         Locator activeDialog = page.locator(".el-dialog__wrapper:visible").last();
         if (activeDialog.isVisible()) {
-            log.info("Modal didn't close from mouse click. Pressing 'Escape' key...");
-            page.keyboard().press("Escape"); // Element UI natively supports Esc to close modals
+            page.keyboard().press("Escape");
             page.waitForTimeout(1000);
         }
 
@@ -115,33 +135,46 @@ public class LoanRequirment extends BaseTest {
     }
 
     /**
-     * Helper to extract just the numbers (e.g., "19.50" from "RACC ROI 19.50%")
+     * Reliably selects multiple options from the Element UI CLM2 Banks dropdown.
      */
-    private String extractNumberFromText(String text) {
-        // Replaces everything that is NOT a digit or a decimal point with an empty string
-        return text.replaceAll("[^0-9.]", "");
-    }
-
     /**
-     * Helper to handle multi-select dropdowns in Element UI
+     * Reliably selects multiple options from the Element UI CLM2 Banks dropdown.
      */
-    private void selectMultipleBanks(String... banksToSelect) {
+    private void selectMultipleBanks(String... banks) {
         log.info("Selecting CLM2 Eligible Banks...");
 
-        // Open the dropdown
-        Locator dropdownInput = page.locator("//label[text()='CLM2 Eligible Banks']/following-sibling::div//input").first();
-        dropdownInput.click(new Locator.ClickOptions().setForce(true));
-        page.waitForTimeout(500); // Allow animation
+        // 1. Click the specific bank input box
+        Locator bankInput = page.locator("//label[contains(text(), 'CLM2 Eligible Banks')]/following-sibling::div//input").first();
+        bankInput.scrollIntoViewIfNeeded();
+        bankInput.click(new Locator.ClickOptions().setForce(true));
 
-        // Loop through and click each requested bank
-        for (String bank : banksToSelect) {
-            Locator option = page.locator("li.el-select-dropdown__item:visible").filter(new Locator.FilterOptions().setHasText(bank)).first();
-            option.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-            option.click(new Locator.ClickOptions().setForce(true));
-            log.info("Selected bank: {}", bank);
+        // Give Element UI time to render the dropdown list in the DOM
+        page.waitForTimeout(500);
+
+        // 2. Lock onto the currently visible dropdown menu at the bottom of the HTML
+        Locator activeDropdown = page.locator(".el-select-dropdown:visible").last();
+
+        // 3. Loop through the requested banks and click them
+        for (String bank : banks) {
+            log.info("Attempting to select bank: {}", bank);
+
+            // Look for the exact span text inside the active dropdown
+            Locator optionSpan = activeDropdown.locator("li.el-select-dropdown__item span")
+                    .filter(new Locator.FilterOptions().setHasText(bank))
+                    .first();
+
+            if (optionSpan.isVisible()) {
+                optionSpan.scrollIntoViewIfNeeded();
+                optionSpan.click(new Locator.ClickOptions().setForce(true));
+                log.info("Successfully selected bank: {}", bank);
+                page.waitForTimeout(300); // Small buffer between selections
+            } else {
+                log.warn("Bank not found in dropdown list: {}", bank);
+            }
         }
 
-        // Press Escape to close the multi-select dropdown list cleanly
+        // 4. Press Escape to close the dropdown menu
+        log.info("Closing multi-select dropdown...");
         page.keyboard().press("Escape");
         page.waitForTimeout(500);
     }

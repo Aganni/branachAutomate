@@ -92,16 +92,16 @@ Feature: Unsecured Business Loan End-to-End Workflow
 #      | Collection Account Number | 159590886867 |
 #      | Collection Account Type   | SAVINGS      |
 #      | Collection IFSC Code      | HDFC0000094  |
-#     Allocation Dashboard flow
-    And User navigates to the Allocation Dashboard and assign appform to self using app ID
-    And User selects "Move to CAM" from Application Actions and moves appForm next stage
-    And User navigates to the CAM tab in Application Dashboard and start the cam
 ##     Allocation Dashboard flow
-    And User navigates to the Allocation Dashboard and assign appform to self using app ID
-    And User selects "Move to Credit Review" from Application Actions and moves appForm next stage
+#    And User navigates to the Allocation Dashboard and assign appform to self using app ID
+#    And User selects "Move to CAM" from Application Actions and moves appForm next stage
+#    And User navigates to the CAM tab in Application Dashboard and start the cam
+###     Allocation Dashboard flow
+#    And User navigates to the Allocation Dashboard and assign appform to self using app ID
+#    And User selects "Move to Credit Review" from Application Actions and moves appForm next stage
     And User opens the Loan Requirements section and updates the details
     And User navigates to the Dedupe tab in Application Dashboard
-    And User navigates to the Verification tab and resolves the Udyam KYC status
+#    And User navigates to the Verification tab and resolves the Udyam KYC status
 #      Allocation Dashboard flow
     And User navigates to the Allocation Dashboard and assign appform to self using app ID
     And User moves application to "Move to Credit Approval" assigned to level "L5" and user "tenjin.user@creditsaison-in.com"

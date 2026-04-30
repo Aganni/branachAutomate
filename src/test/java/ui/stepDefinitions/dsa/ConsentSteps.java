@@ -1,12 +1,15 @@
 package ui.stepDefinitions.dsa;
 
 import hooks.BaseTest;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.*;
 import ui.pages.dsa.ConsentPage;
 
 public class ConsentSteps extends BaseTest {
-    private final ConsentPage consentPage = new ConsentPage();
+    private final ConsentPage consentPage ;
+
+    public ConsentSteps(){
+        this.consentPage = new ConsentPage(BaseTest.getPage());
+    }
 
     @Then("User sends and verifies OTP {string} for Primary Applicant")
     public void sendAndVerifyOtp(String otp) {
