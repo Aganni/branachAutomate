@@ -48,8 +48,8 @@ public class ApiClientUtils extends BaseTest {
     /**
      * Executes a POST request with Basic Auth and no payload body.
      */
-    public static Response doPostEmptyBodyWithBasicAuth(String baseUri, String endpoint, String basicAuthToken) {
-        RestAssured.baseURI = baseUri;
+    public static Response doPostEmptyBodyWithBasicAuth(String baseUri, String endpoint, String basicAuthToken) throws Exception {
+        RestAssured.baseURI = initializeEnvironment(baseUri);
         return RestAssured.given()
                 .relaxedHTTPSValidation()
                 .header("Authorization", "Basic " + basicAuthToken)
@@ -57,4 +57,16 @@ public class ApiClientUtils extends BaseTest {
                 .post(endpoint);
     }
 
+    /**
+     * Executes a POST request with Basic Auth and a payload body.
+     */
+    public static Response doPostWithBasicAuth(String baseUri, String endpoint, String requestBody, String basicAuthToken) throws Exception {
+        RestAssured.baseURI = initializeEnvironment(baseUri);
+        return RestAssured.given()
+                .relaxedHTTPSValidation()
+                .header("Authorization", "Basic " + basicAuthToken)
+                .header("Content-Type", "application/json")
+                .body(requestBody)
+                .post(endpoint);
+    }
 }

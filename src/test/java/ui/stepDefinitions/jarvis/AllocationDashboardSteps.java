@@ -16,7 +16,7 @@ public class AllocationDashboardSteps extends BaseTest {
     private final DashboardPage dashboardPage = new DashboardPage();
 
     @And("User navigates to the Allocation Dashboard and assign appform to self using app ID")
-    public void assignAppFormToSelf() {
+    public void assignAppFormToSelf() throws InterruptedException {
         // 1. Navigate and setup view
         dashboardPage.navigateToAllocationDashboard();
         allocationPage.switchToTeamView();
@@ -25,6 +25,7 @@ public class AllocationDashboardSteps extends BaseTest {
         String appFormId = (String) DynamicDataClass.getValue("appFormId");
         log.info("Using stored App ID for allocation search: {}", appFormId);
         allocationPage.searchByAppId(appFormId);
+        Thread.sleep(1000);
 
         // 3. Trigger Allocation
         allocationPage.selectFirstRowCheckbox();

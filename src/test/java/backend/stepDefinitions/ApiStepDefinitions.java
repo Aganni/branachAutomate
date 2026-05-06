@@ -34,6 +34,6 @@ public class ApiStepDefinitions extends BaseTest {
 
     @And("User Update the repayment details")
     public void userUpdateTheRepaymentDetails() {
-
+        ApiUtils.updateRepaymentDetails();
     }
 }

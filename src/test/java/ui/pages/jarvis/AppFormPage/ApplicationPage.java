@@ -39,7 +39,7 @@ public class ApplicationPage extends BaseTest {
      */
     public void selectApplicationActionAndAccept(String actionName, String scenarioName) {
         // Skip wait if moving to Login Desk
-        if (!"Move to Login Desk".equalsIgnoreCase(actionName)) {
+        if (!"Move to Login Desk".equalsIgnoreCase(actionName) && !"Move to Sanction Approval".equalsIgnoreCase(actionName)) {
             waitForAssignee("Tenjin");
         }
 

@@ -80,4 +80,23 @@ public class ApiPayload {
                 "    }\n" +
                 "}";
     }
+
+    public static String getRepaymentDetailsPayload(String appFormId) {
+        return "{\n" +
+                "    \"appFormId\": \"" + appFormId + "\",\n" +
+                "    \"repaymentMode\": \"NACH\",\n" +
+                "    \"spdcNumber\": \"838384\",\n" +
+                "    \"micrCode\": \"123456789\",\n" +
+                "    \"repaymentCheques\": [\n" +
+                "        {\n" +
+                "            \"startChequeNumber\": \"886\",\n" +
+                "            \"endChequeNumber\": \"889\",\n" +
+                "            \"numberOfCheque\": \"2\"\n" +
+                "        }\n" +
+                "    ],\n" +
+                "    \"totalPDCCheck\": 2,\n" +
+                "    \"totalSPDCCheck\": 1,\n" +
+                "    \"totalNumberOfCheque\": 0\n" +
+                "}";
+    }
 }
