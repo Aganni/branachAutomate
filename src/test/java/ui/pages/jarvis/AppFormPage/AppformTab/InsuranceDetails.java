@@ -214,11 +214,21 @@ public class InsuranceDetails extends BaseTest {
         page.waitForTimeout(1000);
 
         log.info("Closing modal entirely...");
+        
+        // Click the top-right circle close button
+        Locator circleCloseBtn = page.locator("button.close-btn.is-circle").first();
+        if (circleCloseBtn.isVisible()) {
+            circleCloseBtn.click();
+            page.waitForTimeout(1000);
+        }
+
+        // Click outside or press Escape to dismiss the view-only modal
         page.mouse().click(10, 10);
         page.waitForTimeout(1000);
 
         if (page.locator(".el-dialog__wrapper:visible").last().isVisible()) {
             page.keyboard().press("Escape");
+            page.waitForTimeout(1000);
         }
         log.info("Successfully returned to the main Application Details page.");
     }

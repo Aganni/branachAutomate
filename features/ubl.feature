@@ -124,6 +124,7 @@ Feature: Unsecured Business Loan End-to-End Workflow
       | Mobile       | 7848043529                          |
       | Email        | adarsh.gani@creditsaison-in.com     |
     And User Update the repayment details
+    And User adds Aadhaar number "294365933461" in Co-Applicant Details
     And User selects "Move to Sanction Approval" from Application Actions and moves appForm next stage
 
 

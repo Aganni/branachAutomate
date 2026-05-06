@@ -17,6 +17,7 @@ public class ApplicationDetailsSteps {
     private final Dedupe dedupe;
     private final EsignDocuments eSignPage;
     private final InsuranceDetails insurancePage;
+    private final CoApplicantDetails coApplicantDetails;
 
     public ApplicationDetailsSteps() {
         this.businessDetailsPage = new BusinessDetails(BaseTest.getPage());
@@ -26,6 +27,7 @@ public class ApplicationDetailsSteps {
         this.appFormOwnerShipDetails = new AppFormOwnerShipDetails(BaseTest.getPage());
         this.eSignPage = new EsignDocuments(BaseTest.getPage());
         this.insurancePage = new InsuranceDetails(BaseTest.getPage());
+        this.coApplicantDetails = new CoApplicantDetails(BaseTest.getPage());
     }
 
     @And("User updates the Business Details with the following data:")
@@ -71,6 +73,11 @@ public class ApplicationDetailsSteps {
     public void openInsuranceDetails(Map<String, String> data) {
         insurancePage.openInsuranceAndEdit();
         insurancePage.fillInsuranceAndSubmit(data, "Updating_Insurance_Details");
+    }
+
+    @And("User adds Aadhaar number {string} in Co-Applicant Details")
+    public void addAadhaarInCoApplicantDetails(String aadhaarNumber) {
+        coApplicantDetails.addAadhaarToCoApplicant(aadhaarNumber, "Adding_CoApplicant_Aadhaar");
     }
 
 }
