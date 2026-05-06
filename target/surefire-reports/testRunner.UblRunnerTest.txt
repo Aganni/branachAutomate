@@ -1,76 +1,27 @@
 -------------------------------------------------------------------------------
 Test set: testRunner.UblRunnerTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 100.1 s <<< FAILURE! -- in testRunner.UblRunnerTest
-testRunner.UblRunnerTest.runScenario["Complete DSA Portal to Jarvis Portal Handoff using Context Bridge", "Unsecured Business Loan End-to-End Workflow"](1) -- Time elapsed: 94.76 s <<< FAILURE!
-com.microsoft.playwright.TimeoutError: 
-Error {
-  message='Timeout 30000ms exceeded.
-  name='TimeoutError
-  stack='TimeoutError: Timeout 30000ms exceeded.
-    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/progress.js:78:26)
-    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/frames.js:624:23)
-    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/frameDispatcher.js:105:103)
-    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:94:40)
-    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:361:39)
-}
-Call log:
-- waiting for locator("li.el-select-dropdown__item:visible").filter(new Locator.FilterOptions().setHasText("Move to Credit Approval")).first() to be visible
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 55.56 s <<< FAILURE! -- in testRunner.UblRunnerTest
+testRunner.UblRunnerTest.runScenario["Complete DSA Portal to Jarvis Portal Handoff using Context Bridge", "Unsecured Business Loan End-to-End Workflow"](1) -- Time elapsed: 50.19 s <<< FAILURE!
+io.cucumber.testng.UndefinedStepException: 
+The step 'User Update the repayment details' is undefined.
+You can implement this step using the snippet(s) below:
 
-	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
-	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
-	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
-	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
-	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
-	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
-	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
-	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
-	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
-	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
-	at ui.pages.jarvis.AppFormPage.ApplicationPage.selectActionWithAssignment(ApplicationPage.java:83)
-	at ui.stepDefinitions.jarvis.AppFormActionsSteps.moveApplicationWithAssignment(AppFormActionsSteps.java:22)
-	at ✽.User moves application to "Move to Credit Approval" assigned to level "L5" and user "tenjin.user@creditsaison-in.com"(file:///Users/adarshgani/Documents/GitHub/branachAutomate/features/ubl.feature:107)
-Caused by: com.microsoft.playwright.TimeoutError: Error {
-  message='Timeout 30000ms exceeded.
-  name='TimeoutError
-  stack='TimeoutError: Timeout 30000ms exceeded.
-    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/progress.js:78:26)
-    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/frames.js:624:23)
-    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/frameDispatcher.js:105:103)
-    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:94:40)
-    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:361:39)
+@Given("User Update the repayment details")
+public void user_update_the_repayment_details(io.cucumber.datatable.DataTable dataTable) {
+    // Write code here that turns the phrase above into concrete actions
+    // For automatic transformation, change DataTable to one of
+    // E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
+    // Map<K, List<V>>. E,K,V must be a String, Integer, Float,
+    // Double, Byte, Short, Long, BigInteger or BigDecimal.
+    //
+    // For other transformations you can register a DataTableType.
+    throw new io.cucumber.java.PendingException();
 }
-Call log:
-- waiting for locator("li.el-select-dropdown__item:visible").filter(new Locator.FilterOptions().setHasText("Move to Credit Approval")).first() to be visible
 
-	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:254)
-	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:211)
-	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:118)
-	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
-	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
-	at com.microsoft.playwright.impl.FrameImpl.waitForSelectorImpl(FrameImpl.java:1060)
-	at com.microsoft.playwright.impl.LocatorImpl.lambda$waitForImpl$7(LocatorImpl.java:619)
-	at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
-	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
-	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
-	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
-	at ui.pages.jarvis.AppFormPage.ApplicationPage.selectActionWithAssignment(ApplicationPage.java:83)
-	at ui.stepDefinitions.jarvis.AppFormActionsSteps.moveApplicationWithAssignment(AppFormActionsSteps.java:22)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-	at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)
-	at io.cucumber.java.Invoker.invoke(Invoker.java:24)
-	at io.cucumber.java.AbstractGlueDefinition.invokeMethod(AbstractGlueDefinition.java:47)
-	at io.cucumber.java.JavaStepDefinition.execute(JavaStepDefinition.java:29)
-	at io.cucumber.core.runner.CoreStepDefinition.execute(CoreStepDefinition.java:66)
-	at io.cucumber.core.runner.PickleStepDefinitionMatch.runStep(PickleStepDefinitionMatch.java:63)
-	at io.cucumber.core.runner.ExecutionMode$1.execute(ExecutionMode.java:10)
-	at io.cucumber.core.runner.TestStep.executeStep(TestStep.java:84)
-	at io.cucumber.core.runner.TestStep.run(TestStep.java:56)
-	at io.cucumber.core.runner.PickleStepTestStep.run(PickleStepTestStep.java:51)
-	at io.cucumber.core.runner.TestCase.run(TestCase.java:84)
-	at io.cucumber.core.runner.Runner.runPickle(Runner.java:75)
-	at io.cucumber.testng.TestNGCucumberRunner.lambda$runScenario$1(TestNGCucumberRunner.java:132)
+	at io.cucumber.core.runtime.TestCaseResultObserver.assertTestCasePassed(TestCaseResultObserver.java:69)
+	at io.cucumber.testng.TestCaseResultObserver.assertTestCasePassed(TestCaseResultObserver.java:23)
+	at io.cucumber.testng.TestNGCucumberRunner.lambda$runScenario$1(TestNGCucumberRunner.java:133)
 	at io.cucumber.core.runtime.CucumberExecutionContext.lambda$runTestCase$5(CucumberExecutionContext.java:137)
 	at io.cucumber.core.runtime.RethrowingThrowableCollector.executeAndThrow(RethrowingThrowableCollector.java:23)
 	at io.cucumber.core.runtime.CucumberExecutionContext.runTestCase(CucumberExecutionContext.java:137)

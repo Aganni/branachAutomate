@@ -132,12 +132,9 @@ public class InsuranceDetails extends BaseTest {
         dobInput.scrollIntoViewIfNeeded();
         dobInput.click(new Locator.ClickOptions().setForce(true)); // This opens the calendar popup
 
-        // Wait for the calendar popup to appear, then click the 15th of the current month
-        Locator activeCalendar = page.locator(".el-picker-panel:visible").last();
-        activeCalendar.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
-        Locator day15 = activeCalendar.locator("xpath=.//td[contains(@class, 'available')]/div/span[text()='15']").first();
-        day15.click(new Locator.ClickOptions().setForce(true));
-        page.waitForTimeout(500); // Give the calendar time to close
+        // Delegate to the robust Calendar handler in Utils
+        String dob = data.getOrDefault("DOB", "1990-01-01");
+        ui.Utils.Utils.selectDateFromElementUICalendar(dob);
 
         // 4. Gender Dropdown
         Locator genderWrapper = page.locator("xpath=//label[normalize-space(text())='Gender']/following-sibling::div//div[contains(@class, 'el-select')]").first();
