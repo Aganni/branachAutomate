@@ -100,10 +100,10 @@ Feature: Unsecured Business Loan End-to-End Workflow
 #    And User navigates to the Allocation Dashboard and assign appform to self using app ID
 #    And User selects "Move to Credit Review" from Application Actions and moves appForm next stage
     And User opens the Loan Requirements section and updates the details
-    And User navigates to the Dedupe tab in Application Dashboard
 #    And User navigates to the Verification tab and resolves the Udyam KYC status
-#      Allocation Dashboard flow
-    And User navigates to the Allocation Dashboard and assign appform to self using app ID
+##      Allocation Dashboard flow
+#    And User navigates to the Allocation Dashboard and assign appform to self using app ID
+#    And User navigates to the Dedupe tab in Application Dashboard
     And User moves application to "Move to Credit Approval" assigned to level "L5" and user "tenjin.user@creditsaison-in.com"
     And User navigates to the RegCheck tab in Application Dashboard
     And User updates the Appform Ownership Details with the following data:

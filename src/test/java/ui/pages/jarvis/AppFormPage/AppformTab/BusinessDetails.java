@@ -120,7 +120,7 @@ public class BusinessDetails extends BaseTest {
         }
     }
 
-     /**
+    /**
      * Helper method to handle Element UI dropdowns reliably without hitting hidden ghost elements.
      */
     private void selectDropdownOption(String label, String optionText) {
