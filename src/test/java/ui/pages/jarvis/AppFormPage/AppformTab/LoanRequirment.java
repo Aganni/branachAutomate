@@ -224,6 +224,14 @@ public class LoanRequirment extends BaseTest {
 
         // 8. Close the modal by clicking outside
         log.info("Clicking outside the modal to dismiss it...");
+        
+        // Click the top-right circle close button
+        Locator circleCloseBtn2 = page.locator("button.close-btn.is-circle").first();
+        if (circleCloseBtn2.isVisible()) {
+            circleCloseBtn2.click();
+            page.waitForTimeout(1000);
+        }
+
         page.mouse().click(10, 10);
         page.waitForTimeout(1000);
 
