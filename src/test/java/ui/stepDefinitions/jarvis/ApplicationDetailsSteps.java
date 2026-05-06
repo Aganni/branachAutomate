@@ -64,7 +64,7 @@ public class ApplicationDetailsSteps {
     @And("User opens E-Sign section, generates documents, and opts for offline signatures")
     public void processESignOffline() {
         eSignPage.openESignSection();
-        eSignPage.generateAndOptInOfflineSignatures();
+        eSignPage.optInForOfflineSignatures("ESign_Offline_Signatures");
     }
 
     @And("User opens Insurance Details and updates Insurance and Nominee Details with the following data")

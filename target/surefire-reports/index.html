@@ -131,21 +131,20 @@
                   </a> <!-- runScenario("Complete DSA Portal to Jarvis Portal Handoff using Context Bridge", "Unsecured Business Loan End-to...) -->
                   <span class="method-name">runScenario</span>
                   <span class="parameters">("Complete DSA Portal to Jarvis Portal Handoff using Context Bridge", "Unsecured Business Loan End-to-End Workflow")</span>
-                  <div class="stack-trace">com.microsoft.playwright.impl.TargetClosedError: Error {
-  message=&apos;Target page, context or browser has been closed
-  name=&apos;TargetClosedError
-  stack=&apos;TargetClosedError:Target page, context or browser has been closed
-Error
-    at captureRawStack (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/stackTrace.js:49:17)
-    at LongStandingScope._race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:91:52)
-    at LongStandingScope.race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:84:17)
-    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:96:36)
-    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:361:39)
+                  <div class="stack-trace">com.microsoft.playwright.TimeoutError: Error {
+  message=&apos;Timeout 30000ms exceeded.
+  name=&apos;TimeoutError
+  stack=&apos;TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:361:39)
 }
 Call log:
-- waiting for getByText(&quot;Team View&quot;).first() to be visible
+- waiting for locator(&quot;li.el-select-dropdown__item:visible&quot;).filter(new Locator.FilterOptions().setHasText(&quot;Move to Credit Approval&quot;)).first() to be visible
 
-	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:54)
+	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
 	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
 	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
 	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
@@ -155,24 +154,23 @@ Call log:
 	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
 	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
 	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
-	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:115)
-	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
-	at ✽.User switches to Team View in the Allocation Dashboard(file:///Users/adarshgani/Documents/GitHub/branachAutomate/features/ubl.feature:81)
-Caused by: com.microsoft.playwright.impl.TargetClosedError: Error {
-  message=&apos;Target page, context or browser has been closed
-  name=&apos;TargetClosedError
-  stack=&apos;TargetClosedError:Target page, context or browser has been closed
-Error
-    at captureRawStack (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/stackTrace.js:49:17)
-    at LongStandingScope._race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:91:52)
-    at LongStandingScope.race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:84:17)
-    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:96:36)
-    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:361:39)
+	at ui.pages.jarvis.AppFormPage.ApplicationPage.selectActionWithAssignment(ApplicationPage.java:83)
+	at ui.stepDefinitions.jarvis.AppFormActionsSteps.moveApplicationWithAssignment(AppFormActionsSteps.java:22)
+	at ✽.User moves application to &quot;Move to Credit Approval&quot; assigned to level &quot;L5&quot; and user &quot;tenjin.user@creditsaison-in.com&quot;(file:///Users/adarshgani/Documents/GitHub/branachAutomate/features/ubl.feature:107)
+Caused by: com.microsoft.playwright.TimeoutError: Error {
+  message=&apos;Timeout 30000ms exceeded.
+  name=&apos;TimeoutError
+  stack=&apos;TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:361:39)
 }
 Call log:
-- waiting for getByText(&quot;Team View&quot;).first() to be visible
+- waiting for locator(&quot;li.el-select-dropdown__item:visible&quot;).filter(new Locator.FilterOptions().setHasText(&quot;Move to Credit Approval&quot;)).first() to be visible
 
-	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:256)
+	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:254)
 	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:211)
 	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:118)
 	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
@@ -183,8 +181,8 @@ Call log:
 	at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
 	at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
 	at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
-	at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:115)
-	at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+	at ui.pages.jarvis.AppFormPage.ApplicationPage.selectActionWithAssignment(ApplicationPage.java:83)
+	at ui.stepDefinitions.jarvis.AppFormActionsSteps.moveApplicationWithAssignment(AppFormActionsSteps.java:22)
 	at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)
 	at io.cucumber.java.Invoker.invoke(Invoker.java:24)
 	at io.cucumber.java.AbstractGlueDefinition.invokeMethod(AbstractGlueDefinition.java:47)
@@ -224,8 +222,6 @@ Call log:
   &lt;test thread-count=&quot;5&quot; name=&quot;Surefire test&quot; verbose=&quot;0&quot;&gt;
     &lt;classes&gt;
       &lt;class name=&quot;testRunner.UblRunnerTest&quot;/&gt;
-      &lt;class name=&quot;dynamicData.TestSessionData&quot;/&gt;
-      &lt;class name=&quot;hooks.BaseTest&quot;/&gt;
     &lt;/classes&gt;
   &lt;/test&gt; &lt;!-- Surefire test --&gt;
 &lt;/suite&gt; &lt;!-- Surefire suite --&gt;
@@ -239,7 +235,7 @@ Call log:
           <div class="main-panel-content rounded-window-bottom">
             <ul>
               <li>
-                <span class="test-name">Surefire test (3 classes)</span>
+                <span class="test-name">Surefire test (1 class)</span>
               </li>
             </ul>
           </div> <!-- main-panel-content rounded-window-bottom -->
@@ -277,12 +273,12 @@ data.addRows(1);
 data.setCell(0, 0, 0)
 data.setCell(0, 1, 'runScenario')
 data.setCell(0, 2, 'testRunner.UblRunnerTest')
-data.setCell(0, 3, 44291);
+data.setCell(0, 3, 94757);
 window.suiteTableData['Surefire_suite']= { tableData: data, tableDiv: 'times-div-Surefire_suite'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 44 seconds</span>
+              <span class="suite-total-time">Total running time: 1 minutes</span>
               <div id="times-div-Surefire_suite">
               </div> <!-- times-div-Surefire_suite -->
             </div> <!-- times-div -->
@@ -310,18 +306,18 @@ return data;
             <div class="chronological-class">
               <div class="chronological-class-name">testRunner.UblRunnerTest</div> <!-- chronological-class-name -->
               <div class="configuration-class before">
-                <span class="method-name">setUpClass(org.testng.TestRunner@31082efa)</span>
+                <span class="method-name">setUpClass(org.testng.TestRunner@cdb2d95)</span>
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-class before -->
               <div class="test-method">
                 <img src="failed.png">
                 </img>
                 <span class="method-name">runScenario("Complete DSA Portal to Jarvis Portal Handoff using Context Bridge", "Unsecured Business Loan End-to...)</span>
-                <span class="method-start">157 ms</span>
+                <span class="method-start">171 ms</span>
               </div> <!-- test-method -->
               <div class="configuration-class after">
                 <span class="method-name">tearDownClass</span>
-                <span class="method-start">44453 ms</span>
+                <span class="method-start">94932 ms</span>
               </div> <!-- configuration-class after -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->

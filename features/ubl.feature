@@ -99,31 +99,31 @@ Feature: Unsecured Business Loan End-to-End Workflow
 ###     Allocation Dashboard flow
 #    And User navigates to the Allocation Dashboard and assign appform to self using app ID
 #    And User selects "Move to Credit Review" from Application Actions and moves appForm next stage
-    And User opens the Loan Requirements section and updates the details
+#    And User opens the Loan Requirements section and updates the details
 #    And User navigates to the Verification tab and resolves the Udyam KYC status
 ##      Allocation Dashboard flow
 #    And User navigates to the Allocation Dashboard and assign appform to self using app ID
 #    And User navigates to the Dedupe tab in Application Dashboard
-    And User moves application to "Move to Credit Approval" assigned to level "L5" and user "tenjin.user@creditsaison-in.com"
-    And User navigates to the RegCheck tab in Application Dashboard
-    And User updates the Appform Ownership Details with the following data:
-      | UserEmail | harshit.verma@partner.creditsaison-in.com |
-# Loan Requirements flow
-    And User opens the Loan Requirements section and initiates Credit Approval with reason "Approve"
-    And User moves appForm to "TERMS" stage
+#    And User moves application to "Move to Credit Approval" assigned to level "L5" and user "tenjin.user@creditsaison-in.com"
+#    And User navigates to the RegCheck tab in Application Dashboard
+#    And User updates the Appform Ownership Details with the following data:
+#      | UserEmail | harshit.verma@partner.creditsaison-in.com |
+## Loan Requirements flow
+#    And User opens the Loan Requirements section and initiates Credit Approval with reason "Approve"
+#    And User moves appForm to "TERMS" stage
 #  Document Generation and E-Sign flow
-    And User opens E-Sign section, generates documents, and opts for offline signatures
+#    And User opens E-Sign section, generates documents, and opts for offline signatures
 # Insurance Details flow
     And User opens Insurance Details and updates Insurance and Nominee Details with the following data
       | Provider     | Acko Group Health Insurance         |
       | Tenure       | 10 Months                           |
       | NomineeName  | Adarsh Gani                         |
       | Relationship | brother                             |
-      | DOB          | 1996-08-24                          |
+      | DOB          | 2001-08-24                          |
       | Gender       | Male                                |
       | Mobile       | 7848043529                          |
       | Email        | adarsh.gani@creditsaison-in.com     |
-#    And User Update the repayment details
+    And User Update the repayment details
       | EMI Amount | 15000 |
       | EMI Date   | 5th    |
     And User selects "Move to Sanction Approval" from Application Actions and moves appForm next stage

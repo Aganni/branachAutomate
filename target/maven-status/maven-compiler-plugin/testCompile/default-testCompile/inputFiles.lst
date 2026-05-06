@@ -1,3 +1,4 @@
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/RunCodegen.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/backend/Utils/ApiClientUtils.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/backend/Utils/ApiUtils.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/backend/Utils/AwsSqsUtils.java
@@ -14,6 +15,7 @@
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/hooks/BaseTest.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/hooks/CucumberHooks.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/testRunner/UblRunnerTest.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/Utils/ScreenshotUtil.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/Utils/Utils.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/constants/Constants.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/dsa/BankingPage.java
@@ -26,9 +28,20 @@
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/dsa/LoginPage.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/dsa/PartnerDetailsPage.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/dsa/QdePage.java
-/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AllocationDashboardPage.java
-/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormActionsPage.java
-/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/ApplicationPage.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormPage/AppformTab/AppFormOwnerShipDetails.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormPage/AppformTab/BankDetails.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormPage/AppformTab/BusinessDetails.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormPage/AppformTab/EsignDocuments.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormPage/AppformTab/InsuranceDetails.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormPage/AppformTab/LoanRequirment.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormPage/ApplicationPage.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormPage/CamTab/Cam.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormPage/DedupeTab/Dedupe.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormPage/RegCheckTab/RegCheck.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/AppFormPage/VerificationTab/VerificationTab.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/Dashboard/AllocationDashboardPage.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/Dashboard/ApplicationDashboardPage.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/Dashboard/DashboardPage.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/pages/jarvis/LoginPage.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/stepDefinitions/dsa/BankingSteps.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/stepDefinitions/dsa/BusinessDetailsSteps.java
@@ -42,5 +55,7 @@
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/stepDefinitions/dsa/QdeSteps.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/stepDefinitions/jarvis/AllocationDashboardSteps.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/stepDefinitions/jarvis/AppFormActionsSteps.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/stepDefinitions/jarvis/AppFormDashboardSteps.java
+/Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/stepDefinitions/jarvis/ApplicationDetailsSteps.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/stepDefinitions/jarvis/ApplicationSteps.java
 /Users/adarshgani/Documents/GitHub/branachAutomate/src/test/java/ui/stepDefinitions/jarvis/LoginSteps.java

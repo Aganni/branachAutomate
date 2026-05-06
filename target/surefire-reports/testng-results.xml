@@ -2,26 +2,26 @@
 <testng-results ignored="0" total="1" passed="0" failed="1" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-04-20T22:02:35 IST" name="Surefire suite" finished-at="2026-04-20T22:03:19 IST" duration-ms="44494">
+  <suite started-at="2026-05-06T16:45:47 IST" name="Surefire suite" finished-at="2026-05-06T16:47:22 IST" duration-ms="94959">
     <groups>
       <group name="cucumber">
-        <method signature="AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:testRunner.UblRunnerTest@33d512c1]" name="runScenario" class="io.cucumber.testng.AbstractTestNGCucumberTests"/>
+        <method signature="AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:testRunner.UblRunnerTest@6f1de4c7]" name="runScenario" class="io.cucumber.testng.AbstractTestNGCucumberTests"/>
       </group> <!-- cucumber -->
     </groups>
-    <test started-at="2026-04-20T22:02:35 IST" name="Surefire test" finished-at="2026-04-20T22:03:19 IST" duration-ms="44494">
+    <test started-at="2026-05-06T16:45:47 IST" name="Surefire test" finished-at="2026-05-06T16:47:22 IST" duration-ms="94959">
       <class name="testRunner.UblRunnerTest">
-        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:testRunner.UblRunnerTest@33d512c1]" started-at="2026-04-20T22:02:35 IST" name="setUpClass" finished-at="2026-04-20T22:02:35 IST" duration-ms="155" status="PASS">
+        <test-method is-config="true" signature="setUpClass(org.testng.ITestContext)[pri:0, instance:testRunner.UblRunnerTest@6f1de4c7]" started-at="2026-05-06T16:45:47 IST" name="setUpClass" finished-at="2026-05-06T16:45:48 IST" duration-ms="168" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[org.testng.TestRunner@31082efa]]>
+                <![CDATA[org.testng.TestRunner@cdb2d95]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpClass -->
-        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:testRunner.UblRunnerTest@33d512c1]" started-at="2026-04-20T22:02:35 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2026-04-20T22:03:19 IST" duration-ms="44291" status="FAIL">
+        <test-method signature="runScenario(io.cucumber.testng.PickleWrapper,io.cucumber.testng.FeatureWrapper)[pri:0, instance:testRunner.UblRunnerTest@6f1de4c7]" started-at="2026-05-06T16:45:48 IST" name="runScenario" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2026-05-06T16:47:22 IST" duration-ms="94757" status="FAIL">
           <params>
             <param index="0">
               <value>
@@ -34,39 +34,37 @@
               </value>
             </param>
           </params>
-          <exception class="com.microsoft.playwright.impl.TargetClosedError">
+          <exception class="com.microsoft.playwright.TimeoutError">
             <message>
               <![CDATA[Error {
-  message='Target page, context or browser has been closed
-  name='TargetClosedError
-  stack='TargetClosedError:Target page, context or browser has been closed
-Error
-    at captureRawStack (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/stackTrace.js:49:17)
-    at LongStandingScope._race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:91:52)
-    at LongStandingScope.race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:84:17)
-    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:96:36)
-    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:361:39)
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:361:39)
 }
 Call log:
-- waiting for getByText("Team View").first() to be visible
+- waiting for locator("li.el-select-dropdown__item:visible").filter(new Locator.FilterOptions().setHasText("Move to Credit Approval")).first() to be visible
 ]]>
             </message>
             <full-stacktrace>
-              <![CDATA[com.microsoft.playwright.impl.TargetClosedError: Error {
-  message='Target page, context or browser has been closed
-  name='TargetClosedError
-  stack='TargetClosedError:Target page, context or browser has been closed
-Error
-    at captureRawStack (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/stackTrace.js:49:17)
-    at LongStandingScope._race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:91:52)
-    at LongStandingScope.race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:84:17)
-    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:96:36)
-    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:361:39)
+              <![CDATA[com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:361:39)
 }
 Call log:
-- waiting for getByText("Team View").first() to be visible
+- waiting for locator("li.el-select-dropdown__item:visible").filter(new Locator.FilterOptions().setHasText("Move to Credit Approval")).first() to be visible
 
-at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:54)
+at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
 at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
 at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
 at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
@@ -76,24 +74,23 @@ at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:
 at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
 at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
 at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
-at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:115)
-at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
-at ✽.User switches to Team View in the Allocation Dashboard(file:///Users/adarshgani/Documents/GitHub/branachAutomate/features/ubl.feature:81)
-Caused by: com.microsoft.playwright.impl.TargetClosedError: Error {
-  message='Target page, context or browser has been closed
-  name='TargetClosedError
-  stack='TargetClosedError:Target page, context or browser has been closed
-Error
-    at captureRawStack (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/stackTrace.js:49:17)
-    at LongStandingScope._race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:91:52)
-    at LongStandingScope.race (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/utils/manualPromise.js:84:17)
-    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:96:36)
-    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-13429531906463883265/package/lib/server/dispatchers/dispatcher.js:361:39)
+at ui.pages.jarvis.AppFormPage.ApplicationPage.selectActionWithAssignment(ApplicationPage.java:83)
+at ui.stepDefinitions.jarvis.AppFormActionsSteps.moveApplicationWithAssignment(AppFormActionsSteps.java:22)
+at ✽.User moves application to "Move to Credit Approval" assigned to level "L5" and user "tenjin.user@creditsaison-in.com"(file:///Users/adarshgani/Documents/GitHub/branachAutomate/features/ubl.feature:107)
+Caused by: com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at ProgressController.run (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/frames.js:624:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/frameDispatcher.js:105:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/ys/g6nbn1894354jyyrj64fwty80000gp/T/playwright-java-18268008623382128165/package/lib/server/dispatchers/dispatcher.js:361:39)
 }
 Call log:
-- waiting for getByText("Team View").first() to be visible
+- waiting for locator("li.el-select-dropdown__item:visible").filter(new Locator.FilterOptions().setHasText("Move to Credit Approval")).first() to be visible
 
-at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:256)
+at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:254)
 at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:211)
 at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:118)
 at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
@@ -104,8 +101,8 @@ at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:
 at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
 at com.microsoft.playwright.impl.LocatorImpl.waitForImpl(LocatorImpl.java:619)
 at com.microsoft.playwright.impl.LocatorImpl.waitFor(LocatorImpl.java:615)
-at ui.pages.jarvis.AllocationDashboardPage.switchToTeamView(AllocationDashboardPage.java:115)
-at ui.stepDefinitions.jarvis.AllocationDashboardSteps.switchToTeamView(AllocationDashboardSteps.java:21)
+at ui.pages.jarvis.AppFormPage.ApplicationPage.selectActionWithAssignment(ApplicationPage.java:83)
+at ui.stepDefinitions.jarvis.AppFormActionsSteps.moveApplicationWithAssignment(AppFormActionsSteps.java:22)
 at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
 at java.base/java.lang.reflect.Method.invoke(Method.java:580)
 at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)
@@ -150,8 +147,8 @@ at org.testng.TestNG.runSuitesLocally(TestNG.java:1169)
 at org.testng.TestNG.runSuites(TestNG.java:1092)
 at org.testng.TestNG.run(TestNG.java:1060)
 at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:155)
-at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:169)
-at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:88)
+at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeSingleClass(TestNGDirectoryTestSuite.java:102)
+at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:91)
 at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:137)
 at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
 at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
@@ -159,11 +156,11 @@ at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
 at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
 ]]>
             </full-stacktrace>
-          </exception> <!-- com.microsoft.playwright.impl.TargetClosedError -->
+          </exception> <!-- com.microsoft.playwright.TimeoutError -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- runScenario -->
-        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:testRunner.UblRunnerTest@33d512c1]" started-at="2026-04-20T22:03:19 IST" name="tearDownClass" finished-at="2026-04-20T22:03:19 IST" duration-ms="35" status="PASS">
+        <test-method is-config="true" signature="tearDownClass()[pri:0, instance:testRunner.UblRunnerTest@6f1de4c7]" started-at="2026-05-06T16:47:22 IST" name="tearDownClass" finished-at="2026-05-06T16:47:22 IST" duration-ms="23" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownClass -->

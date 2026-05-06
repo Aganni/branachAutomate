@@ -26,15 +26,20 @@ public class InsuranceDetails extends BaseTest {
         Locator insuranceCard = page.locator("button.appform-card")
                 .filter(new Locator.FilterOptions().setHasText("Insurance Details"))
                 .first();
-        insuranceCard.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        insuranceCard.click();
+        insuranceCard.scrollIntoViewIfNeeded();
+        insuranceCard.click(new Locator.ClickOptions().setForce(true));
 
         log.info("Clicking Edit on Insurance modal...");
-        Locator editBtn = page.locator(".form-header button.edit-btn").first();
-        editBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        editBtn.click(new Locator.ClickOptions().setForce(true));
 
-        page.waitForLoadState(LoadState.NETWORKIDLE);
+        // Use strict XPath for the Edit button based on your HTML
+        Locator editBtn = page.locator("xpath=//div[contains(@class, 'form-header')]//button[contains(@class, 'edit-btn')]").first();
+        editBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+
+        // JS Click bypasses any invisible overlays blocking the button
+        editBtn.evaluate("node => node.click()");
+
+        // Wait a second for Vue to remove the 'disabled' tags from all inputs
+        page.waitForTimeout(1000);
     }
 
     /**
@@ -49,81 +54,146 @@ public class InsuranceDetails extends BaseTest {
         // 2. Policy Tenure
         selectDropdownOption("Policy Insurance Tenure (Months)", data.getOrDefault("Tenure", "10 Months"));
 
-        // 3. Policy Holder Name (Selects the first available option in the list)
+        // 3. Policy Holder Name
         log.info("Selecting first available Policy Holder Name...");
-        Locator holderInput = page.locator("//label[text()='Policy Holder Name']/following-sibling::div//input").first();
-        holderInput.click(new Locator.ClickOptions().setForce(true));
-        page.waitForTimeout(500);
-        Locator firstHolderOption = page.locator("li.el-select-dropdown__item:visible:not(.is-disabled)").first();
+
+        // CRITICAL FIX: Target the 'el-select' wrapper div, not the inner <input>
+        Locator holderWrapper = page.locator("xpath=//label[contains(normalize-space(text()), 'Policy Holder Name')]/following-sibling::div//div[contains(@class, 'el-select')]").first();
+        holderWrapper.scrollIntoViewIfNeeded();
+
+        // A standard click on the wrapper is usually recognized natively by Vue
+        holderWrapper.click();
+
+        Locator activeHolderDropdown = page.locator(".el-select-dropdown:visible").last();
+        // Wait explicitly for the dropdown to render on the screen
+        activeHolderDropdown.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+
+        Locator firstHolderOption = activeHolderDropdown.locator("li.el-select-dropdown__item:not(.is-disabled)").first();
+        firstHolderOption.scrollIntoViewIfNeeded();
         firstHolderOption.click(new Locator.ClickOptions().setForce(true));
+        page.waitForTimeout(500);
 
         // 4. Open Nominee Form
         log.info("Opening + Add Nominee form...");
-        Locator nomineeInput = page.locator("//label[text()='Nominee Name']/following-sibling::div//input").first();
-        nomineeInput.click(new Locator.ClickOptions().setForce(true));
-        page.waitForTimeout(500);
-        Locator addNomineeOption = page.locator("li.el-select-dropdown__item:visible").filter(new Locator.FilterOptions().setHasText("+ Add")).first();
+
+        // CRITICAL FIX: Target the 'el-select' wrapper div, not the inner <input>
+        Locator nomineeWrapper = page.locator("xpath=//label[contains(normalize-space(text()), 'Nominee Name')]/following-sibling::div//div[contains(@class, 'el-select')]").first();
+        nomineeWrapper.scrollIntoViewIfNeeded();
+
+        // A standard click on the wrapper
+        nomineeWrapper.click();
+
+        Locator activeNomineeDropdown = page.locator(".el-select-dropdown:visible").last();
+        // Wait explicitly for the dropdown to render on the screen
+        activeNomineeDropdown.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+
+        Locator addNomineeOption = activeNomineeDropdown.locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText("+ Add")).first();
+        addNomineeOption.scrollIntoViewIfNeeded();
         addNomineeOption.click(new Locator.ClickOptions().setForce(true));
 
-        // 5. Fill Nominee Form (Scoped strictly to avoid matching outer form fields)
+        // Wait a full second for the inner Nominee form to slide into view
+        page.waitForTimeout(1000);
+
+        // 5. Fill Nominee Form
         fillNomineeDetails(data);
 
         // 6. Submit Main Insurance Form
         log.info("Submitting main Insurance form...");
-        Locator submitBtn = page.locator("button.el-button--primary:visible").filter(new Locator.FilterOptions().setHasText("SUBMIT")).first();
-        submitBtn.click(new Locator.ClickOptions().setForce(true));
+        Locator submitBtn = page.locator("xpath=//button[contains(@class, 'el-button--primary') and .//span[normalize-space(text())='SUBMIT']]").first();
+        submitBtn.scrollIntoViewIfNeeded();
+        submitBtn.evaluate("node => node.click()");
 
         // 7. Verify Success Toast
         verifySuccessAndClose(scenarioName);
     }
 
     /**
-     * Helper to fill out the inner Nominee Card
+     * Helper to fill out the inner Nominee Form
      */
     private void fillNomineeDetails(Map<String, String> data) {
         log.info("Filling Nominee details...");
 
-        // Scope all lookups to the nominee card to prevent cross-contamination
-        Locator nomineeCard = page.locator(".nominee-card").first();
+        // 1. Nominee Name
+        Locator nameInput = page.locator("xpath=//input[@placeholder='Enter new nominee name']").first();
+        nameInput.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+        nameInput.fill(data.getOrDefault("NomineeName", "Test Nominee"));
 
-        nomineeCard.locator("input[placeholder='Enter new nominee name']").fill(data.getOrDefault("NomineeName", "Test Nominee"));
-
-        // Relationship Dropdown
-        Locator relationInput = nomineeCard.locator("//label[text()='Relationship with applicant']/following-sibling::div//input").first();
-        relationInput.click(new Locator.ClickOptions().setForce(true));
+        // 2. Relationship Dropdown
+        Locator relationWrapper = page.locator("xpath=//label[contains(normalize-space(text()), 'Relationship')]/following-sibling::div//div[contains(@class, 'el-select')]").first();
+        relationWrapper.scrollIntoViewIfNeeded();
+        relationWrapper.click();
         page.waitForTimeout(500);
-        page.locator("li.el-select-dropdown__item:visible").filter(new Locator.FilterOptions().setHasText(data.getOrDefault("Relationship", "brother"))).first().click();
+        Locator activeRelationDropdown = page.locator(".el-select-dropdown:visible").last();
+        activeRelationDropdown.locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText(data.getOrDefault("Relationship", "brother"))).first().evaluate("node => node.click()");
 
-        // DOB (Typing directly into Element UI date pickers bypasses the calendar UI)
-        Locator dobInput = nomineeCard.locator("input[placeholder='DOB']").first();
-        dobInput.fill(data.getOrDefault("DOB", "1995-05-15"));
-        dobInput.press("Enter"); // Confirms the date selection
+        // 3. DOB (Handle the Calendar Popup)
+        log.info("Selecting DOB from Calendar...");
+        Locator dobInput = page.locator("xpath=//input[@placeholder='DOB']").first();
+        dobInput.scrollIntoViewIfNeeded();
+        dobInput.click(new Locator.ClickOptions().setForce(true)); // This opens the calendar popup
 
-        // Gender Dropdown
-        Locator genderInput = nomineeCard.locator("//label[text()='Gender']/following-sibling::div//input").first();
-        genderInput.click(new Locator.ClickOptions().setForce(true));
+        // Wait for the calendar popup to appear, then click the 15th of the current month
+        Locator activeCalendar = page.locator(".el-picker-panel:visible").last();
+        activeCalendar.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+        Locator day15 = activeCalendar.locator("xpath=.//td[contains(@class, 'available')]/div/span[text()='15']").first();
+        day15.click(new Locator.ClickOptions().setForce(true));
+        page.waitForTimeout(500); // Give the calendar time to close
+
+        // 4. Gender Dropdown
+        Locator genderWrapper = page.locator("xpath=//label[normalize-space(text())='Gender']/following-sibling::div//div[contains(@class, 'el-select')]").first();
+        genderWrapper.scrollIntoViewIfNeeded();
+        genderWrapper.click();
         page.waitForTimeout(500);
-        page.locator("li.el-select-dropdown__item:visible").filter(new Locator.FilterOptions().setHasText(data.getOrDefault("Gender", "Male"))).first().click();
+        Locator activeGenderDropdown = page.locator(".el-select-dropdown:visible").last();
+        activeGenderDropdown.locator("li.el-select-dropdown__item").filter(new Locator.FilterOptions().setHasText(data.getOrDefault("Gender", "Male"))).first().evaluate("node => node.click()");
 
-        // Address
-        nomineeCard.locator("textarea[placeholder='Address']").fill("Manayata\nHebala\nFamily Owned");
+        // 5. Address
+        Locator addressInput = page.locator("xpath=//textarea[@placeholder='Address']").first();
+        addressInput.fill("Manayata\nHebala\nFamily Owned");
 
-        // Pincode (Wait for City/State to auto-populate)
-        log.info("Filling Pincode and waiting for auto-population...");
-        Locator pincodeInput = nomineeCard.locator("input[placeholder='Enter the Pincode']").first();
+        // 6. Pincode & City/State
+        log.info("Entering Pincode and waiting for City/State to populate...");
+        Locator pincodeInput = page.locator("xpath=//input[@placeholder='Enter the Pincode']").first();
         pincodeInput.fill("560045");
-        pincodeInput.press("Tab"); // Triggers backend fetch
-        page.waitForTimeout(1500); // Give backend 1.5s to populate city/state
+        pincodeInput.press("Tab");
 
-        // Contact & Email
-        nomineeCard.locator("input[placeholder='Contact Number']").fill(data.getOrDefault("Mobile", "9876543210"));
-        nomineeCard.locator("input[placeholder='Email ID']").fill(data.getOrDefault("Email", "test.nominee@creditsaison-in.com"));
+        // Wait up to 3 seconds for the City dropdown to NOT be empty (meaning it populated)
+        Locator cityInput = page.locator("xpath=//input[@placeholder='Enter the City']").first();
+        try {
+            // Element UI often removes the 'is-disabled' or sets a value when populated
+            page.waitForCondition(() -> !cityInput.inputValue().isEmpty() || !cityInput.getAttribute("class").contains("is-disabled"), new Page.WaitForConditionOptions().setTimeout(3000));
+        } catch (Exception e) {
+            log.warn("City/State did not auto-populate in time. Attempting manual selection...");
+            // Manual City Selection Fallback
+            Locator cityWrapper = page.locator("xpath=//label[text()='CITY']/following-sibling::div//div[contains(@class, 'el-select')]").first();
+            cityWrapper.click();
+            page.waitForTimeout(500);
+            page.locator(".el-select-dropdown:visible").last().locator("li.el-select-dropdown__item:not(.is-disabled)").first().evaluate("node => node.click()");
 
-        // Click 'Add' strictly inside the nominee card
+            // Manual State Selection Fallback
+            Locator stateWrapper = page.locator("xpath=//label[text()='STATE']/following-sibling::div//div[contains(@class, 'el-select')]").first();
+            stateWrapper.click();
+            page.waitForTimeout(500);
+            page.locator(".el-select-dropdown:visible").last().locator("li.el-select-dropdown__item:not(.is-disabled)").first().evaluate("node => node.click()");
+        }
+
+        // 7. Contact & Email
+        page.locator("xpath=//input[@placeholder='Contact Number']").first().fill(data.getOrDefault("Mobile", "9876543210"));
+        page.locator("xpath=//input[@placeholder='Email ID']").first().fill(data.getOrDefault("Email", "test.nominee@creditsaison-in.com"));
+
+        // 8. Click 'Add' Button
         log.info("Clicking Add Nominee button...");
-        Locator addBtn = nomineeCard.locator("button.el-button--primary:not(.is-disabled)").filter(new Locator.FilterOptions().setHasText("Add")).first();
-        addBtn.click(new Locator.ClickOptions().setForce(true));
-        page.waitForTimeout(1000); // Allow card to close
+        Locator addBtn = page.locator("xpath=//button[contains(@class, 'el-button--primary') and .//span[normalize-space(text())='Add']]").first();
+
+        // Check if button is disabled (validation error) before clicking
+        if (addBtn.getAttribute("class").contains("is-disabled")) {
+            ScreenshotUtil.saveScreenshot(page, "NomineeFormValidationFailed", "AddNominee");
+            throw new AssertionError("The 'Add' button is disabled. A mandatory field in the Nominee form is missing or invalid.");
+        }
+
+        addBtn.scrollIntoViewIfNeeded();
+        addBtn.evaluate("node => node.click()");
+        page.waitForTimeout(1000);
     }
 
     /**
@@ -146,16 +216,7 @@ public class InsuranceDetails extends BaseTest {
         page.waitForLoadState(LoadState.NETWORKIDLE);
         page.waitForTimeout(1000);
 
-        // Click the specific Close button (X) on the form header
-        log.info("Clicking Close (X) button on modal header...");
-        Locator closeBtn = page.locator(".form-header button.close-btn").first();
-        if (closeBtn.isVisible()) {
-            closeBtn.click(new Locator.ClickOptions().setForce(true));
-            page.waitForTimeout(500);
-        }
-
-        // Ultimate Fallback: Click outside the modal or press Escape to fully close it
-        log.info("Clicking outside modal to ensure complete exit...");
+        log.info("Closing modal entirely...");
         page.mouse().click(10, 10);
         page.waitForTimeout(1000);
 
@@ -166,14 +227,34 @@ public class InsuranceDetails extends BaseTest {
     }
 
     /**
-     * Reusable helper for simple dropdowns
+     * Bulletproof helper method to handle Element UI dropdowns reliably
      */
     private void selectDropdownOption(String label, String optionText) {
         log.info("Selecting '{}' for '{}'", optionText, label);
-        Locator input = page.locator("//label[contains(text(),'" + label + "')]/following-sibling::div//input").first();
-        input.click(new Locator.ClickOptions().setForce(true));
-        page.waitForTimeout(500);
-        Locator option = page.locator("li.el-select-dropdown__item:visible").filter(new Locator.FilterOptions().setHasText(optionText)).first();
-        option.click(new Locator.ClickOptions().setForce(true));
+
+        Locator input = page.locator("xpath=//label[contains(normalize-space(text()), '" + label + "')]/following-sibling::div//input").first();
+        input.scrollIntoViewIfNeeded();
+
+        // JS click ensures the dropdown activates even if partially covered
+        input.evaluate("node => node.click()");
+
+        // Wait for dropdown menu to appear
+        Locator activeDropdown = page.locator(".el-select-dropdown:visible").last();
+        try {
+            activeDropdown.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+        } catch (Exception e) {
+            throw new RuntimeException("The dropdown menu for '" + label + "' failed to open!", e);
+        }
+
+        Locator option = activeDropdown.locator("li.el-select-dropdown__item")
+                .filter(new Locator.FilterOptions().setHasText(optionText))
+                .first();
+
+        option.scrollIntoViewIfNeeded();
+        // JS Click prevents the click from being swallowed by span wrappers
+        option.evaluate("node => node.click()");
+
+        log.info("Successfully selected '{}'.", optionText);
+        page.waitForTimeout(300);
     }
 }
