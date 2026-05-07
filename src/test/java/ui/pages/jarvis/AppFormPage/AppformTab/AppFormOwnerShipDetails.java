@@ -19,6 +19,7 @@ public class AppFormOwnerShipDetails extends BaseTest {
 
     public void openAppFormOwnerShipAndEdit() {
         log.info("Opening Appform Ownership Details section...");
+        AppFormTabNavigator.ensureOnAppFormTab(page);
 
         Locator ownershipCard = page.locator("button.appform-card")
                 .filter(new Locator.FilterOptions().setHasText("Appform Ownership Details"))

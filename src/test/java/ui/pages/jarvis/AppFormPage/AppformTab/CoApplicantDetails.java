@@ -6,6 +6,7 @@ import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import hooks.BaseTest;
 import ui.Utils.ScreenshotUtil;
+import ui.pages.jarvis.AppFormPage.AppformTab.AppFormTabNavigator;
 
 public class CoApplicantDetails extends BaseTest {
 
@@ -17,6 +18,7 @@ public class CoApplicantDetails extends BaseTest {
 
     public void addAadhaarToCoApplicant(String aadhaarNumber, String scenarioName) {
         log.info("Opening Co-Applicant Details section...");
+        AppFormTabNavigator.ensureOnAppFormTab(page);
 
         // 1. Open Co-Applicant Details Section
         Locator coApplicantSection = page.locator("xpath=//div[@id='Co-Applicant Details']//button").first();

@@ -1,6 +1,5 @@
 package ui.pages.jarvis.AppFormPage.AppformTab;
 
-import com.microsoft.playwright.Keyboard;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
@@ -23,6 +22,7 @@ public class LoanRequirment extends BaseTest {
      */
     public void openLoanRequirementsAndEdit() {
         log.info("Opening Loan Requirements section...");
+        AppFormTabNavigator.ensureOnAppFormTab(page);
 
         Locator loanReqCard = page.locator("button.appform-card").filter(new Locator.FilterOptions().setHasText("Loan Requirements")).first();
         loanReqCard.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));

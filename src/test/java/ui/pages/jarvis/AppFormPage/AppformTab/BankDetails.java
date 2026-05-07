@@ -25,6 +25,7 @@ public class BankDetails extends BaseTest {
      */
     public void openBankDetailsAndEdit() {
         log.info("Opening Bank Details section...");
+        AppFormTabNavigator.ensureOnAppFormTab(page);
 
         // Click the Bank Details accordion card
         Locator bankCard = page.locator("button.appform-card").filter(new Locator.FilterOptions().setHasText("Bank Details")).first();

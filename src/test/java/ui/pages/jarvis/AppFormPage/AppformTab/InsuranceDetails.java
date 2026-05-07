@@ -22,6 +22,7 @@ public class InsuranceDetails extends BaseTest {
      */
     public void openInsuranceAndEdit() {
         log.info("Opening Insurance Details section...");
+        AppFormTabNavigator.ensureOnAppFormTab(page);
 
         Locator insuranceCard = page.locator("button.appform-card")
                 .filter(new Locator.FilterOptions().setHasText("Insurance Details"))
