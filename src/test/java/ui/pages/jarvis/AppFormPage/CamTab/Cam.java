@@ -10,111 +10,98 @@ public class Cam extends BaseTest {
 
     private final Page page;
 
+    // ── Locator constants ─────────────────────────────────────────────────────
+    private static final String LOC_CAM_TAB         = "a.tab-item";
+    private static final String LOC_START_CAM_BTN   = "button.download-cam";
+    private static final String LOC_ENABLED_CAM_BTN = "button.download-cam:not(.is-disabled)";
+    private static final String LOC_GO_TO_APPFORM   = "span.back-to-application";
+
     public Cam(Page page) {
         this.page = page;
     }
 
+    /**
+     * Navigates to the CAM tab, waits for the Start CAM button to become enabled
+     * (retrying up to 2 page refreshes), clicks it, handles the new tab, and returns.
+     */
     public void selectCamTab() {
         log.info("Navigating to CAM tab...");
-
-        Locator camTabLink = page.locator("a.tab-item").filter(new Locator.FilterOptions().setHasText("CAM")).first();
+        Locator camTabLink = page.locator(LOC_CAM_TAB)
+                .filter(new Locator.FilterOptions().setHasText("CAM"))
+                .first();
         camTabLink.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         camTabLink.click(new Locator.ClickOptions().setForce(true));
 
-        log.info("Waiting for URL to route to /cam...");
         page.waitForURL("**/cam*");
         page.waitForLoadState(LoadState.NETWORKIDLE);
         page.waitForTimeout(3000);
 
-        // The Start CAM button renders immediately but stays DISABLED (grey) while the backend
-        // calculates CAM data. We must wait for :not(.is-disabled) — the ENABLED (blue) state.
-        // A plain :visible check is insufficient because the disabled button is also visible.
-        boolean isBtnEnabled = waitForStartCamEnabled(3000);
+        // Button renders immediately but stays disabled while backend calculates CAM data.
+        // Poll for the enabled state; refresh up to twice if still disabled.
+        boolean isEnabled = waitForStartCamEnabled(3000);
 
-        // --- 1ST REFRESH (if button still disabled) ---
-        if (!isBtnEnabled) {
-            log.info("Start CAM button is disabled after page load. Triggering 1st refresh...");
-            page.reload(new Page.ReloadOptions().setTimeout(60000));
+        if (!isEnabled) {
+            log.info("Start CAM button disabled after initial load — triggering 1st refresh...");
+            page.reload(new Page.ReloadOptions().setTimeout(60_000));
             page.waitForLoadState(LoadState.NETWORKIDLE);
             page.waitForTimeout(2000);
-
-            isBtnEnabled = waitForStartCamEnabled(5000);
-            if (isBtnEnabled) {
-                log.info("Start CAM button is ENABLED after 1st refresh!");
-            } else {
-                log.warn("Start CAM button still disabled after 1st refresh. Trying 2nd refresh...");
-            }
+            isEnabled = waitForStartCamEnabled(5000);
+            if (isEnabled) log.info("Start CAM button enabled after 1st refresh.");
+            else           log.warn("Still disabled after 1st refresh — trying 2nd...");
         }
 
-        // --- 2ND REFRESH (if still disabled) ---
-        if (!isBtnEnabled) {
-            page.waitForTimeout(5000); // give backend more time before 2nd refresh
-            log.info("Triggering 2nd refresh...");
-            page.reload(new Page.ReloadOptions().setTimeout(60000));
+        if (!isEnabled) {
+            page.waitForTimeout(5000); // extra backend processing time before 2nd refresh
+            page.reload(new Page.ReloadOptions().setTimeout(60_000));
             page.waitForLoadState(LoadState.NETWORKIDLE);
             page.waitForTimeout(2000);
-
-            isBtnEnabled = waitForStartCamEnabled(10000);
-            if (!isBtnEnabled) {
-                throw new AssertionError(
-                        "Start CAM button is still DISABLED after two refreshes. " +
-                        "Backend may not have finished calculating CAM data.");
-            }
-            log.info("Start CAM button is ENABLED after 2nd refresh!");
+            isEnabled = waitForStartCamEnabled(10_000);
+            if (!isEnabled) throw new AssertionError(
+                    "Start CAM button is still DISABLED after two refreshes — backend may not have finished.");
+            log.info("Start CAM button enabled after 2nd refresh.");
         }
 
-        // --- CLICK ENABLED BUTTON ---
-        Locator startCamBtn = page.locator("button.download-cam:not(.is-disabled)").first();
-        log.info("Clicking on 'Start CAM' and waiting for the new tab to open...");
-        Page newCamTab = page.waitForPopup(() -> {
-            startCamBtn.click(new Locator.ClickOptions().setForce(true));
-        });
+        // Click the enabled button and handle the popup tab it opens
+        Locator startCamBtn = page.locator(LOC_ENABLED_CAM_BTN).first();
+        log.info("Clicking 'Start CAM'...");
+        Page newCamTab = page.waitForPopup(() ->
+                startCamBtn.click(new Locator.ClickOptions().setForce(true)));
 
-        // Switch focus to the new tab
         newCamTab.waitForLoadState(LoadState.NETWORKIDLE);
-        log.info("Successfully switched to new CAM tab: " + newCamTab.url());
+        log.info("Switched to CAM tab: {}", newCamTab.url());
 
-        // Click 'Go to Appform' inside the NEW tab
-        log.info("Clicking 'Go to Appform' in the new tab...");
-        Locator goToAppFormBtn = newCamTab.locator("span.back-to-application").first();
+        // Click 'Go to Appform' in the popup tab to return context to the main application
+        Locator goToAppFormBtn = newCamTab.locator(LOC_GO_TO_APPFORM).first();
         goToAppFormBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         goToAppFormBtn.click(new Locator.ClickOptions().setForce(true));
 
-        // Handle Tab Closing
         newCamTab.waitForLoadState(LoadState.NETWORKIDLE);
         newCamTab.waitForTimeout(1000);
-
         if (!newCamTab.isClosed()) {
             newCamTab.close();
-            log.info("Closed the CAM tab manually.");
+            log.info("Closed CAM popup tab.");
         }
 
         page.bringToFront();
-        log.info("Returned focus to the original Application Details tab.");
+        log.info("Returned focus to the main Application Details tab.");
     }
 
     /**
-     * Waits up to {@code timeoutMs} for the Start CAM button to be in an ENABLED (not disabled) state.
+     * Waits up to {@code timeoutMs} for the Start CAM button to be enabled (no {@code is-disabled} class).
      *
-     * <p>The button is always present in the DOM and visible, but carries {@code is-disabled}
-     * while the backend is calculating. We poll for {@code :not(.is-disabled)} to confirm
-     * the backend has finished and the button is safe to click.</p>
-     *
-     * @param timeoutMs max wait in milliseconds
-     * @return {@code true} if button became enabled within the timeout, {@code false} otherwise
+     * @return {@code true} if button became enabled within the timeout
      */
     private boolean waitForStartCamEnabled(double timeoutMs) {
         try {
-            log.info("Waiting up to {}ms for Start CAM button to become enabled...", (int) timeoutMs);
-            page.locator("button.download-cam:not(.is-disabled)")
-                    .first()
+            log.info("Waiting {}ms for Start CAM to become enabled...", (int) timeoutMs);
+            page.locator(LOC_ENABLED_CAM_BTN).first()
                     .waitFor(new Locator.WaitForOptions()
                             .setState(WaitForSelectorState.VISIBLE)
                             .setTimeout(timeoutMs));
-            log.info("Start CAM button is ENABLED (not disabled).");
             return true;
         } catch (Exception e) {
-            log.warn("Start CAM button is still DISABLED after {}ms wait.", (int) timeoutMs);
+            log.warn("Start CAM still disabled after {}ms.", (int) timeoutMs);
             return false;
         }
     }
+}
