@@ -121,38 +121,46 @@ public class BusinessDetails extends BaseTest {
     }
 
     /**
-     * Helper method to handle Element UI dropdowns reliably
-     */
-    /**
      * Helper method to handle Element UI dropdowns reliably without hitting hidden ghost elements.
      */
     private void selectDropdownOption(String label, String optionText) {
         log.info("Selecting '{}' for '{}'", optionText, label);
 
-        // 1. Find the input box using the label and click it
-        Locator input = page.locator("//label[normalize-space(text())='" + label + "']/following-sibling::div//input").first();
+        // 1. Find the input box (using 'contains' just in case there are hidden spaces in the label)
+        Locator input = page.locator("//label[contains(normalize-space(text()), '" + label + "')]/following-sibling::div//input").first();
         input.scrollIntoViewIfNeeded();
-        input.click(new Locator.ClickOptions().setForce(true));
 
-        // Allow Element UI dropdown animation to finish
-        page.waitForTimeout(500);
+        // 2. Click the input box (NO force click! If it's covered, we want it to fail over to JS)
+        try {
+            // Try a normal human click first
+            input.click(new Locator.ClickOptions().setTimeout(3000));
+        } catch (Exception e) {
+            log.warn("Standard click intercepted for '{}'. Forcing JS click...", label);
+            // Bypass the virtual mouse entirely and force the browser to click the element
+            input.evaluate("node => node.click()");
+        }
 
-        // 2. CRITICAL FIX: Locate the ACTIVE (visible) dropdown floating at the bottom of the DOM
+        // 3. CRITICAL: Wait for the dropdown menu to ACTUALLY appear on the screen
         Locator activeDropdown = page.locator(".el-select-dropdown:visible").last();
+        try {
+            activeDropdown.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+        } catch (Exception e) {
+            throw new RuntimeException("The dropdown menu for '" + label + "' failed to open after clicking!", e);
+        }
 
-        // 3. Find the option STRICTLY inside the active dropdown
+        // 4. Find the option STRICTLY inside the active dropdown
         Locator option = activeDropdown.locator("li.el-select-dropdown__item")
                 .filter(new Locator.FilterOptions().setHasText(optionText))
                 .first();
 
-        // Ensure the option is visible inside the dropdown's internal scroll area before clicking
+        // 5. Scroll to the option inside the dropdown and click it
         option.scrollIntoViewIfNeeded();
         option.click(new Locator.ClickOptions().setForce(true));
+
+        log.info("Successfully selected '{}'.", optionText);
+        page.waitForTimeout(300); // Small buffer before moving to the next dropdown
     }
 
-    /**
-     * Dedicated method to handle the Udyam Typing, Clicking, and Verify Alert
-     */
     /**
      * Dedicated method to handle the Udyam Typing, Clicking, and Verify Alert
      */

@@ -22,7 +22,7 @@ public class AppFormDashboardSteps extends BaseTest {
     }
 
     @And("User navigates to the Dedupe tab in Application Dashboard")
-    public void navigateDedupe() {
+    public void navigateDedupe()  {
         dedupeTab.selectDedupeTab();
     }
 
@@ -32,7 +32,7 @@ public class AppFormDashboardSteps extends BaseTest {
     }
 
     @And("User navigates to the CAM tab in Application Dashboard and start the cam")
-    public void navigateToCamTab() throws InterruptedException {
+    public void navigateToCamTab() {
          camTab.selectCamTab();
     }
 

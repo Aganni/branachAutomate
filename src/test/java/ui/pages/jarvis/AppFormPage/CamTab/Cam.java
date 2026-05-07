@@ -26,29 +26,47 @@ public class Cam extends BaseTest {
         page.waitForLoadState(LoadState.NETWORKIDLE);
         page.waitForTimeout(3000);
 
-        log.info("Refreshing the CAM page...");
+        // --- 1ST REFRESH ---
+        log.info("Refreshing the CAM page (1st Attempt)...");
         page.reload(new Page.ReloadOptions().setTimeout(60000));
         page.waitForLoadState(LoadState.NETWORKIDLE);
         page.waitForTimeout(2000);
 
-        log.info("Checking for 'Start CAM' button...");
-        Locator startCamBtn = page.locator("button.download-cam:visible").first();
+        // Defined without ':visible' so Playwright dynamically evaluates the DOM state during the wait
+        Locator startCamBtn = page.locator("button.download-cam").first();
+        boolean isBtnVisible = false;
 
-        // --- THE DOUBLE REFRESH LOGIC ---
         try {
+            log.info("Checking for 'Start CAM' button...");
             // Wait up to 5 seconds for the button to appear after the first refresh
             startCamBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+            isBtnVisible = true;
+            log.info("Start CAM button found after 1st refresh!");
         } catch (Exception e) {
-            log.warn("Start CAM button not visible yet. Backend is likely still processing. Waiting 3 seconds and refreshing again...");
-            page.waitForTimeout(3000); // Give the backend time to finish generating the CAM
-            page.reload(new Page.ReloadOptions().setTimeout(60000));
-            page.waitForLoadState(LoadState.NETWORKIDLE);
-            page.waitForTimeout(1000);
-
-            // Try one more time, this time failing the test if it still isn't there
-            startCamBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));
+            log.warn("Start CAM button NOT found after 1st refresh. Backend is likely still calculating.");
         }
 
+        // --- 2ND REFRESH (ONLY IF NEEDED) ---
+        if (!isBtnVisible) {
+            log.info("Waiting 5 seconds before triggering a 2nd refresh...");
+            page.waitForTimeout(5000); // Give the backend more time to finish generating the CAM
+
+            log.info("Refreshing the CAM page (2nd Attempt)...");
+            page.reload(new Page.ReloadOptions().setTimeout(60000));
+            page.waitForLoadState(LoadState.NETWORKIDLE);
+            page.waitForTimeout(2000);
+
+            try {
+                log.info("Checking for 'Start CAM' button again...");
+                // Try one more time, this time waiting up to 10 seconds, failing the test if it still isn't there
+                startCamBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));
+                log.info("Start CAM button found after 2nd refresh!");
+            } catch (Exception e) {
+                throw new AssertionError("Start CAM button failed to appear even after two refreshes and extended waiting.");
+            }
+        }
+
+        // --- CLICK AND PROCEED ---
         log.info("Clicking on 'Start CAM' and waiting for the new tab to open...");
         Page newCamTab = page.waitForPopup(() -> {
             startCamBtn.click(new Locator.ClickOptions().setForce(true));
@@ -60,7 +78,7 @@ public class Cam extends BaseTest {
 
         // Click 'Go to Appform' inside the NEW tab
         log.info("Clicking 'Go to Appform' in the new tab...");
-        Locator goToAppFormBtn = newCamTab.locator("span.back-to-application:visible").first();
+        Locator goToAppFormBtn = newCamTab.locator("span.back-to-application").first();
         goToAppFormBtn.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         goToAppFormBtn.click(new Locator.ClickOptions().setForce(true));
 

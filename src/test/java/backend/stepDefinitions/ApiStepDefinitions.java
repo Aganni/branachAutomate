@@ -4,7 +4,10 @@ import backend.Utils.DataGeneratorUtils;
 import backend.Utils.ApiUtils;
 import backend.constants.Constants;
 import hooks.BaseTest;
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.*;
+
+import java.util.Map;
 
 import static dynamicData.DynamicDataClass.getValue;
 import static dynamicData.DynamicDataClass.setValue;
@@ -27,5 +30,10 @@ public class ApiStepDefinitions extends BaseTest {
     @And("User moves appForm to {string} stage")
     public void userMovesAppFormToStage(String stage) {
         ApiUtils.moveAppFormToStage(stage);
+    }
+
+    @And("User Update the repayment details")
+    public void userUpdateTheRepaymentDetails() {
+        ApiUtils.updateRepaymentDetails();
     }
 }

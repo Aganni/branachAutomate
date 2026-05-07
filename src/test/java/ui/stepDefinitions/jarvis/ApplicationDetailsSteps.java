@@ -17,6 +17,7 @@ public class ApplicationDetailsSteps {
     private final Dedupe dedupe;
     private final EsignDocuments eSignPage;
     private final InsuranceDetails insurancePage;
+    private final CoApplicantDetails coApplicantDetails;
 
     public ApplicationDetailsSteps() {
         this.businessDetailsPage = new BusinessDetails(BaseTest.getPage());
@@ -26,6 +27,7 @@ public class ApplicationDetailsSteps {
         this.appFormOwnerShipDetails = new AppFormOwnerShipDetails(BaseTest.getPage());
         this.eSignPage = new EsignDocuments(BaseTest.getPage());
         this.insurancePage = new InsuranceDetails(BaseTest.getPage());
+        this.coApplicantDetails = new CoApplicantDetails(BaseTest.getPage());
     }
 
     @And("User updates the Business Details with the following data:")
@@ -64,13 +66,18 @@ public class ApplicationDetailsSteps {
     @And("User opens E-Sign section, generates documents, and opts for offline signatures")
     public void processESignOffline() {
         eSignPage.openESignSection();
-        eSignPage.generateAndOptInOfflineSignatures();
+        eSignPage.optInForOfflineSignatures("ESign_Offline_Signatures");
     }
 
     @And("User opens Insurance Details and updates Insurance and Nominee Details with the following data")
     public void openInsuranceDetails(Map<String, String> data) {
         insurancePage.openInsuranceAndEdit();
         insurancePage.fillInsuranceAndSubmit(data, "Updating_Insurance_Details");
+    }
+
+    @And("User adds Aadhaar number {string} in Co-Applicant Details")
+    public void addAadhaarInCoApplicantDetails(String aadhaarNumber) {
+        coApplicantDetails.addAadhaarToCoApplicant(aadhaarNumber, "Adding_CoApplicant_Aadhaar");
     }
 
 }

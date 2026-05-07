@@ -53,17 +53,15 @@ public class LoanRequirment extends BaseTest {
 
         Locator roiInput = page.getByPlaceholder("Enter the interest rate").first();
         roiInput.scrollIntoViewIfNeeded();
-        roiInput.click(new Locator.ClickOptions().setForce(true));
+        
+        // Force inject value using native typing to trigger Vue v-model updates
+        roiInput.click();
+        roiInput.fill(""); // Clear native value
+        roiInput.pressSequentially(roiValue, new Locator.PressSequentiallyOptions().setDelay(100));
+        roiInput.press("Tab"); // Trigger native blur
 
-        // Hard clear the box
-        page.keyboard().press("Meta+A");
-        page.keyboard().press("Control+A");
-        page.keyboard().press("Backspace");
-        page.waitForTimeout(200);
-
-        // Type the extracted value
-        page.keyboard().type(roiValue, new Keyboard.TypeOptions().setDelay(50));
-
+        page.waitForTimeout(500);
+        log.info("ROI Field Value After Evaluate: {}", roiInput.inputValue());
 
         // 2. EXTRACT AND FILL PF
         Locator pfIndicator = page.locator("//label[contains(text(),'PROCESSING FEE EXCLUSIVE GST')]/following-sibling::div//div[contains(@class,'racc-indicator')]").first();
@@ -75,17 +73,15 @@ public class LoanRequirment extends BaseTest {
 
         Locator pfInput = page.getByPlaceholder("Enter the processing fee percentage").first();
         pfInput.scrollIntoViewIfNeeded();
-        pfInput.click(new Locator.ClickOptions().setForce(true));
+        
+        // Force inject value using native typing to trigger Vue v-model updates
+        pfInput.click();
+        pfInput.fill(""); // Clear native value
+        pfInput.pressSequentially(pfValue, new Locator.PressSequentiallyOptions().setDelay(100));
+        pfInput.press("Tab"); // Trigger native blur
 
-        // Hard clear the box
-        page.keyboard().press("Meta+A");
-        page.keyboard().press("Control+A");
-        page.keyboard().press("Backspace");
-        page.waitForTimeout(200);
-
-        // Type the extracted value
-        page.keyboard().type(pfValue, new Keyboard.TypeOptions().setDelay(50));
-
+        page.waitForTimeout(500);
+        log.info("PF Field Value After Evaluate: {}", pfInput.inputValue());
 
         // 3. SELECT MULTIPLE BANKS
         selectMultipleBanks("IDBI", "DCB", "CBI");
@@ -114,6 +110,11 @@ public class LoanRequirment extends BaseTest {
         } catch (Exception e) {
             log.error("No toast appeared. The form likely has validation errors preventing submission.");
             ScreenshotUtil.saveScreenshot(page, "NoToast_LoanReq", scenarioName);
+            try {
+                java.nio.file.Files.write(java.nio.file.Paths.get("loan_req_error2.html"), page.content().getBytes());
+            } catch(Exception ex) {
+                log.error("Failed to write html", ex);
+            }
             throw new RuntimeException("Timeout waiting for submission response.", e);
         }
 
@@ -143,38 +144,29 @@ public class LoanRequirment extends BaseTest {
     private void selectMultipleBanks(String... banks) {
         log.info("Selecting CLM2 Eligible Banks...");
 
-        // 1. Click the specific bank input box
-        Locator bankInput = page.locator("//label[contains(text(), 'CLM2 Eligible Banks')]/following-sibling::div//input").first();
-        bankInput.scrollIntoViewIfNeeded();
-        bankInput.click(new Locator.ClickOptions().setForce(true));
+        Locator dropdownWrapper = page.locator("//label[contains(text(), 'CLM2 Eligible Banks')]/following-sibling::div//div[contains(@class, 'el-select')]").first();
+        dropdownWrapper.scrollIntoViewIfNeeded();
+        dropdownWrapper.click();
 
-        // Give Element UI time to render the dropdown list in the DOM
-        page.waitForTimeout(500);
+        page.waitForTimeout(500); // Wait for animation
 
-        // 2. Lock onto the currently visible dropdown menu at the bottom of the HTML
-        Locator activeDropdown = page.locator(".el-select-dropdown:visible").last();
-
-        // 3. Loop through the requested banks and click them
         for (String bank : banks) {
             log.info("Attempting to select bank: {}", bank);
+            
+            Locator option = page.locator("li.el-select-dropdown__item")
+                .filter(new Locator.FilterOptions().setHasText(bank))
+                .last();
 
-            // Look for the exact span text inside the active dropdown
-            Locator optionSpan = activeDropdown.locator("li.el-select-dropdown__item span")
-                    .filter(new Locator.FilterOptions().setHasText(bank))
-                    .first();
-
-            if (optionSpan.isVisible()) {
-                optionSpan.scrollIntoViewIfNeeded();
-                optionSpan.click(new Locator.ClickOptions().setForce(true));
+            if (option.isVisible()) {
+                option.scrollIntoViewIfNeeded();
+                option.click();
                 log.info("Successfully selected bank: {}", bank);
-                page.waitForTimeout(300); // Small buffer between selections
+                page.waitForTimeout(500); 
             } else {
                 log.warn("Bank not found in dropdown list: {}", bank);
             }
         }
-
-        // 4. Press Escape to close the dropdown menu
-        log.info("Closing multi-select dropdown...");
+        
         page.keyboard().press("Escape");
         page.waitForTimeout(500);
     }
@@ -232,6 +224,14 @@ public class LoanRequirment extends BaseTest {
 
         // 8. Close the modal by clicking outside
         log.info("Clicking outside the modal to dismiss it...");
+        
+        // Click the top-right circle close button
+        Locator circleCloseBtn2 = page.locator("button.close-btn.is-circle").first();
+        if (circleCloseBtn2.isVisible()) {
+            circleCloseBtn2.click();
+            page.waitForTimeout(1000);
+        }
+
         page.mouse().click(10, 10);
         page.waitForTimeout(1000);
 

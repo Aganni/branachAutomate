@@ -52,7 +52,7 @@ public class ApiUtils extends BaseTest {
 
             // Execute the API call
             Response response = ApiClientUtils.doPostEmptyBodyWithBasicAuth(
-                    "https://nebula.uat.creditsaison.corp" , endpoint, Headers.BASIC_AUTH
+                    Constants.NEBULA_BASE_URI , endpoint, Headers.BASIC_AUTH
             );
 
             // Assert Success Status Code (Assuming 200 or 204 for successful process start)
@@ -66,6 +66,37 @@ public class ApiUtils extends BaseTest {
         } catch (Exception e) {
             log.error("Failed to execute Nebula start-process API", e);
             Assert.fail("Exception during moving app to stage " + stage + ": " + e.getMessage());
+        }
+    }
+
+    public static void updateRepaymentDetails() {
+        // Fetch the dynamic Application ID stored in the current session
+        String appId = getValue("appFormId").toString();
+
+        if (appId == null || appId.isEmpty()) {
+            throw new AssertionError("Cannot update repayment details: appFormId is missing in TestSessionData.");
+        }
+
+        String endpoint = String.format(Constants.REPAYMENT_DETAILS_ENDPOINT, appId);
+        String payload = ApiPayload.getRepaymentDetailsPayload(appId);
+
+        try {
+            log.info("Triggering Lannister API to update Repayment Details for App ID: [{}]", appId);
+
+            // Execute the API call
+            Response response = ApiClientUtils.doPostWithBasicAuth(Constants.LANNISTER_BASE_URI, endpoint, payload, Headers.BASIC_AUTH);
+
+            // Assert Success Status Code (Assuming 200 or 201 for success)
+            int statusCode = response.getStatusCode();
+            log.info("API Response Status Code: {}", statusCode);
+            log.info("API Response Body: {}", response.getBody().asString());
+
+            Assert.assertTrue(statusCode == 200 || statusCode == 201,
+                    "Failed to update repayment details. API returned status: " + statusCode);
+
+        } catch (Exception e) {
+            log.error("Failed to execute Lannister repayment details API", e);
+            Assert.fail("Exception during repayment details API: " + e.getMessage());
         }
     }
 }
