@@ -122,11 +122,12 @@ public class InsuranceDetails extends BaseTest {
     private void fillInsurancePremium(String amount) {
         log.info("Filling Insurance Premium including GST: {}", amount);
 
-        // Target via the label's 'for' attribute — the most stable locator available
-        // since this input has no placeholder text.
-        Locator premiumInput = page.locator("input#insurancePremiumAmount, " +
-                "xpath=//label[contains(normalize-space(text()),'Insurance Premium including GST')]/following-sibling::div//input")
-                .first();
+        // Target via label text — this input has no placeholder and no stable ID in the rendered DOM.
+        // NOTE: Playwright does NOT support comma-separated CSS+xpath mixed selectors.
+        Locator premiumInput = page.locator(
+                "xpath=//label[contains(normalize-space(text()),'Insurance Premium including GST')]" +
+                "/following-sibling::div//input"
+        ).first();
 
         premiumInput.waitFor(new Locator.WaitForOptions()
                 .setState(WaitForSelectorState.VISIBLE)
