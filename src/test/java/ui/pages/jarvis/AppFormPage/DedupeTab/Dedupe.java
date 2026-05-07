@@ -5,6 +5,7 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitForSelectorState;
 import hooks.BaseTest;
+import ui.pages.jarvis.AppFormPage.AppformTab.AppFormTabNavigator;
 
 public class Dedupe extends BaseTest {
 
@@ -49,17 +50,11 @@ public class Dedupe extends BaseTest {
     }
 
     /**
-     * Navigates back to the main App Form tab.
+     * Navigates to the App Form tab if not already there.
+     * Delegates to {@link AppFormTabNavigator#ensureOnAppFormTab(Page)} so that
+     * the URL-check logic lives in exactly one place.
      */
     public void navigateToAppFormTab() {
-        log.info("Navigating back to App Form tab...");
-
-        Locator appFormTab = page.locator("a.tab-item").filter(new Locator.FilterOptions().setHasText("App Form")).first();
-        appFormTab.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        appFormTab.click(new Locator.ClickOptions().setForce(true));
-
-        page.waitForURL("**/appForm*");
-        page.waitForLoadState(LoadState.NETWORKIDLE);
-        log.info("Successfully switched to the App Form tab.");
+        AppFormTabNavigator.ensureOnAppFormTab(page);
     }
 }

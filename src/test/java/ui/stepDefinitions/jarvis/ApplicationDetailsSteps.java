@@ -18,6 +18,7 @@ public class ApplicationDetailsSteps {
     private final EsignDocuments eSignPage;
     private final InsuranceDetails insurancePage;
     private final CoApplicantDetails coApplicantDetails;
+    private final BeneficiaryOwnerDetails beneficiaryOwnerDetails;
 
     public ApplicationDetailsSteps() {
         this.businessDetailsPage = new BusinessDetails(BaseTest.getPage());
@@ -28,6 +29,7 @@ public class ApplicationDetailsSteps {
         this.eSignPage = new EsignDocuments(BaseTest.getPage());
         this.insurancePage = new InsuranceDetails(BaseTest.getPage());
         this.coApplicantDetails = new CoApplicantDetails(BaseTest.getPage());
+        this.beneficiaryOwnerDetails = new BeneficiaryOwnerDetails(BaseTest.getPage());
     }
 
     @And("User updates the Business Details with the following data:")
@@ -78,6 +80,11 @@ public class ApplicationDetailsSteps {
     @And("User adds Aadhaar number {string} in Co-Applicant Details")
     public void addAadhaarInCoApplicantDetails(String aadhaarNumber) {
         coApplicantDetails.addAadhaarToCoApplicant(aadhaarNumber, "Adding_CoApplicant_Aadhaar");
+    }
+
+    @And("User adds Beneficiary Owner Details for entity {string} and applicant {string}")
+    public void addBeneficiaryOwnerDetails(String entity, String applicant) {
+        beneficiaryOwnerDetails.addBeneficiaryOwner(entity, applicant, "Adding_Beneficiary_Owner");
     }
 
 }

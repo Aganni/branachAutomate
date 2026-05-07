@@ -22,6 +22,7 @@ public class InsuranceDetails extends BaseTest {
      */
     public void openInsuranceAndEdit() {
         log.info("Opening Insurance Details section...");
+        AppFormTabNavigator.ensureOnAppFormTab(page);
 
         Locator insuranceCard = page.locator("button.appform-card")
                 .filter(new Locator.FilterOptions().setHasText("Insurance Details"))
@@ -54,7 +55,10 @@ public class InsuranceDetails extends BaseTest {
         // 2. Policy Tenure
         selectDropdownOption("Policy Insurance Tenure (Months)", data.getOrDefault("Tenure", "10 Months"));
 
-        // 3. Policy Holder Name
+        // 3. Insurance Premium including GST — fill AFTER tenure since Vue may enable it post-selection
+        fillInsurancePremium(data.getOrDefault("InsurancePremium", "70000"));
+
+        // 4. Policy Holder Name
         log.info("Selecting first available Policy Holder Name...");
 
         // CRITICAL FIX: Target the 'el-select' wrapper div, not the inner <input>
@@ -73,7 +77,7 @@ public class InsuranceDetails extends BaseTest {
         firstHolderOption.click(new Locator.ClickOptions().setForce(true));
         page.waitForTimeout(500);
 
-        // 4. Open Nominee Form
+        // 5. Open Nominee Form
         log.info("Opening + Add Nominee form...");
 
         // CRITICAL FIX: Target the 'el-select' wrapper div, not the inner <input>
@@ -92,9 +96,9 @@ public class InsuranceDetails extends BaseTest {
         addNomineeOption.click(new Locator.ClickOptions().setForce(true));
 
         // Wait a full second for the inner Nominee form to slide into view
-        page.waitForTimeout(1000);
+        page.waitForTimeout(1_000);
 
-        // 5. Fill Nominee Form
+        // 6. Fill Nominee Form
         fillNomineeDetails(data);
 
         // 6. Submit Main Insurance Form
@@ -108,7 +112,38 @@ public class InsuranceDetails extends BaseTest {
     }
 
     /**
-     * Helper to fill out the inner Nominee Form
+     * Fills the "Insurance Premium including GST (Rupees)" text input.
+     *
+     * <p>The field is identified by its {@code for} attribute ({@code insurancePremiumAmount})
+     * which is unique and stable. It has no placeholder, so we cannot use a placeholder selector.</p>
+     *
+     * @param amount the premium amount as a string (e.g. "70000")
+     */
+    private void fillInsurancePremium(String amount) {
+        log.info("Filling Insurance Premium including GST: {}", amount);
+
+        // Target via label text — this input has no placeholder and no stable ID in the rendered DOM.
+        // NOTE: Playwright does NOT support comma-separated CSS+xpath mixed selectors.
+        Locator premiumInput = page.locator(
+                "xpath=//label[contains(normalize-space(text()),'Insurance Premium including GST')]" +
+                "/following-sibling::div//input"
+        ).first();
+
+        premiumInput.waitFor(new Locator.WaitForOptions()
+                .setState(WaitForSelectorState.VISIBLE)
+                .setTimeout(5000));
+        premiumInput.scrollIntoViewIfNeeded();
+        premiumInput.clear();
+        premiumInput.fill(amount);
+
+        // Trigger Vue's input event so validation re-evaluates after the fill
+        premiumInput.press("Tab");
+
+        log.info("Insurance Premium filled: {}", amount);
+    }
+
+    /**
+     * Helper to fill out the inner Nominee Form.
      */
     private void fillNomineeDetails(Map<String, String> data) {
         log.info("Filling Nominee details...");

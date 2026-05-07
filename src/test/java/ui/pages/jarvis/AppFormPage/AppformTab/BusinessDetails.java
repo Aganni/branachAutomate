@@ -23,6 +23,7 @@ public class BusinessDetails extends BaseTest {
 
     public void openBusinessDetailsAndEdit() {
         log.info("Opening Business Details section...");
+        AppFormTabNavigator.ensureOnAppFormTab(page);
 
         Locator businessCard = page.locator("button.appform-card").filter(new Locator.FilterOptions().setHasText("Business Details")).first();
         businessCard.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));

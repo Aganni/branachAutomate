@@ -20,6 +20,7 @@ public class EsignDocuments extends BaseTest {
      */
     public void openESignSection() {
         log.info("Opening E-Sign Of Documents section...");
+        AppFormTabNavigator.ensureOnAppFormTab(page);
 
         Locator eSignCard = page.locator("button.appform-card")
                 .filter(new Locator.FilterOptions().setHasText("E-Sign Of Documents"))
