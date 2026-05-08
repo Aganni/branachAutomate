@@ -10,9 +10,8 @@ import static dynamicData.DynamicDataClass.get;
 
 public class ApplicationSteps extends BaseTest {
 
-
-    private final ApplicationDashboardPage applicationDashboardPage = new ApplicationDashboardPage();
-    private final DashboardPage dashboardPage = new DashboardPage();
+    private final ApplicationDashboardPage applicationDashboardPage = new ApplicationDashboardPage(BaseTest.getPage());
+    private final DashboardPage dashboardPage = new DashboardPage(BaseTest.getPage());
 
     @And("User navigates to the Applications tab searches appFrom using {string} and opens the appform")
     public void openAppFromInJarvis(String searchType) throws InterruptedException {

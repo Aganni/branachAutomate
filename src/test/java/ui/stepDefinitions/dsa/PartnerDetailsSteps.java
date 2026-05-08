@@ -10,8 +10,8 @@ import java.util.Map;
 
 import static dynamicData.DynamicDataClass.get;
 
-public class PartnerDetailsSteps extends BaseTest{
-    private final PartnerDetailsPage partnerDetailsPage = new PartnerDetailsPage();
+public class PartnerDetailsSteps extends BaseTest {
+    private final PartnerDetailsPage partnerDetailsPage = new PartnerDetailsPage(BaseTest.getPage());
 
     @Then("User fills the mandatory details in partner details page and clicks on Save and Next button")
     public void userFillsTheMandatoryPartnerDetails(DataTable dataTable) {

@@ -11,11 +11,12 @@ import java.util.Map;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class BusinessDetailsPage extends BaseTest {
+    
     private final Page page;
 
+    // ── Locators ─────────────────────────────────────────────────────────────
     private static final String ENTITY_PAN_INPUT = "input[name='entityPan']";
     private static final String ENTITY_NAME_INPUT = "input[name='entityName']";
-
     private static final String CONTINUE_FETCH_BTN = "button:has-text('Continue to fetch details linked to this PAN')";
     private static final String OP_ADDRESS_LINE_1 = "input[placeholder='Operational Address (Line 1)']";
     private static final String OP_ADDRESS_LINE_2 = "textarea[name='operationalAddressLine2']";
@@ -34,28 +35,20 @@ public class BusinessDetailsPage extends BaseTest {
     private static final String TENURE = "input[name='tenure']";
     private static final String LOAN_AMOUNT = "input[name='loanAmount']";
     private static final String END_USE = "#enduse";
-
     private static final String SUBMIT_BTN = "button:has-text('Submit')";
 
-    public BusinessDetailsPage (Page page){
-       this.page = page;
+    public BusinessDetailsPage (Page page) {
+        if (page == null) throw new IllegalArgumentException("Page instance cannot be null");
+        this.page = page;
     }
 
-    /**
-     * Enters the PAN and clicks the Verify button
-     */
     public void enterPanAndVerify(String panNumber) {
         log.info("Entering Entity PAN: {}", panNumber);
-        // 1. Fill the PAN input
         page.locator(ENTITY_PAN_INPUT).fill(panNumber);
-        // 2. Click the Verify button
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Verify")).click();
         log.info("Clicked Verify button for PAN");
     }
 
-    /**
-     * Verifies the auto-populated Entity Name matches the expected value
-     */
     public void verifyAutoPopulatedEntityName(String expectedName) {
         log.info("Verifying auto-populated Entity Name is: {}", expectedName);
         Locator entityNameField = page.locator(ENTITY_NAME_INPUT);
@@ -68,14 +61,12 @@ public class BusinessDetailsPage extends BaseTest {
         log.info("Clicked Continue to fetch details");
     }
 
-
     public void fillOperationalAddress() {
         String addressValue = "2/19 RAM WADI KUNTIDEVI, JOGESHWARI EAST";
 
         Locator input = page.locator(OP_ADDRESS_LINE_1);
-        input.click(); // Opens the dropdown
+        input.click(); 
 
-        // Find the option
         Locator dropdownOption = page.getByRole(AriaRole.LISTBOX)
                 .getByText(addressValue, new Locator.GetByTextOptions().setExact(false))
                 .first();
@@ -87,12 +78,11 @@ public class BusinessDetailsPage extends BaseTest {
 
     public void verifyAutoPopulatedAddress(Map<String, String> data) {
         if (data.containsKey("Operational Address (Line 2)")) {
-            assertThat(getPage().locator(OP_ADDRESS_LINE_2)).hasValue(data.get("Operational Address (Line 2)"));
+            assertThat(page.locator(OP_ADDRESS_LINE_2)).hasValue(data.get("Operational Address (Line 2)"));
         }
         if (data.containsKey("State")) {
-            assertThat(getPage().locator(OP_STATE)).hasValue(data.get("State"));
+            assertThat(page.locator(OP_STATE)).hasValue(data.get("State"));
         }
-        // Add Pincode and City assertions here if you have their correct locators
         log.info("Auto-populated address details verified successfully");
     }
 
@@ -103,7 +93,6 @@ public class BusinessDetailsPage extends BaseTest {
     }
 
     public void selectSameAsOperationalAddress(String yesOrNo) {
-        // value is lower case "yes" or "no" in the HTML
         String value = yesOrNo.toLowerCase();
         page.locator(SAME_ADDRESS_RADIO + "[value='" + value + "']").click();
         log.info("Selected Same as Operational Address: {}", yesOrNo);

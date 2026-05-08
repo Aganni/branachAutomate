@@ -8,29 +8,30 @@ import hooks.BaseTest;
 
 public class DashboardPage extends BaseTest {
 
-    // Sidebar link to the Applications section
+    private final Page page;
+
+    // ── Locators ─────────────────────────────────────────────────────────────
     private static final String APPLICATION_SIDEBAR_LINK = "a[href='/application']";
     private static final String ALLOCATION_DASHBOARD_LINK = "a[href='/new/dashboard']";
 
-
-    public static Page getPage() {
-        return BaseTest.getPage();
+    public DashboardPage(Page page) {
+        if (page == null) throw new IllegalArgumentException("Page instance cannot be null");
+        this.page = page;
     }
 
     public void navigateToApplicationTab() {
         log.info("Navigating to Application tab in Jarvis sidebar");
-        getPage().locator(APPLICATION_SIDEBAR_LINK).click();
-        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        page.locator(APPLICATION_SIDEBAR_LINK).click();
+        page.waitForLoadState(LoadState.NETWORKIDLE);
         log.info("Application tab loaded");
     }
 
     public void navigateToAllocationDashboard() {
         log.info("Navigating to Allocation Dashboard via sidebar...");
-        Locator dashboardLink = getPage().locator(ALLOCATION_DASHBOARD_LINK).first();
+        Locator dashboardLink = page.locator(ALLOCATION_DASHBOARD_LINK).first();
         dashboardLink.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         dashboardLink.click();
 
-        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        page.waitForLoadState(LoadState.NETWORKIDLE);
     }
-
 }

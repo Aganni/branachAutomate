@@ -5,7 +5,7 @@ import io.cucumber.java.en.*;
 import ui.pages.dsa.LoginPage;
 
 public class LoginSteps extends BaseTest {
-    private final LoginPage loginPage = new LoginPage();
+    private final LoginPage loginPage = new LoginPage(BaseTest.getPage());
 
     @Given("User navigates to the DSA Portal")
     public void navigateToDsaPortal() throws Exception {

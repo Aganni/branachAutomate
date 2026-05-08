@@ -8,10 +8,6 @@ import io.cucumber.testng.CucumberOptions;
                 "ui.stepDefinitions.dsa",
                 "ui.stepDefinitions.jarvis",
                 "backend.stepDefinitions"
-}, plugin = {
-                "pretty",
-                "html:target/cucumber-reports/ubl-report.html",
-                "json:target/cucumber-reports/ubl-report.json"
 }, tags = "@UBL")
 public class UblRunnerTest extends AbstractTestNGCucumberTests {
 }

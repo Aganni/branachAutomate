@@ -4,8 +4,8 @@ import hooks.BaseTest;
 import io.cucumber.java.en.*;
 import ui.pages.jarvis.LoginPage;
 
-public class LoginSteps extends BaseTest{
-    private LoginPage jarvisPage = new LoginPage();
+public class LoginSteps extends BaseTest {
+    private LoginPage jarvisPage = new LoginPage(BaseTest.getPage());
 
     @And("User switches to Jarvis portal and logins")
     public void switchToJarvisAndLogin() throws Exception {

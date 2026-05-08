@@ -9,7 +9,7 @@ import static dynamicData.DynamicDataClass.getValue;
 
 public class QdeSteps extends BaseTest {
 
-    private final QdePage qdePage = new QdePage();
+    private final QdePage qdePage = new QdePage(BaseTest.getPage());
 
     @Then("User verifies the generated PAN in QDE page and checks auto-populated name {string} for the Primary Co-applicant")
     public void verifyPanInQde(String expectedName) {
