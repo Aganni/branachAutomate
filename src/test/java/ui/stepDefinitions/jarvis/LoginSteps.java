@@ -5,7 +5,7 @@ import io.cucumber.java.en.*;
 import ui.pages.jarvis.LoginPage;
 
 public class LoginSteps extends BaseTest {
-    private LoginPage jarvisPage = new LoginPage(BaseTest.getPage());
+    private LoginPage jarvisPage;
 
     @And("User switches to Jarvis portal and logins")
     public void switchToJarvisAndLogin() throws Exception {
@@ -14,6 +14,7 @@ public class LoginSteps extends BaseTest {
 
         BaseTest.switchToJarvisPortal();
 
+        jarvisPage = new LoginPage(BaseTest.getPage());
         jarvisPage.login();
     }
 }

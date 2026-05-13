@@ -10,14 +10,17 @@ import static dynamicData.DynamicDataClass.get;
 
 public class ApplicationSteps extends BaseTest {
 
-    private final ApplicationDashboardPage applicationDashboardPage = new ApplicationDashboardPage(BaseTest.getPage());
-    private final DashboardPage dashboardPage = new DashboardPage(BaseTest.getPage());
+    private ApplicationDashboardPage applicationDashboardPage;
+    private DashboardPage dashboardPage;
 
     @And("User navigates to the Applications tab searches appFrom using {string} and opens the appform")
     public void openAppFromInJarvis(String searchType) throws InterruptedException {
+        applicationDashboardPage = new ApplicationDashboardPage(BaseTest.getPage());
+        dashboardPage = new DashboardPage(BaseTest.getPage());
+        
         dashboardPage.navigateToApplicationTab();
 
-        applicationDashboardPage.searchByCriteria(searchType, "dsa-db1fc6a0-b1a9-48f7-8a06-cb3ed1ac5044");
+        applicationDashboardPage.searchByCriteria(searchType, "dsa-9b76fc72-bf15-4e81-96bd-f1e1b7249ad6");
 
         // Capture and store App ID before clicking open — needed for Allocation
         Thread.sleep(800);

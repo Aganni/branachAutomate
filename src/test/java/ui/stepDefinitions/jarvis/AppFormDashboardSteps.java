@@ -9,35 +9,27 @@ import ui.pages.jarvis.AppFormPage.VerificationTab.VerificationTab;
 
 public class AppFormDashboardSteps extends BaseTest {
 
-    private final Dedupe dedupeTab ;
-    private final RegCheck regCheckTab;
-    private final Cam camTab ;
-    private final VerificationTab verificationPage ;
-
-    public AppFormDashboardSteps() {
-        this.dedupeTab = new Dedupe(getPage());
-        this.regCheckTab = new RegCheck(getPage());
-        this.camTab = new Cam(getPage());
-        this.verificationPage = new VerificationTab(getPage());
-    }
-
     @And("User navigates to the Dedupe tab in Application Dashboard")
     public void navigateDedupe()  {
+        Dedupe dedupeTab = new Dedupe(getPage());
         dedupeTab.selectDedupeTab();
     }
 
     @And("User navigates to the RegCheck tab in Application Dashboard")
     public void navigateToRegCheckTab() {
+        RegCheck regCheckTab = new RegCheck(getPage());
         regCheckTab.selectRegCheckTabAndValidate();
     }
 
     @And("User navigates to the CAM tab in Application Dashboard and start the cam")
     public void navigateToCamTab() {
-         camTab.selectCamTab();
+        Cam camTab = new Cam(getPage());
+        camTab.selectCamTab();
     }
 
     @And("User navigates to the Verification tab and resolves the Udyam KYC status")
     public void userNavigatesToVerificationTab() {
+        VerificationTab verificationPage = new VerificationTab(getPage());
         verificationPage.navigateToVerificationTab();
         verificationPage.resolveUdyamKyc("Resolving Udyam KYC status");
     }

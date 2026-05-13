@@ -12,11 +12,13 @@ public class AllocationDashboardSteps extends BaseTest {
     private static final String TENJIN_EMAIL = "tenjin.user@creditsaison-in.com";
     private static final String TENJIN_DISPLAY_NAME = "Tenjin User";
 
-    private final AllocationDashboardPage allocationPage = new AllocationDashboardPage(BaseTest.getPage());
-    private final DashboardPage dashboardPage = new DashboardPage(BaseTest.getPage());
+    private AllocationDashboardPage allocationPage;
+    private DashboardPage dashboardPage;
 
     @And("User navigates to the Allocation Dashboard and assign appform to self using app ID")
     public void assignAppFormToSelf() throws InterruptedException {
+        allocationPage = new AllocationDashboardPage(BaseTest.getPage());
+        dashboardPage = new DashboardPage(BaseTest.getPage());
         // 1. Navigate and setup view
         dashboardPage.navigateToAllocationDashboard();
         allocationPage.switchToTeamView();
