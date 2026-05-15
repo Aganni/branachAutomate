@@ -24,12 +24,6 @@ public class BureauViewSteps {
         bureauViewPage.pullCommercialBureauReport();
     }
 
-    @And("User downloads the commercial cibil report")
-    public void downloadCommercialCibilReport() {
-        String reportPath = bureauViewPage.downloadCommercialCibilReport();
-        setValue("commercialCibilReportPath", reportPath);
-    }
-
     @And("User pulls and downloads the commercial cibil report from Bureau View")
     public void pullAndDownloadCommercialCibilReport() {
         String reportPath = bureauViewPage.pullAndDownloadCommercialCibilReport();

@@ -58,13 +58,13 @@ public class BureauViewPage extends BaseTest {
         log.info("Clicking 'Pull commercial bureau report' button...");
 
         Locator pullBtn = getPage().locator(PULL_COMMERCIAL_BUREAU_BTN);
-        pullBtn.waitFor(new Locator.WaitForOptions().setTimeout(15000));
+        pullBtn.waitFor(new Locator.WaitForOptions().setTimeout(15_000));
         pullBtn.click();
         log.info("Pull initiated. Waiting for report to be ready...");
 
         // Wait for "view report" button to appear with 60s timeout
         Locator viewReportBtn = getPage().locator(VIEW_REPORT_BTN);
-        viewReportBtn.waitFor(new Locator.WaitForOptions().setTimeout(60000));
+        viewReportBtn.waitFor(new Locator.WaitForOptions().setTimeout(60_000));
         log.info("'view report' button is now visible. Report pull completed.");
     }
 
