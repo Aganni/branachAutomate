@@ -76,59 +76,66 @@ Feature: Unsecured Business Loan End-to-End Workflow
 # Jarvis flow starts here
     And User switches to Jarvis portal and logins
     And User navigates to the Applications tab searches appFrom using "Partner LID" and opens the appform
-    And User selects "Move to Login Desk" from Application Actions and moves appForm next stage
-    And User updates the Business Details with the following data:
-      |CLASSIFICATION   |                                                   CORPORATE|
-      | Udyam Number    | UDYAM-AD-12-1234567                                      |
-      | Industry Sector | Industrial hardware/machinery tools/Engineering goods |
-      | Sub Sector      | Trader- Wholesale                                 |
-      | No Of Employees | 50                                               |
-      | Business Type   | Small                                             |
-###    |     Entity CGTMSE    |   yes                                                |
-    And User updates the Bank Details with the following data:
-      | Disbursal Account Number  | 159590886867 |
-      | Disbursal Account Type    | SAVINGS      |
-      | Disbursal IFSC Code       | HDFC0000094  |
-      | Collection Account Number | 159590886867 |
-      | Collection Account Type   | SAVINGS      |
-      | Collection IFSC Code      | HDFC0000094  |
+#    And User selects "Move to Login Desk" from Application Actions and moves appForm next stage
+#    And User updates the Business Details with the following data:
+#      |CLASSIFICATION   |                                                   CORPORATE|
+#      | Udyam Number    | UDYAM-AD-12-1234567                                      |
+#      | Industry Sector | Industrial hardware/machinery tools/Engineering goods |
+#      | Sub Sector      | Trader- Wholesale                                 |
+#      | No Of Employees | 50                                               |
+#      | Business Type   | Small                                             |
+####    |     Entity CGTMSE    |   yes                                                |
+#    And User updates the Bank Details with the following data:
+#      | Disbursal Account Number  | 159590886867 |
+#      | Disbursal Account Type    | SAVINGS      |
+#      | Disbursal IFSC Code       | HDFC0000094  |
+#      | Collection Account Number | 159590886867 |
+#      | Collection Account Type   | SAVINGS      |
+#      | Collection IFSC Code      | HDFC0000094  |
+### Allocation Dashboard flow
+#    And User navigates to the Allocation Dashboard and assign appform to self using app ID
+#    And User selects "Move to CAM" from Application Actions and moves appForm next stage
+#    And User navigates to the CAM tab in Application Dashboard and start the cam
+##  Bureau View - Pull Commercial Cibil Report for Business Entity
+#    And User pulls and downloads the commercial cibil report from Bureau View
 ## Allocation Dashboard flow
-    And User navigates to the Allocation Dashboard and assign appform to self using app ID
-    And User selects "Move to CAM" from Application Actions and moves appForm next stage
-    And User navigates to the CAM tab in Application Dashboard and start the cam
-#  Bureau View - Pull Commercial Cibil Report for Business Entity
-    And User pulls and downloads the commercial cibil report from Bureau View
+#    And User navigates to the Allocation Dashboard and assign appform to self using app ID
+# DMS - Upload mandatory documents before moving to Credit Review
+    And User uploads mandatory documents and marks OSV in Documents tab
+#    And User selects "Move to Credit Review" from Application Actions and moves appForm next stage
+#    And User opens the Loan Requirements section and updates the details
+#    And User navigates to the Dedupe tab in Application Dashboard
+#    And User navigates to the Verification tab and resolves the Udyam KYC status
 ## Allocation Dashboard flow
-    And User navigates to the Allocation Dashboard and assign appform to self using app ID
-    And User selects "Move to Credit Review" from Application Actions and moves appForm next stage
-    And User opens the Loan Requirements section and updates the details
-    And User navigates to the Dedupe tab in Application Dashboard
-    And User navigates to the Verification tab and resolves the Udyam KYC status
-# Allocation Dashboard flow
-    And User navigates to the Allocation Dashboard and assign appform to self using app ID
-    And User moves application to "Move to Credit Approval" assigned to level "L5" and user "tenjin.user@creditsaison-in.com"
-    And User navigates to the RegCheck tab in Application Dashboard
-    And User updates the Appform Ownership Details with the following data:
-      | UserEmail | harshit.verma@partner.creditsaison-in.com |
-# Loan Requirements flow
-    And User opens the Loan Requirements section and initiates Credit Approval with reason "Approve"
-    And User moves appForm to "TERMS" stage
-#  Document Generation and E-Sign flow
-    And User opens E-Sign section, generates documents, and opts for offline signatures
-# Insurance Details flow
-    And User opens Insurance Details and updates Insurance and Nominee Details with the following data
-      | Provider     | Reliance General Insurance          |
-      | Tenure       | 10 Months                           |
-      | NomineeName  | Adarsh Gani                         |
-      | Relationship | brother                             |
-      | DOB          | 2001-08-24                          |
-      | Gender       | Male                                |
-      | Mobile       | 7848043529                          |
-      | Email        | adarsh.gani@creditsaison-in.com     |
-    And User Update the repayment details
-    And User adds Aadhaar number "294365933461" in Co-Applicant Details
-    And User adds Beneficiary Owner Details for entity "Myntra Corp" and applicant "Shea Test"
-    And User selects "Move to Sanction Approval" from Application Actions and moves appForm next stage
+#    And User navigates to the Allocation Dashboard and assign appform to self using app ID
+#    And User moves application to "Move to Credit Approval" assigned to level "L5" and user "tenjin.user@creditsaison-in.com"
+#    And User navigates to the RegCheck tab in Application Dashboard
+#    And User updates the Appform Ownership Details with the following data:
+#      | UserEmail | harshit.verma@partner.creditsaison-in.com |
+## Loan Requirements flow
+#    And User opens the Loan Requirements section and initiates Credit Approval with reason "Approve"
+#    And User moves appForm to "TERMS" stage
+##  Document Generation and E-Sign flow
+#    And User opens E-Sign section, generates documents, and opts for offline signatures
+## Insurance Details flow
+#    And User opens Insurance Details and updates Insurance and Nominee Details with the following data
+#      | Provider     | Reliance General Insurance          |
+#      | Tenure       | 10 Months                           |
+#      | NomineeName  | Adarsh Gani                         |
+#      | Relationship | brother                             |
+#      | DOB          | 2001-08-24                          |
+#      | Gender       | Male                                |
+#      | Mobile       | 7848043529                          |
+#      | Email        | adarsh.gani@creditsaison-in.com     |
+#    And User Update the repayment details
+#    And User adds Aadhaar number "294365933461" in Co-Applicant Details
+#    And User adds Beneficiary Owner Details for entity "Myntra Corp" and applicant "Shea Test"
+#    And User selects "Move to Sanction Approval" from Application Actions and moves appForm next stage
+# DMS - Approve KYC checklist (enabled after QC Review)
+    And User approves the KYC checklist in Documents tab
+
+
+    # for document gereate button not getting clicked
 
 
 
