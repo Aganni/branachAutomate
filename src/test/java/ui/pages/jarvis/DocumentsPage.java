@@ -78,16 +78,34 @@ public class DocumentsPage extends BaseTest {
 
     /**
      * Reads the KYC Checklist sidebar and returns list of pending (non-passed) document names.
+     * Passed items have p.passed class, pending items have p with empty or no special class.
      */
     public List<String> getPendingMandatoryDocuments() {
         List<String> pendingDocs = new ArrayList<>();
-        Locator pendingItems = getPage().locator(CHECKLIST_PENDING_ITEM);
-        int count = pendingItems.count();
+        Locator allItems = getPage().locator(CHECKLIST_ITEMS);
+        int count = allItems.count();
+
+        log.info("Total KYC Checklist items found: {}", count);
 
         for (int i = 0; i < count; i++) {
-            String docName = pendingItems.nth(i).locator("p").textContent().trim();
+            Locator item = allItems.nth(i);
+            Locator pTag = item.locator("p");
+
+            if (pTag.count() == 0) continue;
+
+            String docName = pTag.first().textContent().trim();
+            String pClass = pTag.first().getAttribute("class");
+
+            // If the <p> tag has class "passed", it's already done — skip it
+            if (pClass != null && pClass.contains("passed")) {
+                log.info("  [PASSED] {}", docName);
+                continue;
+            }
+
+            // Otherwise it's pending
             if (!docName.isEmpty()) {
                 pendingDocs.add(docName);
+                log.info("  [PENDING] {}", docName);
             }
         }
         return pendingDocs;
