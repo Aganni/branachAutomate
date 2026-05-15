@@ -76,8 +76,6 @@ Feature: Unsecured Business Loan End-to-End Workflow
 # Jarvis flow starts here
     And User switches to Jarvis portal and logins
     And User navigates to the Applications tab searches appFrom using "Partner LID" and opens the appform
-# Step 10: Bureau View - Pull Commercial Cibil Report for Business Entity
-    And User pulls and downloads the commercial cibil report from Bureau View
     And User selects "Move to Login Desk" from Application Actions and moves appForm next stage
     And User updates the Business Details with the following data:
       |CLASSIFICATION   |                                                   CORPORATE|
@@ -129,6 +127,8 @@ Feature: Unsecured Business Loan End-to-End Workflow
     And User adds Aadhaar number "294365933461" in Co-Applicant Details
     And User adds Beneficiary Owner Details for entity "Myntra Corp" and applicant "Shea Test"
     And User selects "Move to Sanction Approval" from Application Actions and moves appForm next stage
+    # Step 10: Bureau View - Pull Commercial Cibil Report for Business Entity
+    And User pulls and downloads the commercial cibil report from Bureau View
 
 
 

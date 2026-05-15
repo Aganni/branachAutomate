@@ -55,7 +55,4 @@ mvn test
 
 For any queries, access requests, or contributions to this repository, please reach out to the core maintainers:
 
-> **Note:** Please add the contact links below as required.
-
-* **[Add Contact Member Name]** - [Add Profile/Email Link]
-* **[Add Contact Member Name]** - [Add Profile/Email Link]
+*  [Adarsh Gani](https://creditsaison-in.enterprise.slack.com/team/U06EEEM5S9Y)
