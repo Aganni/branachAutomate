@@ -13,7 +13,7 @@ public class ApplicationPage extends BaseTest {
 
     // ── Actions that skip assignee wait ──────────────────────────────────────
     private static final String[] SKIP_ASSIGNEE_WAIT_ACTIONS = {
-            "Move to Login Desk", "Move to Sanction Approval", "ReAssign","Move to QC Approval"
+            "Move to Login Desk", "Move to Sanction Approval", "ReAssign", "Move to QC Approval", "Approve this Application"
     };
 
     public ApplicationPage(Page page) {
@@ -130,9 +130,14 @@ public class ApplicationPage extends BaseTest {
     private void selectActionFromDropdown(String actionName) {
         log.info("Selecting Application Action: [{}]", actionName);
 
+        // Try both possible placeholders for the actions dropdown
         Locator actionsDropdown = page.getByPlaceholder("Application Actions");
-        actionsDropdown.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
-        actionsDropdown.click(new Locator.ClickOptions().setForce(true));
+        if (actionsDropdown.count() == 0 || !actionsDropdown.first().isVisible()) {
+            actionsDropdown = page.getByPlaceholder("moveToNextStage");
+        }
+
+        actionsDropdown.first().waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        actionsDropdown.first().click(new Locator.ClickOptions().setForce(true));
 
         Locator actionOption = page.locator("li.el-select-dropdown__item:visible")
                 .filter(new Locator.FilterOptions().setHasText(actionName))
@@ -178,23 +183,25 @@ public class ApplicationPage extends BaseTest {
                 .filter(new Locator.FilterOptions().setHasText("Success"));
 
         try {
-            acceptModal.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+            acceptModal.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));
 
-            log.info("Confirmation modal appeared. Clicking Accept...");
+            log.info("Confirmation modal appeared. Clicking Accept/Disburse...");
             acceptModal.click();
-            successToast.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
-            log.info("Success toast verified. Workflow updated successfully.");
+
+            // Wait for success notification (appears for 2-4 seconds)
+            successToast.first().waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));
+            log.info("Success notification verified. Action '{}' completed successfully.", actionName);
 
             page.waitForLoadState(LoadState.NETWORKIDLE);
 
         } catch (Exception e) {
             if (errorToast.isVisible()) {
-                String errorMsg = page.locator(".el-notification__content").innerText();
+                String errorMsg = page.locator(".el-notification__content").first().innerText();
                 log.error("Authorization Error blocked the workflow: {}", errorMsg);
                 ScreenshotUtil.saveScreenshot(page, "AuthError_" + actionName.replace(" ", ""), scenarioName);
                 throw new AssertionError("Failed to move workflow. Authorization Error: " + errorMsg);
             } else {
-                log.error("Unknown error occurred after clicking Application Action.");
+                log.error("Unknown error occurred after clicking Application Action: {}", actionName);
                 ScreenshotUtil.saveScreenshot(page, "UnknownError_" + actionName.replace(" ", ""), scenarioName);
                 throw new RuntimeException("Expected confirmation modal did not appear for action: " + actionName, e);
             }
