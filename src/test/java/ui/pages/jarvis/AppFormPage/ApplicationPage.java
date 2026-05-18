@@ -130,13 +130,11 @@ public class ApplicationPage extends BaseTest {
     private void selectActionFromDropdown(String actionName) {
         log.info("Selecting Application Action: [{}]", actionName);
 
-        // Try both possible placeholders for the actions dropdown
-        Locator actionsDropdown = page.getByPlaceholder("Application Actions");
-        if (actionsDropdown.count() == 0 || !actionsDropdown.first().isVisible()) {
-            actionsDropdown = page.getByPlaceholder("moveToNextStage");
-        }
-
-        actionsDropdown.first().waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        // Use CSS selector to find either placeholder variant
+        Locator actionsDropdown = page.locator(
+                "input[placeholder='Application Actions'], input[placeholder='moveToNextStage']");
+        actionsDropdown.first().waitFor(new Locator.WaitForOptions()
+                .setState(WaitForSelectorState.VISIBLE).setTimeout(15000));
         actionsDropdown.first().click(new Locator.ClickOptions().setForce(true));
 
         Locator actionOption = page.locator("li.el-select-dropdown__item:visible")

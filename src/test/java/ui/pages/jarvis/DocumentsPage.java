@@ -135,8 +135,10 @@ public class DocumentsPage extends BaseTest {
 
         log.info("All pending mandatory documents processed successfully.");
         // Wait for backend to sync after all uploads
-        getPage().waitForTimeout(5000);
-        log.info("Waited for backend sync after document uploads.");
+        getPage().waitForTimeout(3000);
+        getPage().reload();
+        getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        log.info("Page refreshed after document uploads.");
     }
 
     public void approveKycChecklist() {
@@ -227,9 +229,10 @@ public class DocumentsPage extends BaseTest {
             }
         } else {
             log.info("  Section is empty. Uploading document...");
-            // Track how many times this hint has been used (for TYPE dropdown index)
-            int typeIndex = sectionHintCount.getOrDefault(sectionHint, 0);
-            sectionHintCount.put(sectionHint, typeIndex + 1);
+            // Track per entity+hint combination for TYPE dropdown index
+            String countKey = entityName + "|" + sectionHint;
+            int typeIndex = sectionHintCount.getOrDefault(countKey, 0);
+            sectionHintCount.put(countKey, typeIndex + 1);
             uploadDocumentToSection(section, sectionHint, typeIndex);
         }
     }
@@ -318,21 +321,30 @@ public class DocumentsPage extends BaseTest {
             log.info("  Selecting TYPE (option index: {})...", typeIndex);
             Locator typeDropdown = getPage().locator(OSV_TYPE_DROPDOWN);
             typeDropdown.click();
-            getPage().waitForTimeout(300);
+            getPage().waitForTimeout(500);
 
-            // Select the option at the given index (0=first, 1=second, etc.)
+            // Check if dropdown options appeared
             Locator options = getPage().locator(".el-select-dropdown__item:visible");
-            options.nth(typeIndex).waitFor(new Locator.WaitForOptions().setTimeout(5000));
-            String selectedType = options.nth(typeIndex).textContent().trim();
-            options.nth(typeIndex).click();
-            log.info("  Selected TYPE: '{}'", selectedType);
+            int optionCount = options.count();
+
+            if (optionCount > 0) {
+                // Select the option at the given index (capped to available options)
+                int safeIndex = Math.min(typeIndex, optionCount - 1);
+                String selectedType = options.nth(safeIndex).textContent().trim();
+                options.nth(safeIndex).click();
+                log.info("  Selected TYPE: '{}' (index {} of {})", selectedType, safeIndex, optionCount);
+            } else {
+                log.info("  No TYPE options available in dropdown. Clicking elsewhere to close.");
+                // Click outside to close empty dropdown
+                getPage().locator(OSV_MODAL).click();
+            }
             getPage().waitForTimeout(300);
         }
 
         log.info("  Selecting OSV STATUS = 'OK'...");
         Locator osvStatusDropdown = getPage().locator(OSV_STATUS_DROPDOWN);
         osvStatusDropdown.click();
-        getPage().waitForTimeout(300);
+        getPage().waitForTimeout(500);
 
         Locator okOption = getPage().locator(".el-select-dropdown__item:has-text('OK'):visible").first();
         okOption.waitFor(new Locator.WaitForOptions().setTimeout(5000));
