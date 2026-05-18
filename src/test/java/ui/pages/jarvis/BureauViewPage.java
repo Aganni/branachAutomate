@@ -24,6 +24,18 @@ public class BureauViewPage extends BaseTest {
     // Storage path for downloaded reports
     private static final String REPORT_DOWNLOAD_DIR = System.getProperty("user.dir") + "/src/test/resources/testdata/bureau-reports";
 
+    /**
+     * Returns a thread-safe file name for the commercial cibil report.
+     * Uses thread ID to avoid conflicts during parallel execution.
+     */
+    private String getReportFileName(String suggestedName) {
+        if (suggestedName != null && !suggestedName.isEmpty()) {
+            // Prefix with thread ID for parallel safety
+            return "thread_" + Thread.currentThread().threadId() + "_" + suggestedName;
+        }
+        return "commercial_cibil_thread_" + Thread.currentThread().threadId() + ".html";
+    }
+
     public static Page getPage() {
         return BaseTest.getPage();
     }
@@ -86,10 +98,7 @@ public class BureauViewPage extends BaseTest {
         Path downloadDir = Paths.get(REPORT_DOWNLOAD_DIR);
         downloadDir.toFile().mkdirs();
 
-        String fileName = download.suggestedFilename();
-        if (fileName == null || fileName.isEmpty()) {
-            fileName = "commercial_cibil_report_" + System.currentTimeMillis() + ".html";
-        }
+        String fileName = getReportFileName(download.suggestedFilename());
 
         Path savedPath = downloadDir.resolve(fileName);
         download.saveAs(savedPath);

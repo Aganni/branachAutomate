@@ -20,7 +20,7 @@ public class ApplicationSteps extends BaseTest {
         
         dashboardPage.navigateToApplicationTab();
 
-        applicationDashboardPage.searchByCriteria(searchType, "dsa-d77c766c-33f7-4a7a-ace1-4c2970501489");
+        applicationDashboardPage.searchByCriteria(searchType, "dsa-d47ad8dc-5554-44ab-93fd-982105393655");
 
         // Capture and store App ID before clicking open — needed for Allocation
         Thread.sleep(800);

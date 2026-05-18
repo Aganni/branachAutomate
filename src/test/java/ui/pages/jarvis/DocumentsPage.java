@@ -1,5 +1,6 @@
 package ui.pages.jarvis;
 
+import com.microsoft.playwright.FileChooser;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
@@ -9,7 +10,9 @@ import hooks.BaseTest;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Page Object for the Documents (DMS) tab in Jarvis Portal.
@@ -23,18 +26,14 @@ public class DocumentsPage extends BaseTest {
 
     // ── KYC Checklist Sidebar ────────────────────────────────────────────────
     private static final String CHECKLIST_ITEMS = ".checklist-main .status-div";
-    private static final String CHECKLIST_PASSED_ITEM = ".checklist-main .status-div:has(p.passed)";
-    private static final String CHECKLIST_PENDING_ITEM = ".checklist-main .status-div:not(:has(p.passed))";
     private static final String APPROVE_BUTTON = ".checklist-main .approve-button";
 
     // ── Document Sections (Main Content) ─────────────────────────────────────
     private static final String ENTITY_WRAPPER = ".entity-wrapper";
     private static final String SECTION_WRAPPER = ".section-wrapper";
     private static final String SECTION_NAME = ".section-name";
-    private static final String SECTION_EMPTY_CLASS = "is-empty";
 
     // ── Upload Mechanism ─────────────────────────────────────────────────────
-    private static final String HIDDEN_FILE_INPUT = ".upload-main input[type='file']";
     private static final String UPLOAD_BTN_IN_SECTION = ".drop .action-btn:has-text('upload')";
 
     // ── OSV Modal ────────────────────────────────────────────────────────────
@@ -42,20 +41,21 @@ public class DocumentsPage extends BaseTest {
     private static final String OSV_TYPE_DROPDOWN = ".markosv-modal .doctype-select .el-input__inner";
     private static final String OSV_STATUS_DROPDOWN = ".markosv-modal .osv-select .el-input__inner";
     private static final String OSV_SAVE_BTN = ".markosv-modal .save-button";
-    private static final String DROPDOWN_FIRST_OPTION = ".el-select-dropdown__item:visible >> nth=0";
-    private static final String DROPDOWN_OPTION_OK = ".el-select-dropdown__item:has-text('OK'):visible";
 
     // ── Mark OSV Button (for already uploaded docs) ──────────────────────────
     private static final String MARK_OSV_BTN = ".action-btn:has-text('Mark OSV')";
     private static final String EDIT_OSV_BTN = ".edit-btn.edit-action";
 
-    // ── Success Indicators ───────────────────────────────────────────────────
-    private static final String UPLOAD_SUCCESS_TOAST = "text='Document Uploaded Successfully'";
+    // ── Success/Error Indicators ─────────────────────────────────────────────
+    private static final String UPLOAD_ERROR_TOAST = ".el-message--error";
     private static final String OSV_OK_TAG = ".osv-tag.el-tag--success";
-    private static final String INDICATOR_SUCCESS = ".indicator-checklist.indicator-success";
 
-    // ── Default test file for upload ─────────────────────────────────────────
+    // ── Test files for upload ────────────────────────────────────────────────
     private static final String DEFAULT_PDF_PATH = "src/test/resources/testdata/bank_statement.pdf";
+    private static final String PHOTO_FILE_PATH = "src/test/resources/testdata/photo.png";
+
+    // Track which sections have been processed (for duplicate POA handling)
+    private final Set<String> processedSectionIds = new HashSet<>();
 
     public static Page getPage() {
         return BaseTest.getPage();
@@ -65,44 +65,46 @@ public class DocumentsPage extends BaseTest {
     //  PUBLIC METHODS
     // ═══════════════════════════════════════════════════════════════════════════
 
-    /**
-     * Navigates to the Documents tab.
-     */
     public void navigateToDocumentsTab() {
         log.info("Navigating to Documents tab...");
         getPage().locator(DOCUMENTS_TAB_LINK).click();
         getPage().waitForLoadState(LoadState.NETWORKIDLE);
-        getPage().waitForTimeout(2000); // Allow checklist to render
+
+        log.info("Waiting for KYC Checklist to render...");
+        getPage().locator(".checklist-title").waitFor(
+                new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(15000));
+        getPage().waitForTimeout(2000);
         log.info("Documents tab loaded.");
     }
 
-    /**
-     * Reads the KYC Checklist sidebar and returns list of pending (non-passed) document names.
-     * Passed items have p.passed class, pending items have p with empty or no special class.
-     */
     public List<String> getPendingMandatoryDocuments() {
         List<String> pendingDocs = new ArrayList<>();
         Locator allItems = getPage().locator(CHECKLIST_ITEMS);
         int count = allItems.count();
+
+        if (count == 0) {
+            Locator checklistTitle = getPage().locator("p.checklist-title");
+            if (checklistTitle.count() > 0) {
+                allItems = checklistTitle.locator("xpath=..").locator(".status-div");
+                count = allItems.count();
+            }
+        }
 
         log.info("Total KYC Checklist items found: {}", count);
 
         for (int i = 0; i < count; i++) {
             Locator item = allItems.nth(i);
             Locator pTag = item.locator("p");
-
             if (pTag.count() == 0) continue;
 
             String docName = pTag.first().textContent().trim();
             String pClass = pTag.first().getAttribute("class");
 
-            // If the <p> tag has class "passed", it's already done — skip it
             if (pClass != null && pClass.contains("passed")) {
                 log.info("  [PASSED] {}", docName);
                 continue;
             }
 
-            // Otherwise it's pending
             if (!docName.isEmpty()) {
                 pendingDocs.add(docName);
                 log.info("  [PENDING] {}", docName);
@@ -111,13 +113,9 @@ public class DocumentsPage extends BaseTest {
         return pendingDocs;
     }
 
-    /**
-     * Main method: Dynamically uploads mandatory documents and marks OSV.
-     * Reads KYC Checklist to determine what's pending.
-     * If no mandatory docs are pending, logs and skips gracefully.
-     */
     public void uploadMandatoryDocumentsAndMarkOsv() {
         navigateToDocumentsTab();
+        processedSectionIds.clear();
 
         List<String> pendingDocs = getPendingMandatoryDocuments();
 
@@ -133,12 +131,11 @@ public class DocumentsPage extends BaseTest {
         }
 
         log.info("All pending mandatory documents processed successfully.");
+        // Wait for backend to sync after all uploads
+        getPage().waitForTimeout(5000);
+        log.info("Waited for backend sync after document uploads.");
     }
 
-    /**
-     * Clicks the Approve button in the KYC Checklist sidebar.
-     * Should be called when the approve button is enabled (after QC Review).
-     */
     public void approveKycChecklist() {
         navigateToDocumentsTab();
         log.info("Attempting to click Approve button in KYC Checklist...");
@@ -146,37 +143,52 @@ public class DocumentsPage extends BaseTest {
         Locator approveBtn = getPage().locator(APPROVE_BUTTON);
         approveBtn.waitFor(new Locator.WaitForOptions().setTimeout(10000));
 
-        // Check if button is enabled
         if (approveBtn.isDisabled()) {
             log.warn("Approve button is disabled. Cannot approve at this stage.");
-            throw new AssertionError("KYC Checklist Approve button is disabled. Ensure all mandatory docs are uploaded and QC review is complete.");
+            throw new AssertionError("KYC Checklist Approve button is disabled.");
         }
 
         approveBtn.click();
+        log.info("Sidebar Approve button clicked. Waiting for confirmation modal...");
+
+        // Wait for the confirmation modal to appear
+        Locator confirmationModal = getPage().locator(".checklist-complete-dialog .el-dialog");
+        confirmationModal.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));
+        log.info("Confirmation modal appeared: 'Approve App ID... Documents KYC Check'");
+
+        // Click the Approve button inside the confirmation modal
+        Locator modalApproveBtn = getPage().locator(".checklist-complete-dialog .approve-checklist-cta");
+        modalApproveBtn.waitFor(new Locator.WaitForOptions().setTimeout(5000));
+        modalApproveBtn.click();
+        log.info("Clicked Approve in confirmation modal.");
+
+        // Verify success toast
+        Locator successToast = getPage().locator(".el-message--success");
+        try {
+            successToast.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));
+            String toastText = successToast.textContent().trim();
+            log.info("KYC Checklist approved successfully. Toast: '{}'", toastText);
+        } catch (Exception e) {
+            log.error("No success toast received after approving KYC Checklist.");
+            throw new AssertionError("KYC Checklist approval failed: no success toast appeared.", e);
+        }
+
         getPage().waitForLoadState(LoadState.NETWORKIDLE);
-        log.info("KYC Checklist approved successfully.");
+        getPage().waitForTimeout(2000);
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
     //  PRIVATE METHODS
     // ═══════════════════════════════════════════════════════════════════════════
 
-    /**
-     * Processes a single document from the checklist.
-     * Determines if it needs upload or just OSV marking.
-     */
     private void processDocument(String checklistDocName) {
         log.info("Processing document: '{}'", checklistDocName);
 
-        // Parse entity name and doc section from checklist text
-        // Format: "EntityName's DocSection" (e.g., "Myntra Corp's KYC Documents")
-        // Or just "Loan Agreement Signed" for Others section
         String entityName = extractEntityName(checklistDocName);
         String sectionHint = extractSectionName(checklistDocName);
-
         log.info("  Entity: '{}', Section hint: '{}'", entityName, sectionHint);
 
-        // Find the matching section in the main content area
+        // Find matching section — skips already-processed sections (handles duplicate POA)
         Locator section = findDocumentSection(entityName, sectionHint);
 
         if (section == null) {
@@ -184,12 +196,20 @@ public class DocumentsPage extends BaseTest {
             return;
         }
 
+        // Mark this section's drop-zone ID as processed
+        Locator dropZone = section.locator(".drop-zone");
+        if (dropZone.count() > 0) {
+            String zoneId = dropZone.first().getAttribute("id");
+            if (zoneId != null) {
+                processedSectionIds.add(zoneId);
+            }
+        }
+
         // Check if section already has a document uploaded
-        boolean hasDocument = !section.locator(".doc-container .doc-wrapper .doc").isHidden()
-                && section.locator(".doc-container .doc-wrapper .doc").count() > 0;
+        Locator docElements = section.locator(".doc-container .doc-wrapper .doc");
+        boolean hasDocument = docElements.count() > 0 && docElements.first().isVisible();
 
         if (hasDocument) {
-            // Document already uploaded — just need to mark OSV if not already marked
             boolean hasOsvOk = section.locator(OSV_OK_TAG).count() > 0;
             if (hasOsvOk) {
                 log.info("  Document already uploaded and OSV marked OK. Skipping.");
@@ -198,82 +218,103 @@ public class DocumentsPage extends BaseTest {
                 markOsvForExistingDocument(section);
             }
         } else {
-            // Section is empty — need to upload
             log.info("  Section is empty. Uploading document...");
-            uploadDocumentToSection(section);
+            uploadDocumentToSection(section, sectionHint);
         }
     }
 
     /**
-     * Uploads a document to an empty section using setInputFiles on the hidden input.
-     * After upload, handles the OSV modal.
+     * Uploads a document to an empty section.
+     * Selects file type based on section hint (Photo → png, others → pdf).
+     * Verifies upload success and fails on error toast.
      */
-    private void uploadDocumentToSection(Locator section) {
-        // Click the upload button within this section to trigger the file input
+    private void uploadDocumentToSection(Locator section, String sectionHint) {
         Locator uploadBtn = section.locator(UPLOAD_BTN_IN_SECTION).first();
         uploadBtn.scrollIntoViewIfNeeded();
+        getPage().waitForTimeout(500);
 
-        // Use setInputFiles on the hidden file input
-        Path filePath = Paths.get(DEFAULT_PDF_PATH);
-        getPage().setInputFiles(HIDDEN_FILE_INPUT, filePath);
+        // Choose file based on section type
+        Path filePath = resolveFileForSection(sectionHint);
+        log.info("  Using file: {}", filePath.getFileName());
 
-        log.info("  File set via setInputFiles. Waiting for OSV modal...");
+        // Click upload and set file via the file chooser event
+        FileChooser fileChooser = getPage().waitForFileChooser(() -> {
+            uploadBtn.click();
+        });
+        fileChooser.setFiles(filePath);
+
+        log.info("  File uploaded via FileChooser. Waiting for OSV modal...");
+
+        // Check for error toast first (file format not allowed)
+        getPage().waitForTimeout(2000);
+        Locator errorToast = getPage().locator(UPLOAD_ERROR_TOAST);
+        if (errorToast.isVisible()) {
+            String errorMsg = errorToast.textContent().trim();
+            log.error("  UPLOAD FAILED with error: {}", errorMsg);
+            // Take screenshot for debugging
+            BaseTest.getPage().screenshot(new Page.ScreenshotOptions()
+                    .setPath(Paths.get("target/screenshots/upload_error_" + System.currentTimeMillis() + ".png")));
+            throw new AssertionError("Document upload failed: " + errorMsg);
+        }
 
         // Wait for OSV modal to appear
         getPage().locator(OSV_MODAL).waitFor(
                 new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(15000));
 
-        // Handle OSV modal — select TYPE (first option) and OSV STATUS (OK)
         handleOsvModal(true);
     }
 
     /**
-     * Marks OSV for a document that's already uploaded.
-     * Clicks the edit/Mark OSV button and handles the modal.
+     * Resolves the correct file to upload based on section hint.
+     * Photo sections need PNG/JPG, others use PDF.
      */
+    private Path resolveFileForSection(String sectionHint) {
+        String hintLower = sectionHint.toLowerCase();
+
+        // Photo sections require image files (png/jpg)
+        if (hintLower.contains("photo") || hintLower.contains("selfie")) {
+            Path photoPath = Paths.get(PHOTO_FILE_PATH);
+            if (photoPath.toFile().exists()) {
+                return photoPath;
+            }
+            log.warn("  Photo file not found at '{}'. Falling back to PDF.", PHOTO_FILE_PATH);
+        }
+
+        return Paths.get(DEFAULT_PDF_PATH);
+    }
+
     private void markOsvForExistingDocument(Locator section) {
-        // Try clicking the edit button (pencil icon) to open OSV modal
         Locator editBtn = section.locator(EDIT_OSV_BTN).first();
 
         if (editBtn.isVisible()) {
             editBtn.click();
         } else {
-            // Try Mark OSV button
             Locator markOsvBtn = section.locator(MARK_OSV_BTN).first();
             markOsvBtn.scrollIntoViewIfNeeded();
             markOsvBtn.click();
         }
 
-        // Wait for OSV modal
         getPage().locator(OSV_MODAL).waitFor(
                 new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));
 
-        // For existing docs, TYPE may already be selected — just select OSV STATUS
         handleOsvModal(false);
     }
 
-    /**
-     * Handles the OSV modal dialog.
-     * @param selectType if true, selects the first option in TYPE dropdown
-     */
     private void handleOsvModal(boolean selectType) {
-        getPage().waitForTimeout(500); // Allow modal to fully render
+        getPage().waitForTimeout(500);
 
         if (selectType) {
-            // Click TYPE dropdown and select first option
             log.info("  Selecting TYPE (first available option)...");
             Locator typeDropdown = getPage().locator(OSV_TYPE_DROPDOWN);
             typeDropdown.click();
             getPage().waitForTimeout(300);
 
-            // Select first visible option in the dropdown
             Locator firstOption = getPage().locator(".el-select-dropdown__item:visible").first();
             firstOption.waitFor(new Locator.WaitForOptions().setTimeout(5000));
             firstOption.click();
             getPage().waitForTimeout(300);
         }
 
-        // Click OSV STATUS dropdown and select "OK"
         log.info("  Selecting OSV STATUS = 'OK'...");
         Locator osvStatusDropdown = getPage().locator(OSV_STATUS_DROPDOWN);
         osvStatusDropdown.click();
@@ -284,34 +325,35 @@ public class DocumentsPage extends BaseTest {
         okOption.click();
         getPage().waitForTimeout(300);
 
-        // Click Save button (should be enabled now)
         log.info("  Clicking Save...");
         Locator saveBtn = getPage().locator(OSV_SAVE_BTN);
         saveBtn.waitFor(new Locator.WaitForOptions().setTimeout(5000));
         saveBtn.click();
 
-        // Wait for modal to close
         getPage().locator(OSV_MODAL).waitFor(
                 new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN).setTimeout(10000));
 
-        getPage().waitForTimeout(1000); // Allow page to update
+        getPage().waitForTimeout(1000);
         log.info("  OSV modal saved and closed.");
     }
 
     /**
-     * Finds the document section in the main content area matching the entity and section hint.
+     * Finds the document section matching entity and section hint.
+     * Skips sections that already have OSV OK marked (they're done).
+     * Skips sections that have already been processed in this run.
+     * Prefers empty sections that need upload.
      */
     private Locator findDocumentSection(String entityName, String sectionHint) {
-        // Strategy: Find the entity-wrapper containing the entity name,
-        // then within it find the section-wrapper whose section-name contains the hint
-
         Locator allEntityWrappers = getPage().locator(ENTITY_WRAPPER);
         int entityCount = allEntityWrappers.count();
+
+        Locator bestMatch = null;
+        String bestMatchName = "";
+        int bestMatchScore = -1; // Higher = better
 
         for (int i = 0; i < entityCount; i++) {
             Locator entityWrapper = allEntityWrappers.nth(i);
 
-            // Check if this entity wrapper matches (by name or "Others" heading)
             String entityText = "";
             Locator nameLocator = entityWrapper.locator(".mainNameText");
             Locator subHeading = entityWrapper.locator(".sub-heading");
@@ -328,42 +370,74 @@ public class DocumentsPage extends BaseTest {
 
             if (!entityMatches) continue;
 
-            // Find section within this entity that matches the section hint
             Locator sections = entityWrapper.locator(SECTION_WRAPPER);
             int sectionCount = sections.count();
 
             for (int j = 0; j < sectionCount; j++) {
                 Locator sec = sections.nth(j);
                 String secName = sec.locator(SECTION_NAME).textContent().trim();
+                String secNameLower = secName.toLowerCase().replaceAll("\\*", "").trim();
+                String hintLower = sectionHint.toLowerCase().trim();
 
-                if (secName.toLowerCase().contains(sectionHint.toLowerCase())) {
-                    log.info("  Found matching section: '{}' under entity '{}'", secName, entityText);
-                    return sec;
+                // Check if this section was already processed in this run
+                Locator dropZone = sec.locator(".drop-zone");
+                if (dropZone.count() > 0) {
+                    String zoneId = dropZone.first().getAttribute("id");
+                    if (zoneId != null && processedSectionIds.contains(zoneId)) {
+                        continue;
+                    }
+                }
+
+                // Check name match
+                boolean matches = false;
+                int nameScore = 0;
+
+                if (secNameLower.equals(hintLower)) {
+                    matches = true;
+                    nameScore = 3; // Exact match
+                } else if (secNameLower.startsWith(hintLower)) {
+                    matches = true;
+                    nameScore = 2; // Starts-with
+                } else if (hintLower.length() >= 3 && secNameLower.contains(hintLower)) {
+                    matches = true;
+                    nameScore = 1; // Contains
+                }
+
+                if (!matches) continue;
+
+                // Check section state — skip sections that already have OSV OK
+                boolean hasOsvOk = sec.locator(OSV_OK_TAG).count() > 0;
+                if (hasOsvOk) {
+                    log.info("  Skipping section '{}' — already has OSV OK", secName);
+                    continue;
+                }
+
+                // Score: empty sections get bonus points
+                boolean isEmpty = sec.getAttribute("class") != null
+                        && sec.getAttribute("class").contains("is-empty");
+                int score = nameScore * 10 + (isEmpty ? 5 : 0);
+
+                if (score > bestMatchScore) {
+                    bestMatch = sec;
+                    bestMatchName = secName;
+                    bestMatchScore = score;
                 }
             }
         }
 
-        return null;
+        if (bestMatch != null) {
+            log.info("  Found matching section: '{}' (score={}) for hint '{}'", bestMatchName, bestMatchScore, sectionHint);
+        }
+        return bestMatch;
     }
 
-    /**
-     * Extracts entity name from checklist text.
-     * E.g., "Myntra Corp's KYC Documents" → "Myntra Corp"
-     * E.g., "Loan Agreement Signed" → "Others"
-     */
     private String extractEntityName(String checklistText) {
         if (checklistText.contains("'s ")) {
             return checklistText.substring(0, checklistText.indexOf("'s ")).trim();
         }
-        // If no "'s" pattern, it's likely in "Others" section
         return "Others";
     }
 
-    /**
-     * Extracts section/document name from checklist text.
-     * E.g., "Myntra Corp's KYC Documents" → "KYC Documents"
-     * E.g., "Loan Agreement Signed" → "Loan Agreement Signed"
-     */
     private String extractSectionName(String checklistText) {
         if (checklistText.contains("'s ")) {
             return checklistText.substring(checklistText.indexOf("'s ") + 3).trim();
