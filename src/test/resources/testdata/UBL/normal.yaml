@@ -1,0 +1,121 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# UBL End-to-End Test Data
+# Profile: Default UAT
+# ═══════════════════════════════════════════════════════════════════════════════
+
+dsa:
+  # ── Partner Details ──────────────────────────────────────────────────────────
+  partner_details:
+    branch: "91, SPRINGBOARD - NEW DELHI"
+    sales_manager: "devi (devi@gmail.com)"
+    scheme: "Income program- Cash profit"
+
+  # ── Business Details ─────────────────────────────────────────────────────────
+  business_details:
+    entity_pan: "AAECM9636S"
+    entity_name: "Myntra Corp"
+    operational_address:
+      line2: "AGARWAL NGR CAVES RD"
+      pincode: "400060"
+      city: "MMB"
+      state: "MH"
+    ownership: "Family Owned"
+    same_as_operational: "Yes"
+    entity_email: "adarsh.gani@creditsaison-in.com"
+    entity_contact: "8937879820"
+    date_of_registration: "12/07/1998"
+    last_year_turnover: "1100000"
+    industry_type: "Service"
+    loan_type: "Business Loans"
+
+  # ── Loan Requirements ────────────────────────────────────────────────────────
+  loan_requirements:
+    tenure: "12"
+    loan_amount: "700000"
+    end_use: "Business Expansion"
+
+  # ── QDE (Quick Data Entry) ───────────────────────────────────────────────────
+  qde:
+    pan_profile: "Shea Test"
+    shareholding: "45"
+
+  # ── Consent ──────────────────────────────────────────────────────────────────
+  consent:
+    otp: "123456"
+    entity_email: "adarsh.gani@creditsaison-in.com"
+
+  # ── Banking ──────────────────────────────────────────────────────────────────
+  banking:
+    bank_name: "IndusInd Bank, India"
+
+  # ── DDE (Detailed Data Entry) ────────────────────────────────────────────────
+  dde:
+    trade_ref1_name: "Varun"
+    trade_ref1_relation: "Customer"
+    trade_ref1_mobile: "9886779302"
+    trade_ref2_name: "Rothan"
+    trade_ref2_relation: "Customer"
+    trade_ref2_mobile: "9839099092"
+    email: "adarsh.gani@gmail.com"
+    correspondence_address: "AGARWAL NGR CAVES RD"
+    correspondence_ownership: "Self Owned"
+    father_first_name: "Vikas"
+    father_last_name: "Kamble"
+    caste: "GENERAL"
+    religion: "HINDU"
+    designation: "Individual"
+    annual_income: "400000"
+    permanent_same: "Yes"
+    current_same: "Yes"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+jarvis:
+  # ── Business Details (Login Desk stage) ──────────────────────────────────────
+  business_details:
+    classification: "CORPORATE"
+    udyam_number: "UDYAM-AD-12-1234567"
+    industry_sector: "Industrial hardware/machinery tools/Engineering goods"
+    sub_sector: "Trader- Wholesale"
+    no_of_employees: "50"
+    business_type: "Small"
+
+  # ── Bank Details ─────────────────────────────────────────────────────────────
+  bank_details:
+    disbursal_account_number: "159590886867"
+    disbursal_account_type: "SAVINGS"
+    disbursal_ifsc_code: "HDFC0000094"
+    collection_account_number: "159590886867"
+    collection_account_type: "SAVINGS"
+    collection_ifsc_code: "HDFC0000094"
+
+  # ── Insurance Details ────────────────────────────────────────────────────────
+  insurance:
+    provider: "Reliance General Insurance"
+    tenure: "10 Months"
+    nominee_name: "Adarsh Gani"
+    relationship: "brother"
+    dob: "2001-08-24"
+    gender: "Male"
+    mobile: "7848043529"
+    email: "adarsh.gani@creditsaison-in.com"
+
+  # ── Ownership & Assignment ───────────────────────────────────────────────────
+  ownership:
+    credit_approver: "harshit.verma@partner.creditsaison-in.com"
+
+  assignment:
+    level: "L5"
+    user: "tenjin.user@creditsaison-in.com"
+
+  # ── Co-Applicant ────────────────────────────────────────────────────────────
+  co_applicant:
+    aadhaar: "294365933461"
+
+  # ── Beneficiary Owner ────────────────────────────────────────────────────────
+  beneficiary:
+    entity: "Myntra Corp"
+    applicant: "Shea Test"
+
+  # ── Credit Approval ──────────────────────────────────────────────────────────
+  credit_approval:
+    reason: "Approve"

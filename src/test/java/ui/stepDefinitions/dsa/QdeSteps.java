@@ -1,6 +1,7 @@
 package ui.stepDefinitions.dsa;
 
 import backend.constants.Constants;
+import data.TestDataProvider;
 import hooks.BaseTest;
 import io.cucumber.java.en.*;
 import ui.pages.dsa.QdePage;
@@ -9,20 +10,15 @@ import static dynamicData.DynamicDataClass.getValue;
 
 public class QdeSteps extends BaseTest {
 
-    private final QdePage qdePage = new QdePage(BaseTest.getPage());
+    @And("User completes QDE with co-applicant details and submits")
+    public void completeQde() {
+        QdePage page = new QdePage(BaseTest.getPage());
 
-    @Then("User verifies the generated PAN in QDE page and checks auto-populated name {string} for the Primary Co-applicant")
-    public void verifyPanInQde(String expectedName) {
-        qdePage.enterPanAndVerify((String) getValue(Constants.PAN_CARD));
-        qdePage.verifyAutoPopulatedName(expectedName);
-    }
-
-    @Then("User fills remaining basic details in QDE page with {string} shareholding, saves, and submits")
-    public void fillRemainingQdeDetailsAndSave(String shareholding) {
-        qdePage.enterMobileNumber((String) getValue(Constants.MOBILE_NUMBER));
-        qdePage.enterShareholdingPercentage(shareholding);
-
-        qdePage.clickSaveButton();
-        qdePage.clickSubmitButton();
+        page.enterPanAndVerify((String) getValue(Constants.PAN_CARD));
+        page.verifyAutoPopulatedName(TestDataProvider.get("dsa.qde.pan_profile"));
+        page.enterMobileNumber((String) getValue(Constants.MOBILE_NUMBER));
+        page.enterShareholdingPercentage(TestDataProvider.get("dsa.qde.shareholding"));
+        page.clickSaveButton();
+        page.clickSubmitButton();
     }
 }

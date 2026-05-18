@@ -12,10 +12,9 @@ public interface Constants {
     String KYC_TYPE = "kycType";
     String PANCARD = "pancard";
 
-    String START_PROCESS_ENDPOINT = "/api/v1/UBL/%s/start-process/%s";
-    
     // Nebula API keys
     String NEBULA_BASE_URI = "nebulaUri";
+    String START_PROCESS_ENDPOINT = "/api/v1/UBL/%s/start-process/%s";
 
     // Lannister API keys
     String LANNISTER_BASE_URI = "lannisterUri";

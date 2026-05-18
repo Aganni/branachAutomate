@@ -5,10 +5,10 @@ import io.cucumber.java.en.*;
 import ui.pages.dsa.KycDocumentsPage;
 
 public class KycDocumentSteps {
-    private final KycDocumentsPage kycDocumentsPage = new KycDocumentsPage(BaseTest.getPage());
 
-    @Then("User submits the KYC Documents page without additional uploads")
-    public void submitKycDocs() {
-        kycDocumentsPage.submitDocuments();
+    @And("User submits KYC Documents page")
+    public void submitKycDocuments() {
+        KycDocumentsPage page = new KycDocumentsPage(BaseTest.getPage());
+        page.submitDocuments();
     }
 }
