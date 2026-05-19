@@ -8,16 +8,15 @@ public class ConsentPage extends BaseTest {
 
     private final Page page;
 
-    // Locators
+    // ── Locators ─────────────────────────────────────────────────────────────
     private static final String SEND_OTP_BTN = "button:has-text('SEND OTP')";
-    private static final String OTP_INPUT_GROUP = ".MuiOtpInput-Box input"; // Targets all OTP inputs
+    private static final String OTP_INPUT_GROUP = ".MuiOtpInput-Box input"; 
     private static final String EMAIL_INPUT = "input[name='emailentity']";
     private static final String SEND_EMAIL_BTN = "button[name='entity']:has-text('Send')";
     private static final String SUBMIT_CONSENT_BTN = "button:has-text('SUBMIT')";
 
-
-
     public ConsentPage(Page page) {
+        if (page == null) throw new IllegalArgumentException("Page instance cannot be null");
         this.page = page;
     }
 
@@ -38,24 +37,21 @@ public class ConsentPage extends BaseTest {
     public void enterEmail(String email) {
         Locator emailField = page.locator(EMAIL_INPUT);
 
-        // 1. Check if the field is disabled (auto-filled from Details)
         if (emailField.isDisabled()) {
             String currentValue = emailField.inputValue();
-            // If it already matches what we want, just exit the method and proceed to click SEND!
             if (currentValue.equals(email)) {
                 log.info("Email is already auto-filled correctly with: {}. Skipping edit.", currentValue);
                 return;
             } else {
                 log.info("Email is locked but needs to be changed. Clicking Edit icon...");
-                // Navigates to the parent element of the input to specifically find ITS edit icon
                 emailField.locator("xpath=..").getByTestId("EditIcon").click();
             }
         }
-        // 2. Now the field is enabled, so we can safely click and fill
+        
         log.info("Entering Entity Email: {}", email);
         emailField.click();
         emailField.fill(email);
-        // 3. Click the Save icon (only appears after editing)
+        
         Locator saveIcon = emailField.locator("xpath=..").getByTestId("SaveIcon");
         if (saveIcon.isVisible()) {
             saveIcon.click();

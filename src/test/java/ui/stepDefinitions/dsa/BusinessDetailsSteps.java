@@ -1,57 +1,54 @@
 package ui.stepDefinitions.dsa;
 
+import data.TestDataProvider;
 import hooks.BaseTest;
-import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
 import ui.Utils.Utils;
 import ui.pages.dsa.BusinessDetailsPage;
 
-public class BusinessDetailsSteps {
-    private final BusinessDetailsPage businessDetailsPage;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-    public BusinessDetailsSteps(){
-       this.businessDetailsPage=new BusinessDetailsPage(BaseTest.getPage());
-    }
+public class BusinessDetailsSteps extends BaseTest {
 
-    @Then("User enters Entity PAN {string} in business details, clicks the verification button, and verifies that entity name is {string}")
-    public void userEntersPanAndVerifiesEntity(String panNumber, String expectedEntityName) {
+    @And("User completes Business Details with PAN verification and submits")
+    public void completeBusinessDetails() {
+        BusinessDetailsPage page = new BusinessDetailsPage(BaseTest.getPage());
+
+        // Extract partner loan ID from URL
         Utils.extractAndStorePartnerLoanId();
-        businessDetailsPage.enterPanAndVerify(panNumber);
-        businessDetailsPage.verifyAutoPopulatedEntityName(expectedEntityName);
-    }
 
-    @And("User clicks on the {string} button")
-    public void userClicksOnTheButton(String buttonText) {
-        if (buttonText.equals("Continue to fetch details linked to this PAN")) {
-            businessDetailsPage.clickContinueToFetchDetails();
-        }
-    }
+        // PAN verification
+        page.enterPanAndVerify(TestDataProvider.get("dsa.business_details.entity_pan"));
+        page.verifyAutoPopulatedEntityName(TestDataProvider.get("dsa.business_details.entity_name"));
+        page.clickContinueToFetchDetails();
 
-    @And("User select Entity Operational Address line 1 from the dropdown and verifies the auto-populated address details")
-    public void userVerifiesTheAutoPopulatedAddressDetails(DataTable dataTable) {
-        businessDetailsPage.fillOperationalAddress();
-        businessDetailsPage.verifyAutoPopulatedAddress(dataTable.asMap(String.class, String.class));
-    }
+        // Operational address
+        page.fillOperationalAddress();
+        Map<String, String> addressData = new LinkedHashMap<>();
+        addressData.put("Operational Address (Line 2)", TestDataProvider.get("dsa.business_details.operational_address.line2"));
+        addressData.put("State", TestDataProvider.get("dsa.business_details.operational_address.state"));
+        page.verifyAutoPopulatedAddress(addressData);
 
-    @And("User selects {string} as the Ownership type")
-    public void userSelectsAsTheOwnershipType(String ownership) {
-        businessDetailsPage.selectOwnership(ownership);
-    }
+        // Ownership + registered address
+        page.selectOwnership(TestDataProvider.get("dsa.business_details.ownership"));
+        page.selectSameAsOperationalAddress(TestDataProvider.get("dsa.business_details.same_as_operational"));
 
-    @And("User selects {string} for Same as Operational Address for Registered Address")
-    public void userSelectsForSameAsOperationalAddress(String option) {
-        businessDetailsPage.selectSameAsOperationalAddress(option);
-    }
+        // More business details
+        Map<String, String> moreDetails = new LinkedHashMap<>();
+        moreDetails.put("Entity Email", TestDataProvider.get("dsa.business_details.entity_email"));
+        moreDetails.put("Entity Contact Number", TestDataProvider.get("dsa.business_details.entity_contact"));
+        moreDetails.put("Date of Registration", TestDataProvider.get("dsa.business_details.date_of_registration"));
+        moreDetails.put("Last Year's Turnover", TestDataProvider.get("dsa.business_details.last_year_turnover"));
+        page.fillMoreBusinessDetails(moreDetails);
+        page.selectIndustrySubSector(TestDataProvider.get("dsa.business_details.industry_type"));
 
-    @Then("User fills the More Business Details and selects {string} as the Industry Type")
-    public void userFillsTheMoreBusinessDetails(String sector,DataTable dataTable) {
-        businessDetailsPage.fillMoreBusinessDetails(dataTable.asMap(String.class, String.class));
-        businessDetailsPage.selectIndustrySubSector(sector);
-    }
-
-    @Then("User fills the Loan Requirements and clicks on the Submit button on business details page")
-    public void userFillsTheLoanRequirements(DataTable dataTable) {
-        businessDetailsPage.fillLoanRequirements(dataTable.asMap(String.class, String.class));
-        businessDetailsPage.clickSubmit();
+        // Loan requirements + submit
+        Map<String, String> loanReq = new LinkedHashMap<>();
+        loanReq.put("Tenure", TestDataProvider.get("dsa.loan_requirements.tenure"));
+        loanReq.put("Loan Amount", TestDataProvider.get("dsa.loan_requirements.loan_amount"));
+        loanReq.put("End Use", TestDataProvider.get("dsa.loan_requirements.end_use"));
+        page.fillLoanRequirements(loanReq);
+        page.clickSubmit();
     }
 }

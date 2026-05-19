@@ -6,53 +6,52 @@ import hooks.BaseTest;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 public class LoginPage extends BaseTest {
-    // Locators
-    private final String externalLoginLink = "span:text-is('External Login')";
-    private final String emailInput = "input[placeholder*='Email']";
-    private final String sendOtpButton = "button:has-text('SEND OTP')";// Assuming standard OTP component
-    private final String verifyOtpButton = "button:has-text('VERIFY OTP')";
-    private final String dsaDashboardTitle = "KSF DSA Portal";// More likely for the new portal
-    private final String dsaDashboardUrl = "https://portal.uat.creditsaison.xyz/dashboard";
 
-    public static Page getPage() {
-        return BaseTest.getPage();
+    private final Page page;
+
+    // ── Locators ─────────────────────────────────────────────────────────────
+    private static final String EXTERNAL_LOGIN_LINK = "span:text-is('External Login')";
+    private static final String EMAIL_INPUT = "input[placeholder*='Email']";
+    private static final String SEND_OTP_BTN = "button:has-text('SEND OTP')";
+    private static final String VERIFY_OTP_BTN = "button:has-text('VERIFY OTP')";
+    private static final String DSA_DASHBOARD_TITLE = "KSF DSA Portal";
+    private static final String DSA_DASHBOARD_URL = "https://portal.uat.creditsaison.xyz/dashboard";
+
+    public LoginPage(Page page) {
+        if (page == null) throw new IllegalArgumentException("Page instance cannot be null");
+        this.page = page;
     }
 
     public void navigateToPortal(String url) {
-        getPage().navigate(url);
+        page.navigate(url);
         log.info("Navigated to DSA Portal: {}", url);
     }
 
     public void clickExternalLogin() {
-        getPage().click(externalLoginLink);
+        page.click(EXTERNAL_LOGIN_LINK);
         log.info("Clicked on external login button");
     }
 
     public void loginWithEmailAndOtp(String email, String otp) {
-        getPage().fill(emailInput, email);
-        getPage().click(sendOtpButton);
+        page.fill(EMAIL_INPUT, email);
+        page.click(SEND_OTP_BTN);
         log.info("Entered email: {} and clicked GET OTP", email);
         
-        // Handling OTP inputs (often multiple if it's an OTP component)
-        getPage().waitForSelector("#otp-box-0");
+        page.waitForSelector("#otp-box-0");
 
-        // Logic to fill each individual box
         for (int i = 0; i < otp.length(); i++) {
             String digit = String.valueOf(otp.charAt(i));
-            // Targets id="otp-box-0", id="otp-box-1", etc.
-            getPage().locator("#otp-box-" + i).fill(digit);
+            page.locator("#otp-box-" + i).fill(digit);
         }
 
-        // Click Verify
-        getPage().click(verifyOtpButton);
+        page.click(VERIFY_OTP_BTN);
         log.info("Entered OTP: {} and clicked VERIFY", otp);
     }
 
     public void verifyRedirectedToDsaDashboard() {
-        // This assertion will wait up to 5 seconds (default) for the URL to match
-        assertThat(getPage()).hasURL(dsaDashboardUrl);
-        assertThat(getPage()).hasTitle(dsaDashboardTitle);
+        assertThat(page).hasURL(DSA_DASHBOARD_URL);
+        assertThat(page).hasTitle(DSA_DASHBOARD_TITLE);
 
-        log.info("Successfully redirected to dashboard: {}", getPage().url());
+        log.info("Successfully redirected to dashboard: {}", page.url());
     }
 }

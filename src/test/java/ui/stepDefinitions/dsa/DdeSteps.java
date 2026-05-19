@@ -1,50 +1,42 @@
 package ui.stepDefinitions.dsa;
 
+import data.TestDataProvider;
 import hooks.BaseTest;
 import io.cucumber.java.en.*;
 import ui.pages.dsa.DdePage;
+import ui.pages.dsa.EligibilityCheckPage;
 
 import java.util.Map;
 
 public class DdeSteps {
-    private final DdePage ddePage;
 
-    public DdeSteps(){
-        this.ddePage= new DdePage(BaseTest.getPage());
-    }
+    @And("User passes decision check and fills DDE form")
+    public void passDecisionAndFillDde() {
+        // Pass decision check first
+        EligibilityCheckPage eligPage = new EligibilityCheckPage(BaseTest.getPage());
+        eligPage.waitForPrechecksAndClickNext();
 
-    @And("User fills the DDE form with following details")
-    public void fillDdeForm(Map<String, String> details) {
-        // We loop through every row you provided in the Feature File
-        details.forEach((fieldName, value) -> {
-            switch (fieldName) {
-                // Case 1: Standard Text Fields (We use ID from HTML)
-                case "TradeRef1 Name": ddePage.fillField("tradeRef1Name", value); break;
-                case "TradeRef1 Mobile": ddePage.fillField("tradeRef1MobileNumber", value); break;
-                case "TradeRef2 Name": ddePage.fillField("tradeRef2Name", value); break;
-                case "TradeRef2 Mobile": ddePage.fillField("tradeRef2MobileNumber", value); break;
-                case "Father First Name": ddePage.fillField("fatherFirstName", value); break;
-                case "Father Last Name": ddePage.fillField("fatherLastName", value); break;
-                case "Annual Income": ddePage.fillField("verifiedIncome", value); break;
-                // Case 2: Dropdowns
-                case "TradeRef1 Relation": ddePage.selectFromDropdown("tradeRef1BusinessRelationship", value); break;
-                case "TradeRef2 Relation": ddePage.selectFromDropdown("tradeRef2BusinessRelationship", value); break;
-                case "Correspondence Ownership": ddePage.selectValueFromMuiSelect("ownership", value); break;
+        // Fill DDE from YAML
+        DdePage ddePage = new DdePage(BaseTest.getPage());
+        Map<String, String> d = TestDataProvider.getMap("dsa.dde");
 
-                // New Radix Popover fields
-                case "Designation": ddePage.selectRadixPopover("Designation", value); break;
-                case "Caste":       ddePage.selectRadixPopover("Caste", value); break;
-                case "Religion":    ddePage.selectRadixPopover("Religion", value); break;
-
-                // Case 3: Radio Buttons (Yes/No)
-                case "Permanent Same": ddePage.selectRadio("isPermanentAddressSameAsOperationalAddress", value); break;
-                case "Current Same": ddePage.selectRadio("isCurrentAddressSameAsOperationalAddress", value); break;
-                case "Correspondence Address": ddePage.fillCorrespondenceAddress(value);break;
-
-                case "Email": ddePage.selectEmail(value);break;
-                case "Share Holding": ddePage.fillField("shareHolding", value);break;
-            }
-        });
+        if (d.containsKey("trade_ref1_name")) ddePage.fillField("tradeRef1Name", d.get("trade_ref1_name"));
+        if (d.containsKey("trade_ref1_relation")) ddePage.selectFromDropdown("tradeRef1BusinessRelationship", d.get("trade_ref1_relation"));
+        if (d.containsKey("trade_ref1_mobile")) ddePage.fillField("tradeRef1MobileNumber", d.get("trade_ref1_mobile"));
+        if (d.containsKey("trade_ref2_name")) ddePage.fillField("tradeRef2Name", d.get("trade_ref2_name"));
+        if (d.containsKey("trade_ref2_relation")) ddePage.selectFromDropdown("tradeRef2BusinessRelationship", d.get("trade_ref2_relation"));
+        if (d.containsKey("trade_ref2_mobile")) ddePage.fillField("tradeRef2MobileNumber", d.get("trade_ref2_mobile"));
+        if (d.containsKey("email")) ddePage.selectEmail(d.get("email"));
+        if (d.containsKey("correspondence_address")) ddePage.fillCorrespondenceAddress(d.get("correspondence_address"));
+        if (d.containsKey("correspondence_ownership")) ddePage.selectValueFromMuiSelect("ownership", d.get("correspondence_ownership"));
+        if (d.containsKey("father_first_name")) ddePage.fillField("fatherFirstName", d.get("father_first_name"));
+        if (d.containsKey("father_last_name")) ddePage.fillField("fatherLastName", d.get("father_last_name"));
+        if (d.containsKey("caste")) ddePage.selectRadixPopover("Caste", d.get("caste"));
+        if (d.containsKey("religion")) ddePage.selectRadixPopover("Religion", d.get("religion"));
+        if (d.containsKey("designation")) ddePage.selectRadixPopover("Designation", d.get("designation"));
+        if (d.containsKey("annual_income")) ddePage.fillField("verifiedIncome", d.get("annual_income"));
+        if (d.containsKey("permanent_same")) ddePage.selectRadio("isPermanentAddressSameAsOperationalAddress", d.get("permanent_same"));
+        if (d.containsKey("current_same")) ddePage.selectRadio("isCurrentAddressSameAsOperationalAddress", d.get("current_same"));
 
         ddePage.clickSave();
         ddePage.clickSubmit();

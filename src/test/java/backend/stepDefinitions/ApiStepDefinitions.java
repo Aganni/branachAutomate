@@ -1,39 +1,31 @@
 package backend.stepDefinitions;
 
-import backend.Utils.DataGeneratorUtils;
 import backend.Utils.ApiUtils;
+import backend.Utils.DataGeneratorUtils;
 import backend.constants.Constants;
+import data.TestDataProvider;
 import hooks.BaseTest;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.*;
 
-import java.util.Map;
-
-import static dynamicData.DynamicDataClass.getValue;
-import static dynamicData.DynamicDataClass.setValue;
+import static dynamicData.DynamicDataClass.*;
 
 public class ApiStepDefinitions extends BaseTest {
 
-    @Given("Generates required test data and Whitelist PAN for profile {string} in Mystique")
-    public void generateDataAndWhitelistPan(String profileName) {
-        // 1. Generate and store Mobile Number
+    @Given("User generates test data and whitelists PAN in Mystique")
+    public void generateDataAndWhitelistPan() {
+        String profile = TestDataProvider.get("dsa.qde.pan_profile");
+
         setValue(Constants.MOBILE_NUMBER, DataGeneratorUtils.generateMobileNumber());
-        log.info("Generated and stored mobile number: {}", getValue(Constants.MOBILE_NUMBER));
-        // 2. Generate and store PAN
+        log.info("Generated mobile: {}", getValue(Constants.MOBILE_NUMBER));
+
         setValue(Constants.PAN_CARD, DataGeneratorUtils.generatePanNumber());
-        log.info("Generated and stored PAN number: {}", getValue(Constants.PAN_CARD));
+        log.info("Generated PAN: {}", getValue(Constants.PAN_CARD));
 
-        // Hits the Mystique API with the profile name and the PAN
-        ApiUtils.updatePanInMystique(profileName);
+        ApiUtils.updatePanInMystique(profile);
     }
 
-    @And("User moves appForm to {string} stage")
-    public void userMovesAppFormToStage(String stage) {
-        ApiUtils.moveAppFormToStage(stage);
-    }
-
-    @And("User Update the repayment details")
-    public void userUpdateTheRepaymentDetails() {
-        ApiUtils.updateRepaymentDetails();
+    @And("User moves to QC Approval stage")
+    public void moveToQcApproval() {
+        ApiUtils.moveAppFormToStage("QC_APPROVE");
     }
 }

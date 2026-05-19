@@ -1,11 +1,7 @@
 package dynamicData;
 
-import io.restassured.path.json.JsonPath;
 import lombok.Data;
-
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 @Data
 public class TestSessionData {

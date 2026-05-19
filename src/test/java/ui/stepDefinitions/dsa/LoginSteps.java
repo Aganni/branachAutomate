@@ -1,29 +1,26 @@
 package ui.stepDefinitions.dsa;
 
+import data.TestDataProvider;
 import hooks.BaseTest;
 import io.cucumber.java.en.*;
+import ui.pages.dsa.DashboardPage;
 import ui.pages.dsa.LoginPage;
 
 public class LoginSteps extends BaseTest {
-    private final LoginPage loginPage = new LoginPage();
 
-    @Given("User navigates to the DSA Portal")
-    public void navigateToDsaPortal() throws Exception {
+    @When("User logs into DSA Portal and initiates a Business Loan application")
+    public void loginAndInitiateApplication() throws Exception {
         String url = BaseTest.initializeEnvironment("dsaPortalUrl");
+        LoginPage loginPage = new LoginPage(BaseTest.getPage());
         loginPage.navigateToPortal(url);
-    }
 
-    @When("User sign in via external login option with a registered email Id and lands on the DSA Dashboard")
-    public void signInViaExternalLogin() throws Exception {
         BaseTest.getCredentials("dsa");
-        
-        if (BaseTest.getUserEmail() == null || BaseTest.getOtp() == null) {
-            throw new RuntimeException("Email or OTP missing in uatCredentials.properties! email=" + BaseTest.getUserEmail() + ", otp=" + BaseTest.getOtp());
-        }
         loginPage.clickExternalLogin();
         loginPage.loginWithEmailAndOtp(BaseTest.getUserEmail(), BaseTest.getOtp());
-        log.info("Successfully signed in via external email/OTP option with email: {}", BaseTest.getUserEmail());
-
         loginPage.verifyRedirectedToDsaDashboard();
+
+        String loanType = TestDataProvider.get("dsa.business_details.loan_type");
+        DashboardPage dashboardPage = new DashboardPage(BaseTest.getPage());
+        dashboardPage.initiateApplication(loanType);
     }
 }

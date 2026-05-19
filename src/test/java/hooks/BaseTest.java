@@ -11,7 +11,8 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 public class BaseTest {
-    public static final String environment = "uat";
+    // Environment: reads from system property -Denv=uat (default: uat)
+    public static final String environment = System.getProperty("env", "uat");
 
     // ThreadLocal for thread safety during parallel execution
     private static final ThreadLocal<Playwright> playwrightThreadLocal = new ThreadLocal<>();

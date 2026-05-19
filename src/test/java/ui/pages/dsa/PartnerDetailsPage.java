@@ -7,48 +7,37 @@ import hooks.BaseTest;
 
 import java.util.Map;
 
-public class PartnerDetailsPage extends BaseTest{
+public class PartnerDetailsPage extends BaseTest {
 
-    // Element for the Partner Details form
+    private final Page page;
+
+    // ── Locators ─────────────────────────────────────────────────────────────
     private static final String BRANCH_INPUT_ID = "#branch";
     private static final String SALES_MANAGER_INPUT_ID = "#SalesManager";
     private static final String SCHEME_SELECT_ID = "#scheme";
-
-    // Buttons
     private static final String SAVE_AND_NEXT_BTN = "button:has-text('SAVE AND NEXT')";
 
-    public static Page getPage() {
-        return BaseTest.getPage();
+    public PartnerDetailsPage(Page page) {
+        if (page == null) throw new IllegalArgumentException("Page instance cannot be null");
+        this.page = page;
     }
 
-    /**
-     * Helper for MuiAutocomplete: Clicks, types to filter, and selects the option.
-     */
     private void fillAutocomplete(String locator, String value) {
         log.info("Filling autocomplete '{}' with value: {}", locator, value);
-        Locator input = getPage().locator(locator);
+        Locator input = page.locator(locator);
         input.click();
         input.clear();
-        input.fill(value); // Type to filter
+        input.fill(value);
 
-        // Wait for the option to appear in the listbox and click it
-        getPage().getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(value).setExact(true)).click();
+        page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(value).setExact(true)).click();
     }
 
-    /**
-     * Helper for MuiSelect: Clicks the div to open the menu, then selects the option.
-     */
     private void selectDropdown(String locator, String value) {
         log.info("Selecting dropdown '{}' with value: {}", locator, value);
-        getPage().locator(locator).click(); // Click to open dropdown
-
-        // Wait for the option to appear in the listbox and click it
-        getPage().getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(value).setExact(true)).click();
+        page.locator(locator).click(); 
+        page.getByRole(AriaRole.OPTION, new Page.GetByRoleOptions().setName(value).setExact(true)).click();
     }
 
-    /**
-     * Reads the Cucumber Map and fills only the provided mandatory fields.
-     */
     public void fillMandatoryDetails(Map<String, String> details) {
         if (details.containsKey("Branch")) {
             fillAutocomplete(BRANCH_INPUT_ID, details.get("Branch"));
@@ -62,7 +51,7 @@ public class PartnerDetailsPage extends BaseTest{
     }
 
     public void clickSaveAndNext() {
-        getPage().locator(SAVE_AND_NEXT_BTN).click();
+        page.locator(SAVE_AND_NEXT_BTN).click();
         log.info("Clicked SAVE AND NEXT button");
     }
 }
