@@ -47,6 +47,18 @@ public class BusinessDetailsPage extends BaseTest {
         page.locator(ENTITY_PAN_INPUT).fill(panNumber);
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Verify")).click();
         log.info("Clicked Verify button for PAN");
+        dismissCopyApplicationDetailsPopup();
+    }
+
+    /**
+     * Handles the "Application details already exists for this applicant" confirmation popup.
+     * Clicks "No" to dismiss it and continue without copying existing information.
+     */
+    private void dismissCopyApplicationDetailsPopup() {
+        Locator noButton = page.locator(".ant-modal-confirm .ant-modal-confirm-btns button.ant-btn-default");
+        noButton.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(5000));
+        noButton.click();
+        log.info("Dismissed 'copy application details' popup by clicking No");
     }
 
     public void verifyAutoPopulatedEntityName(String expectedName) {

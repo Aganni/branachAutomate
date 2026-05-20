@@ -20,4 +20,12 @@ public interface Constants {
     String LANNISTER_BASE_URI = "lannisterUri";
     String REPAYMENT_DETAILS_ENDPOINT = "/api/v1/repaymentdetail/appForm/%s";
 
+    // Helios API keys
+    String HELIOS_BASE_URI = "heliosUri";
+    String HELIOS_RISK_CATEGORY_ENDPOINT = "/api/v1/risk-category";
+
+    // Shield API keys
+    String SHIELD_BASE_URI = "shieldUri";
+    String SHIELD_GET_APPFORM_BY_ID_ENDPOINT = "/api/v1/appForm/{appFormId}";
+
 }

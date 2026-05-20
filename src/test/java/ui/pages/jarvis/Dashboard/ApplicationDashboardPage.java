@@ -17,6 +17,8 @@ public class ApplicationDashboardPage extends BaseTest {
     private static final String FIRST_ROW_APP_ID_LINK = "table tbody tr:first-child td .app-id p, " +
             "table tbody tr:first-child [class*='app-id'], " +
             "table tbody tr:first-child td:nth-child(2) p";
+    private static final String DATE_FILTER = ".date-filter .el-date-editor";
+    private static final String DATE_FILTER_CLEAR_ICON = ".date-filter .el-range__close-icon.el-icon-circle-close";
 
     public ApplicationDashboardPage(Page page) {
         if (page == null) throw new IllegalArgumentException("Page instance cannot be null");
@@ -49,7 +51,7 @@ public class ApplicationDashboardPage extends BaseTest {
         }
 
         page.waitForLoadState(LoadState.NETWORKIDLE);
-        page.waitForTimeout(1500);
+        page.waitForTimeout(2000);
 
         log.info("Search results loaded and table updated.");
     }
@@ -78,5 +80,27 @@ public class ApplicationDashboardPage extends BaseTest {
         page.waitForLoadState(LoadState.NETWORKIDLE);
         Thread.sleep(3000);
         log.info("Application form opened successfully.");
+    }
+
+    /**
+     * Clears the date filter by hovering over the date range picker to reveal
+     * the close icon (el-icon-circle-close) and clicking it.
+     * This ensures appForms outside the default 2-month window are searchable.
+     */
+    public void clearDateFilter() {
+        log.info("Clearing date filter...");
+        Locator dateEditor = page.locator(DATE_FILTER);
+        dateEditor.hover();
+        page.waitForTimeout(500);
+
+        Locator clearIcon = page.locator(DATE_FILTER_CLEAR_ICON);
+        try {
+            clearIcon.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(3000));
+            clearIcon.click();
+            page.waitForTimeout(1000);
+            log.info("Date filter cleared successfully");
+        } catch (Exception e) {
+            log.info("Date filter clear icon not visible — filter may already be empty");
+        }
     }
 }

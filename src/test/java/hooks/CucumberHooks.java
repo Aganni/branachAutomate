@@ -55,10 +55,10 @@ public class CucumberHooks {
         log.info("  Scenario        : {}", scenario.getName());
         log.info("  Status          : {}", scenario.getStatus());
         log.info("  ─────────────────────────────────────────────────────────────");
-        log.info("  Partner Loan ID : {}", partnerLoanId);
-        log.info("  AppForm ID      : {}", appFormId);
-        log.info("  PAN Card        : {}", panCard);
-        log.info("  Mobile Number   : {}", mobileNumber);
+        if (!"N/A".equals(partnerLoanId)) log.info("  Partner Loan ID : {}", partnerLoanId);
+        if (!"N/A".equals(appFormId))     log.info("  AppForm ID      : {}", appFormId);
+        if (!"N/A".equals(panCard))       log.info("  PAN Card        : {}", panCard);
+        if (!"N/A".equals(mobileNumber))  log.info("  Mobile Number   : {}", mobileNumber);
         log.info("═══════════════════════════════════════════════════════════════");
         log.info("");
     }
