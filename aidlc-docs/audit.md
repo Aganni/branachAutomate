@@ -35,3 +35,30 @@
 - No diagnostics/errors in any new files
 
 ---
+
+## Refactoring - Repo Standardization
+**Timestamp**: 2026-05-20T13:00:00Z
+**User Input**: "Think as senior SDTE and using AIDLC work above feture is working but we need to rafactore as per repo standerdization check that in risk cagtegory api step also added in the UI step defination check separte step defination for the APi as well so use that and also i have Util class for api and UI use them for common reuseable code's make it clean modern way"
+**AI Response**: "Refactored to match repo standards — separated API steps, moved helpers to ApiUtils"
+**Context**: Code refactoring for clean architecture
+
+### Refactoring Changes:
+1. **Created `backend/stepDefinitions/RiskCategoryApiSteps.java`** — All API validation steps (Helios, Shield, UI-vs-API comparison) moved here
+2. **Updated `backend/Utils/ApiUtils.java`** — Added reusable helpers: `extractHeliosRiskData()`, `findHeliosApplicantById()`, `findApplicantNameFromShield()`
+3. **Cleaned `ui/stepDefinitions/jarvis/RiskCategorySteps.java`** — Now purely UI-focused, stores popover data in DynamicDataClass for API steps to consume
+4. **Data bridge**: UI steps store `uiRiskCategoryData` in DynamicDataClass, API steps read it for cross-validation
+
+### Architecture (matches repo pattern):
+```
+backend/stepDefinitions/RiskCategoryApiSteps.java  ← API step definitions
+backend/Utils/ApiUtils.java                        ← Reusable API helpers
+backend/Utils/ApiClientUtils.java                  ← HTTP client methods
+ui/stepDefinitions/jarvis/RiskCategorySteps.java   ← UI-only step definitions
+ui/pages/jarvis/RiskCategoryPage.java              ← Page object
+```
+
+### Build Verification:
+- `mvn compile test-compile` — ✅ SUCCESS
+- No diagnostics in any file
+
+---

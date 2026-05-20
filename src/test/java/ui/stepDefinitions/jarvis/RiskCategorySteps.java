@@ -1,20 +1,20 @@
 package ui.stepDefinitions.jarvis;
 
-import backend.Utils.ApiClientUtils;
 import dynamicData.DynamicDataClass;
 import hooks.BaseTest;
 import io.cucumber.java.en.*;
-import io.restassured.path.json.JsonPath;
-import org.testng.Assert;
 import ui.pages.jarvis.Dashboard.ApplicationDashboardPage;
 import ui.pages.jarvis.Dashboard.DashboardPage;
 import ui.pages.jarvis.LoginPage;
 import ui.pages.jarvis.RiskCategoryPage;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * UI step definitions for Risk Category badge validation in Jarvis.
+ * API validation steps are in backend.stepDefinitions.RiskCategoryApiSteps.
+ */
 public class RiskCategorySteps extends BaseTest {
 
     private RiskCategoryPage riskCategoryPage;
@@ -56,7 +56,6 @@ public class RiskCategorySteps extends BaseTest {
     @When("User searches application by {string} with value {string}")
     public void userSearchesApplicationByWithValue(String searchType, String searchValue) {
         appDashboard = new ApplicationDashboardPage(BaseTest.getPage());
-        // Store appFormId for test summary logging
         DynamicDataClass.setValue("appFormId", searchValue);
         appDashboard.searchByCriteria(searchType, searchValue);
         log.info("Searched by [{}] with value: {}", searchType, searchValue);
@@ -70,7 +69,7 @@ public class RiskCategorySteps extends BaseTest {
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
-    //  RISK CATEGORY BADGE STEPS
+    //  RISK CATEGORY BADGE UI STEPS
     // ═══════════════════════════════════════════════════════════════════════════
 
     @Then("Risk Category badge is visible on appForm header")
@@ -97,11 +96,15 @@ public class RiskCategorySteps extends BaseTest {
     @And("Risk category {string} with {string} badge is shown for applicant")
     public void riskCategoryWithBadgeIsShownForApplicant(String expectedRiskCategory, String expectedColor) {
         riskCategoryPage.verifyRiskCategoryColor(expectedRiskCategory, expectedColor);
+        // Store UI data for API comparison step
+        storeUiPopoverData();
     }
 
     @And("Popover displays multiple applicants with individual risk categories")
     public void popoverDisplaysMultipleApplicantsWithIndividualRiskCategories() {
         riskCategoryPage.verifyMultipleApplicantsWithIndividualRiskCategories();
+        // Store UI data for API comparison step
+        storeUiPopoverData();
     }
 
     @Then("Risk Category popover displays {string} message")
@@ -110,120 +113,16 @@ public class RiskCategorySteps extends BaseTest {
     }
 
     // ═══════════════════════════════════════════════════════════════════════════
-    //  API VALIDATION STEPS
-    // ═══════════════════════════════════════════════════════════════════════════
-
-    @Then("User validates risk category from Helios API for appFormId {string}")
-    public void userValidatesRiskCategoryFromHeliosAPI(String appFormId) throws Exception {
-        JsonPath heliosResponse = ApiClientUtils.doPostHeliosRiskCategory(appFormId);
-
-        // Extract applicant risk data from Helios response
-        List<Map<String, Object>> apiApplicants = new ArrayList<>();
-        Map<String, Object> result = heliosResponse.getMap("result");
-
-        if (result != null) {
-            for (Object value : result.values()) {
-                if (value instanceof List) {
-                    @SuppressWarnings("unchecked")
-                    List<Map<String, Object>> applicantList = (List<Map<String, Object>>) value;
-                    apiApplicants.addAll(applicantList);
-                }
-            }
-        }
-
-        DynamicDataClass.setValue("heliosRiskData", apiApplicants);
-        log.info("Helios API returned {} applicants with risk data", apiApplicants.size());
-        Assert.assertFalse(apiApplicants.isEmpty(),
-                "Helios API returned no risk data for appFormId: " + appFormId);
-    }
-
-    @And("User validates applicant name from Shield API for appFormId {string}")
-    public void userValidatesApplicantNameFromShieldAPI(String appFormId) throws Exception {
-        JsonPath shieldResponse = ApiClientUtils.doGetShieldAppForm(appFormId);
-
-        List<Map<String, Object>> linkedIndividuals = shieldResponse.getList("linkedIndividuals");
-        DynamicDataClass.setValue("shieldLinkedIndividuals", linkedIndividuals);
-        log.info("Shield API returned {} linked individuals", linkedIndividuals.size());
-        Assert.assertFalse(linkedIndividuals.isEmpty(),
-                "Shield API returned no linked individuals for appFormId: " + appFormId);
-    }
-
-    @And("UI risk category data matches API response for all applicants")
-    public void uiRiskCategoryDataMatchesAPIResponse() {
-        // Get UI data from popover
-        List<Map<String, String>> uiApplicants = riskCategoryPage.getRiskCategoryPopoverData();
-
-        // Get API data
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> heliosData =
-                (List<Map<String, Object>>) DynamicDataClass.getValue("heliosRiskData");
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> shieldData =
-                (List<Map<String, Object>>) DynamicDataClass.getValue("shieldLinkedIndividuals");
-
-        // Assert count matches
-        Assert.assertEquals(uiApplicants.size(), heliosData.size(),
-                "Applicant count mismatch between UI (" + uiApplicants.size()
-                        + ") and Helios API (" + heliosData.size() + ")");
-
-        // For each UI applicant, validate against API data
-        for (Map<String, String> uiApplicant : uiApplicants) {
-            String uiApplicantId = uiApplicant.get("applicantId");
-            String uiName = uiApplicant.get("name");
-            String uiRiskCategory = uiApplicant.get("riskCategory");
-
-            // Find matching Helios record by applicant_id
-            Map<String, Object> matchedHelios = findHeliosApplicant(uiApplicantId, heliosData);
-            Assert.assertNotNull(matchedHelios,
-                    "Applicant ID " + uiApplicantId + " from UI not found in Helios API response");
-
-            // Assert risk category matches
-            String apiRiskCategory = String.valueOf(matchedHelios.get("risk_category"));
-            Assert.assertEquals(uiRiskCategory, apiRiskCategory,
-                    "Risk category mismatch for applicant " + uiApplicantId);
-
-            // Find matching Shield record to validate name
-            String expectedName = findApplicantNameFromShield(uiApplicantId, shieldData);
-            if (expectedName != null && !"Unknown".equals(expectedName)) {
-                Assert.assertEquals(uiName, expectedName,
-                        "Name mismatch for applicant " + uiApplicantId);
-            }
-
-            log.info("Validated applicant {} - Name: {}, Risk: {}", uiApplicantId, uiName, uiRiskCategory);
-        }
-        log.info("All UI data matches API response successfully");
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════════
     //  PRIVATE HELPERS
     // ═══════════════════════════════════════════════════════════════════════════
 
-    private Map<String, Object> findHeliosApplicant(String applicantId, List<Map<String, Object>> heliosData) {
-        for (Map<String, Object> heliosApplicant : heliosData) {
-            String heliosApplicantId = String.valueOf(heliosApplicant.get("applicant_id"));
-            if (heliosApplicantId.equals(applicantId)) {
-                return heliosApplicant;
-            }
-        }
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    private String findApplicantNameFromShield(String applicantId, List<Map<String, Object>> shieldData) {
-        for (Map<String, Object> linked : shieldData) {
-            String linkedId = String.valueOf(linked.get("id"));
-            if (linkedId.equals(applicantId)) {
-                Map<String, Object> individual = (Map<String, Object>) linked.get("individual");
-                if (individual != null) {
-                    String firstName = individual.get("firstName") != null ? String.valueOf(individual.get("firstName")) : "";
-                    String middleName = individual.get("middleName") != null
-                            && !"null".equals(String.valueOf(individual.get("middleName")))
-                            ? String.valueOf(individual.get("middleName")) : "";
-                    String lastName = individual.get("lastName") != null ? String.valueOf(individual.get("lastName")) : "";
-                    return (firstName + " " + middleName + " " + lastName).replaceAll("\\s+", " ").trim();
-                }
-            }
-        }
-        return "Unknown";
+    /**
+     * Extracts popover data from UI and stores in DynamicDataClass
+     * for cross-validation with API responses.
+     */
+    private void storeUiPopoverData() {
+        List<Map<String, String>> uiData = riskCategoryPage.getRiskCategoryPopoverData();
+        DynamicDataClass.setValue("uiRiskCategoryData", uiData);
+        log.info("Stored {} applicant records from UI popover for API validation", uiData.size());
     }
 }

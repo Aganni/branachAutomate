@@ -8,6 +8,10 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.Assert;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import static dynamicData.DynamicDataClass.get;
 import static dynamicData.DynamicDataClass.getValue;
 
@@ -98,5 +102,64 @@ public class ApiUtils extends BaseTest {
             log.error("Failed to execute Lannister repayment details API", e);
             Assert.fail("Exception during repayment details API: " + e.getMessage());
         }
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    //  RISK CATEGORY HELPERS (Helios + Shield)
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    /**
+     * Extracts applicant risk data from Helios API response.
+     * The response structure has a "result" map containing lists of applicant data.
+     */
+    @SuppressWarnings("unchecked")
+    public static List<Map<String, Object>> extractHeliosRiskData(JsonPath heliosResponse) {
+        List<Map<String, Object>> apiApplicants = new ArrayList<>();
+        Map<String, Object> result = heliosResponse.getMap("result");
+
+        if (result != null) {
+            for (Object value : result.values()) {
+                if (value instanceof List) {
+                    List<Map<String, Object>> applicantList = (List<Map<String, Object>>) value;
+                    apiApplicants.addAll(applicantList);
+                }
+            }
+        }
+        return apiApplicants;
+    }
+
+    /**
+     * Finds a Helios applicant record by applicant_id.
+     */
+    public static Map<String, Object> findHeliosApplicantById(String applicantId, List<Map<String, Object>> heliosData) {
+        for (Map<String, Object> heliosApplicant : heliosData) {
+            String heliosApplicantId = String.valueOf(heliosApplicant.get("applicant_id"));
+            if (heliosApplicantId.equals(applicantId)) {
+                return heliosApplicant;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Finds applicant full name from Shield linkedIndividuals by matching applicant ID.
+     */
+    @SuppressWarnings("unchecked")
+    public static String findApplicantNameFromShield(String applicantId, List<Map<String, Object>> shieldData) {
+        for (Map<String, Object> linked : shieldData) {
+            String linkedId = String.valueOf(linked.get("id"));
+            if (linkedId.equals(applicantId)) {
+                Map<String, Object> individual = (Map<String, Object>) linked.get("individual");
+                if (individual != null) {
+                    String firstName = individual.get("firstName") != null ? String.valueOf(individual.get("firstName")) : "";
+                    String middleName = individual.get("middleName") != null
+                            && !"null".equals(String.valueOf(individual.get("middleName")))
+                            ? String.valueOf(individual.get("middleName")) : "";
+                    String lastName = individual.get("lastName") != null ? String.valueOf(individual.get("lastName")) : "";
+                    return (firstName + " " + middleName + " " + lastName).replaceAll("\\s+", " ").trim();
+                }
+            }
+        }
+        return "Unknown";
     }
 }

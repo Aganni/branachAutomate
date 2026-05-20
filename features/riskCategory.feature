@@ -1,4 +1,4 @@
-@RiskCategory
+@RiskCategory @Regression
 Feature: Risk Category Badge Validation in Jarvis
 
   Background: Login to Jarvis and navigate to Application Dashboard
@@ -15,6 +15,7 @@ Feature: Risk Category Badge Validation in Jarvis
     Then Risk Category popover is displayed with applicant table
     And Popover table has columns "Applicant ID" "Applicant Name" "Risk Category"
     And Risk category <expectedRiskCategory> with <expectedColor> badge is shown for applicant
+    # API Validation
     Then User validates risk category from Helios API for appFormId <appFormId>
     And User validates applicant name from Shield API for appFormId <appFormId>
     And UI risk category data matches API response for all applicants
@@ -33,6 +34,7 @@ Feature: Risk Category Badge Validation in Jarvis
     Then Risk Category popover is displayed with applicant table
     And Popover table has columns "Applicant ID" "Applicant Name" "Risk Category"
     And Popover displays multiple applicants with individual risk categories
+    # API Validation
     Then User validates risk category from Helios API for appFormId <appFormId>
     And User validates applicant name from Shield API for appFormId <appFormId>
     And UI risk category data matches API response for all applicants
